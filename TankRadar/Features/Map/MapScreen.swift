@@ -60,7 +60,9 @@ struct MapScreen: View {
             }
         }
         .sheet(item: $selectedStation) { station in
-            StationDetailPlaceholderView(station: station, preferredFuel: preferredFuel)
+            StationDetailView(station: station, preferredFuel: preferredFuel)
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showSettings) {
             SettingsPlaceholderView()
