@@ -1,0 +1,18 @@
+---
+description: Vor Umsetzung von Tickets mit Tankerkönig-Bezug Skill und API-Doku abgleichen; bei Abweichungen Linear-Issue anpassen.
+alwaysApply: true
+---
+
+# Tankerkönig: Ticket vor der Umsetzung prüfen
+
+Gilt für Linear-Tickets, die **Tankerkönig-Daten** betreffen — z. B. Netzwerk-Client, Request/Response-Formate, Suchradius, Preisfelder, `Station`/`FuelType`, `StationStore`-Fetch-Logik, API-Keys, Rate-Limits, Attribution, oder Akzeptanzkriterien zu `list.php` / `prices.php` / `detail.php`.
+
+## Pflicht vor dem ersten Code-Commit zum Ticket
+
+1. **Skill laden:** `.cursor/skills/tankerkoenig-api/SKILL.md` vollständig lesen (Endpoints, Parameter, JSON-Besonderheiten wie **`price`** bei einzelner Sorte in `list.php`, **`false`** bei Preisen in `prices.php`, Radius **≤ 25 km**, max. **10 IDs** bei `prices.php`, `ok`-Flag).
+2. **Ticket-Inhalt abgleichen:** Beschreibung, Scope und Akzeptanzkriterien mit der Skill und bei Zweifeln mit der offiziellen Seite [Tankerkönig API info](https://creativecommons.tankerkoenig.de/?page=info) vergleichen.
+3. **Bei Abweichung:** Das Linear-Ticket **vor oder zu Beginn der Umsetzung** anpassen — z. B. Description/Akzeptanzkriterien per Linear (`save_issue`) aktualisieren und kurz per Kommentar (`save_comment`) festhalten, *was* geändert wurde und *warum* (API-Konformität).
+
+## Nicht zwingend
+
+Tickets ohne Tankerkönig-API-Bezug (reines UI, CarPlay-Template ohne Datenfelder, reine interne Refactors) brauchen diesen Abgleich nicht — sobald aber API-Felder, URLs oder Parsing erwähnt sind, gilt die Pflicht oben.
