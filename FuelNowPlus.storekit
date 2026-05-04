@@ -41,7 +41,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.vibecoding.FuelNow.subscription.year",
+          "productID" : "com.vibecoding.fuelnow.subscription.year",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "FuelNow Plus Yearly",
           "subscriptionGroupID" : "B17E94D2",

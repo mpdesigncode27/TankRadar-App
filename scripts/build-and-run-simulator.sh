@@ -10,7 +10,7 @@ source "${ROOT}/scripts/simulator-env.sh"
 
 SCHEME="${SCHEME:-FuelNow}"
 SIMULATOR_NAME="${SIMULATOR_NAME:-iPhone 17}"
-BUNDLE_ID="${BUNDLE_ID:-com.vibecoding.FuelNow}"
+BUNDLE_ID="${BUNDLE_ID:-com.vibecoding.fuelnow}"
 DERIVED="${DERIVED_DATA_PATH:-$ROOT/.derived-data-ios}"
 
 mkdir -p "$DERIVED"

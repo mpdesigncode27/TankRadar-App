@@ -5,7 +5,7 @@ import Testing
 
 struct SubscriptionConstantsTests {
     @Test func plusYearlyProductIDMatchesBundleConvention() {
-        #expect(SubscriptionConstants.plusYearlyProductID == "com.vibecoding.FuelNow.subscription.year")
+        #expect(SubscriptionConstants.plusYearlyProductID == "com.vibecoding.fuelnow.subscription.year")
         #expect(SubscriptionConstants.productIDs == [SubscriptionConstants.plusYearlyProductID])
     }
 }
