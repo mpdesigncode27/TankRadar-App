@@ -15,3 +15,10 @@ APIKeys.swift
 
 # Lokale Screenshots/Videos für Linear-Ticket-Nachweise (nicht committen)
 .linear-evidence/
+
+# App Store Connect API (never commit keys)
+.env.asc.local
+AuthKey_*.p8
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots

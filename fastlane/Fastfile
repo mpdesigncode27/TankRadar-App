@@ -1,0 +1,65 @@
+# frozen_string_literal: true
+
+opt_out_usage
+
+default_platform(:ios)
+
+ASC_ENV_VARS = %w[ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_PATH].freeze
+
+def asc_load_token!
+  missing = ASC_ENV_VARS.reject { |k| ENV[k] && !ENV[k].strip.empty? }
+  UI.user_error!("Missing env: #{missing.join(', ')} — copy fastlane/asc-env.template and export vars (see comments there).") unless missing.empty?
+
+  key_path = File.expand_path(ENV.fetch("ASC_KEY_PATH"), Dir.pwd)
+  UI.user_error!("ASC_KEY_PATH not found: #{key_path}") unless File.file?(key_path)
+
+  Spaceship::ConnectAPI::Token.create(
+    key_id: ENV.fetch("ASC_KEY_ID"),
+    issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+    filepath: key_path
+  )
+end
+
+platform :ios do
+  desc "Verify App Store Connect API key (JWT): token + list apps + bundle ID lookup."
+  lane :asc_verify do
+    Spaceship::ConnectAPI.token = asc_load_token!
+    apps = Spaceship::ConnectAPI::App.all
+    UI.success("ASC API OK — #{apps.count} app record(s) visible.")
+
+    bid = "com.tankradar.TankRadar"
+    bundle = Spaceship::ConnectAPI::BundleId.find(bid)
+    if bundle
+      UI.success("Developer bundle ID exists: #{bundle.identifier}")
+    else
+      UI.important("Bundle ID #{bid} not registered yet — run: bundle exec fastlane asc_register_bundle_id")
+    end
+
+    begin
+      app = Spaceship::ConnectAPI::App.find(bid)
+      if app
+        UI.success("ASC app record exists: #{app.name} (#{app.bundle_id})")
+      else
+        UI.important("No ASC app record for #{bid}. Apple requires creating the app in the ASC website once (API cannot create apps).")
+      end
+    rescue StandardError => e
+      UI.important("Could not resolve ASC app for #{bid}: #{e.message}")
+    end
+  end
+
+  desc "Register the iOS bundle identifier via Connect API (safe if it already exists)."
+  lane :asc_register_bundle_id do
+    Spaceship::ConnectAPI.token = asc_load_token!
+    bid = "com.tankradar.TankRadar"
+    existing = Spaceship::ConnectAPI::BundleId.find(bid)
+    if existing
+      UI.success("Bundle ID already registered: #{existing.identifier}")
+    else
+      Spaceship::ConnectAPI::BundleId.create(
+        name: "TankRadar",
+        identifier: bid
+      )
+      UI.success("Registered bundle ID #{bid}")
+    end
+  end
+end

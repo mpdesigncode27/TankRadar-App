@@ -1,0 +1,10 @@
+# App Store Connect API key (Keys → Integrations → App Store Connect API in Apple Developer).
+# Do not commit real values or .p8 files.
+#
+# Usage:
+#   export ASC_KEY_ID="XXXXXXXXXX"
+#   export ASC_ISSUER_ID="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+#   export ASC_KEY_PATH="$HOME/AuthKey_XXXXXXXXXX.p8"
+#   bundle exec fastlane asc_verify
+#
+# Or: source a gitignored file from repo root, e.g. `.env.asc.local`
