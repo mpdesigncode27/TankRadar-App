@@ -66,6 +66,10 @@
 		F65510000000000000000002 /* LocationSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65500000000000000000002 /* LocationSnapshot.swift */; };
 		F65510000000000000000003 /* OneShotLocationFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65500000000000000000003 /* OneShotLocationFetcher.swift */; };
 		F65510000000000000000004 /* LocationProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65500000000000000000004 /* LocationProviderTests.swift */; };
+		F65610000000000000000001 /* StationIntentLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65600000000000000000001 /* StationIntentLookup.swift */; };
+		F65610000000000000000002 /* StationIntentSnippetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65600000000000000000002 /* StationIntentSnippetView.swift */; };
+		F65610000000000000000003 /* StationSearchIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65600000000000000000003 /* StationSearchIntents.swift */; };
+		F65610000000000000000004 /* SiriStationLookupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65600000000000000000004 /* SiriStationLookupTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +153,10 @@
 		F65500000000000000000002 /* LocationSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSnapshot.swift; sourceTree = "<group>"; };
 		F65500000000000000000003 /* OneShotLocationFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneShotLocationFetcher.swift; sourceTree = "<group>"; };
 		F65500000000000000000004 /* LocationProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProviderTests.swift; sourceTree = "<group>"; };
+		F65600000000000000000001 /* StationIntentLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationIntentLookup.swift; sourceTree = "<group>"; };
+		F65600000000000000000002 /* StationIntentSnippetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationIntentSnippetView.swift; sourceTree = "<group>"; };
+		F65600000000000000000003 /* StationSearchIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationSearchIntents.swift; sourceTree = "<group>"; };
+		F65600000000000000000004 /* SiriStationLookupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriStationLookupTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,6 +237,7 @@
 				F52400000000000000000002 /* StationVoiceOverCopyTests.swift */,
 				F64000000000000000000003 /* SubscriptionConstantsTests.swift */,
 				F65100000000000000000001 /* StationIntentTests.swift */,
+				F65600000000000000000004 /* SiriStationLookupTests.swift */,
 				F51300000000000000000001 /* Fixtures */,
 			);
 			path = TankRadarTests;
@@ -347,8 +356,11 @@
 			isa = PBXGroup;
 			children = (
 				F65000000000000000000001 /* FuelType+AppEnum.swift */,
+				F65600000000000000000003 /* StationSearchIntents.swift */,
+				F65600000000000000000001 /* StationIntentLookup.swift */,
 				F65000000000000000000002 /* StationIntentResolving.swift */,
 				F65000000000000000000003 /* StationIntentResolution.swift */,
+				F65600000000000000000002 /* StationIntentSnippetView.swift */,
 				F65000000000000000000004 /* StationEntity.swift */,
 				F65000000000000000000005 /* StationQuery.swift */,
 			);
@@ -523,6 +535,9 @@
 				F65010000000000000000003 /* StationIntentResolution.swift in Sources */,
 				F65010000000000000000004 /* StationEntity.swift in Sources */,
 				F65010000000000000000005 /* StationQuery.swift in Sources */,
+				F65610000000000000000001 /* StationIntentLookup.swift in Sources */,
+				F65610000000000000000002 /* StationIntentSnippetView.swift in Sources */,
+				F65610000000000000000003 /* StationSearchIntents.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,6 +557,7 @@
 				F52430000000000000000001 /* StationVoiceOverCopyTests.swift in Sources */,
 				F64110000000000000000002 /* SubscriptionConstantsTests.swift in Sources */,
 				F65110000000000000000001 /* StationIntentTests.swift in Sources */,
+				F65610000000000000000004 /* SiriStationLookupTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
