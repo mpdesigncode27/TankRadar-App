@@ -9,7 +9,7 @@ enum StationStoreFactory {
     ///
     /// **Simulator (Debug und Release):** Standard ist **Mock**, damit ein ungültiger/deaktivierter Tankerkönig-Key nicht zu einer leeren Karte führt (Live: `TANKRADAR_USE_LIVE_STATIONS=1`).
     ///
-    /// **Gerät, Release:** immer Live. **Gerät, Debug:** ohne gültigen Key → Mock (siehe `APIKeys`).
+    /// **Gerät, Release:** Live, sobald ein gültiger Tankerkönig-Key gesetzt ist; sonst Mock (keine Platzhalter-Anfragen). **Gerät, Debug:** ohne gültigen Key → Mock (siehe `APIKeys`).
     static func makeDefault() -> StationStore {
         let env = ProcessInfo.processInfo.environment
 
@@ -41,12 +41,20 @@ enum StationStoreFactory {
         }
         #endif
 
+        #if !DEBUG && !targetEnvironment(simulator)
+        if !isConfiguredTankerkoenigKey {
+            print(
+                "TankRadar: Mock-Tankstellen aktiv — Release auf Gerät ohne gültigen Tankerkönig-Key (Platzhalter oder leer). Daten: MockData/mock-stations.json — siehe TAN-72."
+            )
+            return StationStore(fetcher: BundledMockStationFetcher())
+        }
+        #endif
+
         return StationStore()
     }
 
     private static var isConfiguredTankerkoenigKey: Bool {
-        let trimmed = APIKeys.tankerkoenig.trimmingCharacters(in: .whitespacesAndNewlines)
-        return !trimmed.isEmpty && trimmed != "PASTE_YOUR_KEY_HERE"
+        APIKeys.isTankerkoenigKeyConfiguredForRequests
     }
 
     #if DEBUG

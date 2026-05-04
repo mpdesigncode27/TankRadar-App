@@ -103,6 +103,34 @@ struct TankerkoenigClientTests {
         }
     }
 
+    @Test func fetchStationsRepositoryPlaceholderUUIDThrowsMissingAPIKey() async throws {
+        defer { MockURLProtocol.handler = nil }
+        MockURLProtocol.handler = { request in
+            let url = try #require(request.url)
+            let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            return (response, Data(#"{"ok":true,"stations":[]}"#.utf8))
+        }
+
+        let client = TankerkoenigClient(apiKey: APIKeys.tankerkoenigRepositoryPlaceholderUUID, session: mockSession())
+
+        do {
+            _ = try await client.fetchStations(latitude: 1, longitude: 2, radiusKm: 5)
+            Issue.record("Expected missingAPIKey")
+        } catch let failure as TankerkoenigClient.Failure {
+            guard case .missingAPIKey = failure else {
+                Issue.record("Expected missingAPIKey, got \(failure)")
+                return
+            }
+        }
+    }
+
+    @Test func apiFailedGermanKeyRevokedMessageIsClarified() {
+        let failure = TankerkoenigClient.Failure.apiFailed(message: "Key existiert nicht oder ist deaktiviert")
+        let desc = failure.errorDescription
+        #expect(desc?.contains("API-Key") == true)
+        #expect(desc?.contains("TAN-72") == true)
+    }
+
     @Test func fetchStationsMissingAPIKeyThrows() async throws {
         defer { MockURLProtocol.handler = nil }
         MockURLProtocol.handler = { request in

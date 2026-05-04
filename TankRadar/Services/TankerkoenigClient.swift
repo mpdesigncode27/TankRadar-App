@@ -27,7 +27,7 @@ actor TankerkoenigClient {
             case .rateLimited:
                 "Tankerkönig API hat mit zu vielen Anfragen geantwortet (HTTP 429). Bitte später erneut versuchen."
             case let .apiFailed(message):
-                message
+                TankerkoenigClient.userFacingTankerkoenigApiMessage(message)
             case let .decoding(err):
                 err.localizedDescription
             }
@@ -52,7 +52,7 @@ actor TankerkoenigClient {
     /// - Parameter radiusKm: wird auf **1…25 km** begrenzt (API-Maximum).
     func fetchStations(latitude: Double, longitude: Double, radiusKm: Double) async throws -> [Station] {
         let trimmedKey = apiKey.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedKey.isEmpty, trimmedKey != "PASTE_YOUR_KEY_HERE" else {
+        guard APIKeys.isConfiguredTankerkoenigKey(trimmedKey) else {
             throw Failure.missingAPIKey
         }
 
@@ -126,5 +126,14 @@ actor TankerkoenigClient {
 
     private nonisolated func formatCoordinate(_ value: Double) -> String {
         String(format: "%.6f", value)
+    }
+
+    /// Tankerkönig liefert u. a. deutschsprachige Key-Fehler; für Siri/Kurzbefehle klarere Hinweise.
+    private nonisolated static func userFacingTankerkoenigApiMessage(_ message: String) -> String {
+        let lower = message.lowercased()
+        if lower.contains("key existiert nicht"), lower.contains("deaktiviert") {
+            return "Der Tankerkönig-API-Key wird von der API abgelehnt (ungültig oder deaktiviert). Bitte einen gültigen Key hinterlegen — README und Linear TAN-72."
+        }
+        return message
     }
 }

@@ -3,6 +3,9 @@ import Foundation
 enum APIKeys {
     private static let placeholder = ""
 
+    /// Repo-Platzhalter-UUID — gilt nicht als konfigurierter Key (siehe kopiertes `APIKeys.swift`).
+    static let tankerkoenigRepositoryPlaceholderUUID = "15d034ae-e9bc-016b-ad9e-ca5a87e4cc5a"
+
     /// Tankerkönig-UUID. **Nie** echten Key committen.
     ///
     /// **Lokal testen (bleibt bei Git nicht „weg“):**
@@ -22,6 +25,17 @@ enum APIKeys {
         if let key = resolvedFromUserDefaults() { return key }
         #endif
         return placeholder
+    }
+
+    static func isConfiguredTankerkoenigKey(_ raw: String) -> Bool {
+        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !t.isEmpty else { return false }
+        guard t != "PASTE_YOUR_KEY_HERE" else { return false }
+        return t.caseInsensitiveCompare(tankerkoenigRepositoryPlaceholderUUID) != .orderedSame
+    }
+
+    static var isTankerkoenigKeyConfiguredForRequests: Bool {
+        isConfiguredTankerkoenigKey(tankerkoenig)
     }
 
     private static func resolvedFromEnvironmentVariable() -> String? {
@@ -69,7 +83,7 @@ enum APIKeys {
 
     #if DEBUG
     static func warnIfPlaceholderActive() {
-        guard tankerkoenig == placeholder else { return }
+        guard !isTankerkoenigKeyConfiguredForRequests else { return }
         print(
             "⚠️ TankRadar: Kein Tankerkönig-API-Key — im DEBUG-Build werden Mock-Tankstellen aus dem Bundle genutzt. Für Live-Daten: Key wie in diesem File beschrieben setzen, oder `TANKRADAR_USE_LIVE_STATIONS=1` zum Testen der Fehler-UI. Linear TAN-72."
         )
