@@ -8,8 +8,8 @@ struct MapScreen: View {
     @Environment(LocationService.self) private var locationService
     @Environment(StationStore.self) private var stationStore
 
-    @AppStorage("tr.searchRadiusKm") private var searchRadiusKm = 5
-    @AppStorage("tr.preferredFuelType") private var preferredFuelRaw = FuelType.e10.rawValue
+    @AppStorage(AppSettings.UserDefaultsKey.searchRadiusKm) private var searchRadiusKm = AppSettings.SearchRadius.defaultKm
+    @AppStorage(AppSettings.UserDefaultsKey.preferredFuelType) private var preferredFuelRaw = FuelType.e10.rawValue
 
     @State private var cameraPosition: MapCameraPosition = .region(
         MKCoordinateRegion(
@@ -73,7 +73,9 @@ struct MapScreen: View {
                 .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showSettings) {
-            SettingsPlaceholderView()
+            SettingsView()
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
         }
         .overlay(alignment: .top) {
             loadStateBanner
@@ -94,6 +96,10 @@ struct MapScreen: View {
                     )
                 )
             }
+        }
+        .onChange(of: searchRadiusKm) { _, _ in
+            guard let location = locationService.currentLocation else { return }
+            stationStore.forceRefresh(using: location, radiusKm: Double(searchRadiusKm))
         }
     }
 

@@ -12,6 +12,7 @@
 		800000000000000000000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 300000000000000000000003 /* Assets.xcassets */; };
 		800000000000000000000005 /* TankRadarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500000000000000000000001 /* TankRadarUITests.swift */; };
 		F20000000000000000000001 /* APIKeys.example.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000001 /* APIKeys.example.swift */; };
+		F52310000000000000000001 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52300000000000000000001 /* AppSettings.swift */; };
 		F37300000000000000000001 /* TRDesignAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F37100000000000000000001 /* TRDesignAssets.xcassets */; };
 		F62A10000000000000000001 /* mock-stations.json in Resources */ = {isa = PBXBuildFile; fileRef = F62A00000000000000000001 /* mock-stations.json */; };
 		F37400000000000000000001 /* TRDesignPaletteNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37200000000000000000001 /* TRDesignPaletteNotes.swift */; };
@@ -34,6 +35,7 @@
 		F51600000000000000000001 /* TRDesignTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51500000000000000000001 /* TRDesignTokenTests.swift */; };
 		F51900000000000000000001 /* TankerkoenigClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51800000000000000000001 /* TankerkoenigClientTests.swift */; };
 		F52100000000000000000001 /* StationStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52000000000000000000001 /* StationStoreTests.swift */; };
+		F52410000000000000000001 /* AppSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52400000000000000000001 /* AppSettingsTests.swift */; };
 		F60200000000000000000001 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60100000000000000000001 /* LocationService.swift */; };
 		F60300000000000000000001 /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61100000000000000000001 /* LocationServiceTests.swift */; };
 		F60600000000000000000002 /* TankerkoenigClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60500000000000000000001 /* TankerkoenigClient.swift */; };
@@ -43,7 +45,7 @@
 		F62C10000000000000000001 /* StationStoreFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62C00000000000000000001 /* StationStoreFactory.swift */; };
 		F60810000000000000000001 /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000001 /* MapScreen.swift */; };
 		F60810000000000000000002 /* StationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000002 /* StationDetailView.swift */; };
-		F60810000000000000000003 /* SettingsPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000003 /* SettingsPlaceholderView.swift */; };
+		F60810000000000000000003 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000003 /* SettingsView.swift */; };
 		F60810000000000000000004 /* StationAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000004 /* StationAnnotationView.swift */; };
 		F60810000000000000000005 /* LocateMeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000005 /* LocateMeButton.swift */; };
 /* End PBXBuildFile section */
@@ -74,6 +76,7 @@
 		300000000000000000000003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		500000000000000000000001 /* TankRadarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankRadarUITests.swift; sourceTree = "<group>"; };
 		F10000000000000000000001 /* APIKeys.example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.example.swift; sourceTree = "<group>"; };
+		F52300000000000000000001 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		F37100000000000000000001 /* TRDesignAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TRDesignAssets.xcassets; sourceTree = "<group>"; };
 		F37200000000000000000001 /* TRDesignPaletteNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRDesignPaletteNotes.swift; sourceTree = "<group>"; };
 		F37500000000000000000001 /* TRSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRSpacing.swift; sourceTree = "<group>"; };
@@ -95,13 +98,14 @@
 		F51500000000000000000001 /* TRDesignTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRDesignTokenTests.swift; sourceTree = "<group>"; };
 		F51800000000000000000001 /* TankerkoenigClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankerkoenigClientTests.swift; sourceTree = "<group>"; };
 		F52000000000000000000001 /* StationStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStoreTests.swift; sourceTree = "<group>"; };
+		F52400000000000000000001 /* AppSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsTests.swift; sourceTree = "<group>"; };
 		F60100000000000000000001 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		F60500000000000000000001 /* TankerkoenigClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankerkoenigClient.swift; sourceTree = "<group>"; };
 		F60700000000000000000001 /* StationFetching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationFetching.swift; sourceTree = "<group>"; };
 		F60700000000000000000002 /* StationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStore.swift; sourceTree = "<group>"; };
 		F60800000000000000000001 /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
 		F60800000000000000000002 /* StationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailView.swift; sourceTree = "<group>"; };
-		F60800000000000000000003 /* SettingsPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPlaceholderView.swift; sourceTree = "<group>"; };
+		F60800000000000000000003 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F60800000000000000000004 /* StationAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationAnnotationView.swift; sourceTree = "<group>"; };
 		F60800000000000000000005 /* LocateMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocateMeButton.swift; sourceTree = "<group>"; };
 		F61100000000000000000001 /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 				F51500000000000000000001 /* TRDesignTokenTests.swift */,
 				F51800000000000000000001 /* TankerkoenigClientTests.swift */,
 				F52000000000000000000001 /* StationStoreTests.swift */,
+				F52400000000000000000001 /* AppSettingsTests.swift */,
 				F51300000000000000000001 /* Fixtures */,
 			);
 			path = TankRadarTests;
@@ -198,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				F10000000000000000000001 /* APIKeys.example.swift */,
+				F52300000000000000000001 /* AppSettings.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -233,7 +239,7 @@
 		F34000000000000000000001 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				F60800000000000000000003 /* SettingsPlaceholderView.swift */,
+				F60800000000000000000003 /* SettingsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -424,6 +430,7 @@
 				800000000000000000000001 /* TankRadarApp.swift in Sources */,
 				800000000000000000000002 /* ContentView.swift in Sources */,
 				F20000000000000000000001 /* APIKeys.example.swift in Sources */,
+				F52310000000000000000001 /* AppSettings.swift in Sources */,
 				F50200000000000000000001 /* FuelType.swift in Sources */,
 				F50200000000000000000002 /* Station.swift in Sources */,
 				F60200000000000000000001 /* LocationService.swift in Sources */,
@@ -436,7 +443,7 @@
 				F60810000000000000000004 /* StationAnnotationView.swift in Sources */,
 				F60810000000000000000005 /* LocateMeButton.swift in Sources */,
 				F60810000000000000000002 /* StationDetailView.swift in Sources */,
-				F60810000000000000000003 /* SettingsPlaceholderView.swift in Sources */,
+				F60810000000000000000003 /* SettingsView.swift in Sources */,
 				F37400000000000000000001 /* TRDesignPaletteNotes.swift in Sources */,
 				F37600000000000000000001 /* TRSpacing.swift in Sources */,
 				F37600000000000000000002 /* TRRadius.swift in Sources */,
@@ -460,6 +467,7 @@
 				F51600000000000000000001 /* TRDesignTokenTests.swift in Sources */,
 				F51900000000000000000001 /* TankerkoenigClientTests.swift in Sources */,
 				F52100000000000000000001 /* StationStoreTests.swift in Sources */,
+				F52410000000000000000001 /* AppSettingsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

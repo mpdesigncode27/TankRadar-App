@@ -1,0 +1,43 @@
+import Foundation
+import Testing
+@testable import TankRadar
+
+struct AppSettingsTests {
+    @Test func userDefaultsKeysMatchMapAndSettings() {
+        #expect(AppSettings.UserDefaultsKey.preferredFuelType == "tr.preferredFuelType")
+        #expect(AppSettings.UserDefaultsKey.searchRadiusKm == "tr.searchRadiusKm")
+    }
+
+    @Test func searchRadiusBounds() {
+        #expect(AppSettings.SearchRadius.minKm == 1)
+        #expect(AppSettings.SearchRadius.maxKm == 25)
+        #expect(AppSettings.SearchRadius.defaultKm == 5)
+    }
+
+    @Test(arguments: [
+        (0.4, 1),
+        (1.0, 1),
+        (1.4, 1),
+        (1.5, 2),
+        (12.3, 12),
+        (24.6, 25),
+        (25.0, 25),
+        (100.0, 25),
+        (-5.0, 1),
+    ])
+    func clampedKmMatchesSliderPolicy(slider: Double, expectedKm: Int) {
+        #expect(AppSettings.SearchRadius.clampedKm(sliderValue: slider) == expectedKm)
+    }
+
+    @Test func tankerkoenigAttributionURL() {
+        let url = AppSettings.TankerkoenigAttribution.infoURL
+        #expect(url.scheme == "https")
+        #expect(url.host == "creativecommons.tankerkoenig.de")
+    }
+
+    @Test func preferredFuelRawValuesAreValidFuelTypes() {
+        for fuel in FuelType.allCases {
+            #expect(FuelType(rawValue: fuel.rawValue) == fuel)
+        }
+    }
+}
