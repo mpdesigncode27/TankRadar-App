@@ -64,6 +64,7 @@ struct StationDetailView: View {
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.trPrimaryGlass)
+                    .accessibilityLabel("Navigation in Apple Maps")
                     .accessibilityHint("Startet die Autoroute von deinem Standort zur Tankstelle in Apple Maps.")
                 }
                 .padding(TRSpacing.m)
@@ -98,11 +99,13 @@ struct StationDetailView: View {
                 Text(fuel.displayName)
                     .font(TRTypography.body())
                     .foregroundStyle(TRColors.labelPrimary)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.85)
                 if isPreferred {
                     Image(systemName: "checkmark.circle.fill")
                         .font(TRTypography.caption())
                         .foregroundStyle(TRColors.accent)
-                        .accessibilityLabel("In den Einstellungen gewählte Sorte")
+                        .accessibilityHidden(true)
                 }
             }
             Spacer(minLength: TRSpacing.s)
@@ -111,15 +114,31 @@ struct StationDetailView: View {
                     Text(StationDetailFormatting.priceString(euros: euros))
                         .font(TRTypography.bodyBold())
                         .foregroundStyle(TRColors.accent)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.85)
                 } else {
                     Text("—")
                         .font(TRTypography.bodyBold())
                         .foregroundStyle(TRColors.labelSecondary)
                 }
             }
-            .accessibilityElement(children: .combine)
         }
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(priceRowAccessibilityLabel(fuel: fuel, isPreferred: isPreferred))
+    }
+
+    private func priceRowAccessibilityLabel(fuel: FuelType, isPreferred: Bool) -> String {
+        let pricePart: String
+        if let euros = station.price(for: fuel) {
+            pricePart = StationDetailFormatting.priceString(euros: euros)
+        } else {
+            pricePart = "Kein Preis verfügbar"
+        }
+        return StationVoiceOverCopy.detailPriceRow(
+            fuelDisplayName: fuel.displayName,
+            formattedPriceOrUnavailable: pricePart,
+            isPreferred: isPreferred
+        )
     }
 
     private func startAppleMapsDrivingNavigation() {
@@ -196,6 +215,10 @@ private struct StationDetailPreviewEnvelope: Decodable {
 
 #Preview("Station detail · Standard") {
     previewStationDetail(dynamicType: .medium)
+}
+
+#Preview("Station detail · Accessibility 3") {
+    previewStationDetail(dynamicType: .accessibility3)
 }
 
 #Preview("Station detail · Accessibility XXL") {

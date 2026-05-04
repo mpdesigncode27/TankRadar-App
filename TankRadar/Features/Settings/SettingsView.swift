@@ -19,6 +19,7 @@ struct SettingsView: View {
                     .labelsHidden()
                     .pickerStyle(.segmented)
                     .accessibilityLabel("Spritart")
+                    .accessibilityHint("Bestimmt, welche Sorte auf der Karte für Preise verwendet wird.")
                 } header: {
                     Text("Spritart")
                 } footer: {
@@ -56,6 +57,7 @@ struct SettingsView: View {
                     Link(destination: AppSettings.TankerkoenigAttribution.infoURL) {
                         Label("Tankerkönig / MTS-K (CC BY 4.0)", systemImage: "link")
                     }
+                    .accessibilityLabel("Tankerkönig und MTS-K, Lizenz CC BY 4.0")
                     .accessibilityHint("Öffnet die Tankerkönig-Website mit Lizenzinformationen.")
                 } footer: {
                     Text("Datenquelle und Pflichtattribution für die Nutzung der Tankerkönig-API.")
@@ -89,4 +91,9 @@ struct SettingsView: View {
 #Preview("Dark") {
     SettingsView()
         .preferredColorScheme(.dark)
+}
+
+#Preview("Accessibility 3") {
+    SettingsView()
+        .environment(\.dynamicTypeSize, .accessibility3)
 }

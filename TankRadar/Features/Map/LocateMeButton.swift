@@ -23,6 +23,7 @@ struct LocateMeButton: View {
         .buttonStyle(.plain)
         .sensoryFeedback(.impact(weight: .medium), trigger: sensoryTapTrigger)
         .accessibilityLabel("Karte auf Standort zentrieren")
+        .accessibilityHint("Zentriert die Karte auf deinen aktuellen Standort.")
     }
 }
 

@@ -30,10 +30,12 @@ struct MapScreen: View {
             Map(position: $cameraPosition) {
                 ForEach(stationStore.stations) { station in
                     Annotation(station.name, coordinate: station.coordinate) {
-                        StationAnnotationView(station: station, preferredFuel: preferredFuel)
-                            .onTapGesture {
-                                selectedStation = station
-                            }
+                        Button {
+                            selectedStation = station
+                        } label: {
+                            StationAnnotationView(station: station, preferredFuel: preferredFuel)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
                 // Explizit aus LocationService — zuverlässiger als UserAnnotation() bei gebundenem MapCamera & vielen Pins.
@@ -65,6 +67,7 @@ struct MapScreen: View {
                     showSettings = true
                 }
                 .accessibilityLabel("Einstellungen")
+                .accessibilityHint("Öffnet Spritart, Suchradius und Datenquelle.")
             }
         }
         .sheet(item: $selectedStation) { station in
@@ -108,6 +111,7 @@ struct MapScreen: View {
         switch stationStore.loadState {
         case .loading:
             ProgressView()
+                .accessibilityLabel("Tankstellen werden geladen")
                 .padding(TRSpacing.s)
                 .background(.ultraThinMaterial, in: Capsule())
                 .padding(.top, TRSpacing.s)
@@ -118,6 +122,7 @@ struct MapScreen: View {
                 .padding(TRSpacing.s)
                 .frame(maxWidth: .infinity)
                 .background(TRColors.accent.opacity(0.15))
+                .accessibilityLabel(message)
         default:
             EmptyView()
         }
@@ -145,17 +150,20 @@ struct MapScreen: View {
 
 /// Blauer Punkt wie „Mein Standort“ in Apple Maps (SwiftUI-Annotation, nicht MapKit-`UserAnnotation`).
 private struct UserLocationMapMarker: View {
+    @ScaledMetric(relativeTo: .body) private var diameter: CGFloat = 18
+
     var body: some View {
         ZStack {
             Circle()
                 .fill(Color(uiColor: .systemBlue))
-                .frame(width: 18, height: 18)
+                .frame(width: diameter, height: diameter)
             Circle()
                 .strokeBorder(Color.white, lineWidth: 3)
-                .frame(width: 18, height: 18)
+                .frame(width: diameter, height: diameter)
         }
         .shadow(color: .black.opacity(0.22), radius: 2, y: 1)
         .accessibilityLabel("Mein Standort")
+        .accessibilityHint("Zeigt deine ungefähre Position auf der Karte.")
     }
 }
 
@@ -211,4 +219,13 @@ private enum MapScreenPreviewData {
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewStationFetcher(stations: MapScreenPreviewData.stations)))
     .preferredColorScheme(.dark)
+}
+
+#Preview("Accessibility 3") {
+    NavigationStack {
+        MapScreen()
+    }
+    .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
+    .environment(StationStore(fetcher: PreviewStationFetcher(stations: MapScreenPreviewData.stations)))
+    .environment(\.dynamicTypeSize, .accessibility3)
 }

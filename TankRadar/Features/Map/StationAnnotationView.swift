@@ -5,36 +5,46 @@ struct StationAnnotationView: View {
     let station: Station
     let preferredFuel: FuelType
 
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     @ScaledMetric(relativeTo: .body) private var statusDotDiameter: CGFloat = 12
 
     private var priceText: String {
         StationAnnotationFormatting.priceString(euros: station.price(for: preferredFuel))
     }
 
-    private var accessibilityStatusPhrase: String {
-        station.isOpen ? "Geöffnet" : "Geschlossen"
+    private var accessibilitySummary: String {
+        StationVoiceOverCopy.mapPinSummary(
+            stationName: station.name,
+            isOpen: station.isOpen,
+            priceDisplay: priceText,
+            fuelDisplayName: preferredFuel.displayName
+        )
     }
 
-    private var accessibilitySummary: String {
-        "\(station.name). \(accessibilityStatusPhrase). \(priceText) für \(preferredFuel.displayName)."
+    /// Ab `.accessibility3` zweite Zeile erlauben, damit die Pille nicht beschnitten wird (TAN-20).
+    private var priceLineLimit: Int {
+        dynamicTypeSize >= .accessibility3 ? 2 : 1
     }
 
     var body: some View {
-        HStack(spacing: TRSpacing.xs) {
+        HStack(alignment: .center, spacing: TRSpacing.xs) {
             statusBadge
             Text(priceText)
                 .font(TRTypography.bodyBold())
                 .foregroundStyle(TRColors.labelPrimary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.72)
+                .multilineTextAlignment(.center)
+                .lineLimit(priceLineLimit)
+                .minimumScaleFactor(dynamicTypeSize >= .accessibility3 ? 0.6 : 0.72)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.horizontal, TRSpacing.s)
         .padding(.vertical, TRSpacing.xxs)
+        .frame(minHeight: 44)
         .trGlassPill(interactive: true)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilitySummary)
-        .accessibilityAddTraits(.isButton)
-        .accessibilityHint("Details zur Tankstelle anzeigen.")
+        .accessibilityHint("Tippen für Details.")
     }
 
     private var statusBadge: some View {

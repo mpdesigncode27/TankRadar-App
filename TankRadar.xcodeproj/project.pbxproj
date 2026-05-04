@@ -13,6 +13,7 @@
 		800000000000000000000005 /* TankRadarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500000000000000000000001 /* TankRadarUITests.swift */; };
 		F20000000000000000000001 /* APIKeys.example.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000001 /* APIKeys.example.swift */; };
 		F52310000000000000000001 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52300000000000000000001 /* AppSettings.swift */; };
+		F52330000000000000000001 /* StationVoiceOverCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52300000000000000000002 /* StationVoiceOverCopy.swift */; };
 		F37300000000000000000001 /* TRDesignAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F37100000000000000000001 /* TRDesignAssets.xcassets */; };
 		F62A10000000000000000001 /* mock-stations.json in Resources */ = {isa = PBXBuildFile; fileRef = F62A00000000000000000001 /* mock-stations.json */; };
 		F37400000000000000000001 /* TRDesignPaletteNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37200000000000000000001 /* TRDesignPaletteNotes.swift */; };
@@ -36,6 +37,7 @@
 		F51900000000000000000001 /* TankerkoenigClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51800000000000000000001 /* TankerkoenigClientTests.swift */; };
 		F52100000000000000000001 /* StationStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52000000000000000000001 /* StationStoreTests.swift */; };
 		F52410000000000000000001 /* AppSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52400000000000000000001 /* AppSettingsTests.swift */; };
+		F52430000000000000000001 /* StationVoiceOverCopyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52400000000000000000002 /* StationVoiceOverCopyTests.swift */; };
 		F60200000000000000000001 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60100000000000000000001 /* LocationService.swift */; };
 		F60300000000000000000001 /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61100000000000000000001 /* LocationServiceTests.swift */; };
 		F60600000000000000000002 /* TankerkoenigClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60500000000000000000001 /* TankerkoenigClient.swift */; };
@@ -77,6 +79,7 @@
 		500000000000000000000001 /* TankRadarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankRadarUITests.swift; sourceTree = "<group>"; };
 		F10000000000000000000001 /* APIKeys.example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.example.swift; sourceTree = "<group>"; };
 		F52300000000000000000001 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		F52300000000000000000002 /* StationVoiceOverCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationVoiceOverCopy.swift; sourceTree = "<group>"; };
 		F37100000000000000000001 /* TRDesignAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TRDesignAssets.xcassets; sourceTree = "<group>"; };
 		F37200000000000000000001 /* TRDesignPaletteNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRDesignPaletteNotes.swift; sourceTree = "<group>"; };
 		F37500000000000000000001 /* TRSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRSpacing.swift; sourceTree = "<group>"; };
@@ -99,6 +102,7 @@
 		F51800000000000000000001 /* TankerkoenigClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankerkoenigClientTests.swift; sourceTree = "<group>"; };
 		F52000000000000000000001 /* StationStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStoreTests.swift; sourceTree = "<group>"; };
 		F52400000000000000000001 /* AppSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsTests.swift; sourceTree = "<group>"; };
+		F52400000000000000000002 /* StationVoiceOverCopyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationVoiceOverCopyTests.swift; sourceTree = "<group>"; };
 		F60100000000000000000001 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		F60500000000000000000001 /* TankerkoenigClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankerkoenigClient.swift; sourceTree = "<group>"; };
 		F60700000000000000000001 /* StationFetching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationFetching.swift; sourceTree = "<group>"; };
@@ -186,6 +190,7 @@
 				F51800000000000000000001 /* TankerkoenigClientTests.swift */,
 				F52000000000000000000001 /* StationStoreTests.swift */,
 				F52400000000000000000001 /* AppSettingsTests.swift */,
+				F52400000000000000000002 /* StationVoiceOverCopyTests.swift */,
 				F51300000000000000000001 /* Fixtures */,
 			);
 			path = TankRadarTests;
@@ -204,6 +209,7 @@
 			children = (
 				F10000000000000000000001 /* APIKeys.example.swift */,
 				F52300000000000000000001 /* AppSettings.swift */,
+				F52300000000000000000002 /* StationVoiceOverCopy.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -431,6 +437,7 @@
 				800000000000000000000002 /* ContentView.swift in Sources */,
 				F20000000000000000000001 /* APIKeys.example.swift in Sources */,
 				F52310000000000000000001 /* AppSettings.swift in Sources */,
+				F52330000000000000000001 /* StationVoiceOverCopy.swift in Sources */,
 				F50200000000000000000001 /* FuelType.swift in Sources */,
 				F50200000000000000000002 /* Station.swift in Sources */,
 				F60200000000000000000001 /* LocationService.swift in Sources */,
@@ -468,6 +475,7 @@
 				F51900000000000000000001 /* TankerkoenigClientTests.swift in Sources */,
 				F52100000000000000000001 /* StationStoreTests.swift in Sources */,
 				F52410000000000000000001 /* AppSettingsTests.swift in Sources */,
+				F52430000000000000000001 /* StationVoiceOverCopyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
