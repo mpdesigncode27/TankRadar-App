@@ -13,7 +13,7 @@ alwaysApply: true
 - **Vor „Done“ / beim Abschluss:** Am Linear-Ticket mindestens ein **visueller Nachweis** anhängen — **Screenshot** oder **kurzes Video** der Umsetzung (Simulator oder Gerät), damit die Review-Nachvollziehbarkeit gegeben ist. Upload z. B. über Linear-Anhänge (MCP: `create_attachment` mit Base64) oder vergleichbaren Upload; kurz im Abschlusskommentar beschreiben, was zu sehen ist. **Ausnahme:** Rein nicht-visuelle Arbeit (z. B. nur Modelle ohne UI) — dann z. B. Screenshot eines relevanten Testlaufs im Xcode-Report oder kurzer Clip der abgedeckten Flows; wenn selbst das nicht passt, im Ticket kommentieren und Alternativnachweis vereinbaren.
 - **Ausnahme:** Nur ausdrücklich besprochene Hotfixes dürfen von dieser Regel abweichen.
 
-## Visueller Nachweis — konkret (TankRadar)
+## Visueller Nachweis — konkret (FuelNow)
 
 1. **Ablage:** Screenshots/Videos **lokal beliebig** (Desktop, Downloads, `/tmp`, …) erzeugen — **nie** ins Git committen.
 2. **Dateiname (empfohlen):** Schema **`TAN-XX-kurz-slug`** + Kontext, z. B. `TAN-16-mapscreen-simulator.png`, `TAN-13-tests-passing.png`, kurzes `.mov` vom Simulator.

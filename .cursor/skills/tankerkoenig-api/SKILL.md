@@ -80,7 +80,7 @@ Project rule: `.cursor/rules/tankerkoenig-ticket-precheck.mdc`.
 
 ## Implementation notes (this repo)
 
-- Domain models: `TankRadar/Models/FuelType.swift`, `TankRadar/Models/Station.swift`.
+- Domain models: `FuelNow/Models/FuelType.swift`, `FuelNow/Models/Station.swift`.
 - `Station` decoding treats `prices.php`-style `false` fuel prices as absent (`nil`).
 - **`list.php` with a single `type`:** responses use **`price`**, not separate `e5`/`e10`/`diesel` keys — align clients and tickets if they assume only the multi-key shape.
 
