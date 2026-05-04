@@ -19,18 +19,12 @@ enum StationStoreFactory {
         }
 
         if env["FUELNOW_USE_LIVE_STATIONS"] == "1" {
-            #if DEBUG
             logLive(reason: "FUELNOW_USE_LIVE_STATIONS=1")
-            #endif
             return StationStore()
         }
 
         #if targetEnvironment(simulator)
-        #if DEBUG
         logMock(reason: "Simulator — Standard-Mock (Live erzwingen: FUELNOW_USE_LIVE_STATIONS=1)")
-        #else
-        print("FuelNow: Mock-Tankstellen aktiv — Release-Simulator (Live: FUELNOW_USE_LIVE_STATIONS=1). Daten: MockData/mock-stations.json")
-        #endif
         return StationStore(fetcher: BundledMockStationFetcher())
         #endif
 
@@ -57,7 +51,6 @@ enum StationStoreFactory {
         APIKeys.isTankerkoenigKeyConfiguredForRequests
     }
 
-    #if DEBUG
     private static func logMock(reason: String) {
         print("FuelNow: Mock-Tankstellen aktiv — \(reason). Daten: MockData/mock-stations.json")
     }
@@ -65,5 +58,4 @@ enum StationStoreFactory {
     private static func logLive(reason: String) {
         print("FuelNow: Live Tankerkönig — \(reason)")
     }
-    #endif
 }
