@@ -59,3 +59,7 @@ Lokale UI-Automation (Taps, Screenshots, Batches) über die Accessibility-API �
   Optional: `SIMULATOR_NAME`, `AXE_LAUNCH_WAIT_SECONDS` (Standard 4), `AXE_STEPS_FILE`, `AXE_VERBOSE=1`
 - **Nur Batch** (Simulator muss laufen, App idealerweise im Vordergrund): `./scripts/run-axe-batch.sh` oder `./scripts/run-axe-batch.sh pfad/zu.flow.steps`
 - **Schritte:** `scripts/axe/tankradar-smoke.steps` anpassen — `axe batch` unterstützt **keine** `screenshot`-Zeilen (nur Interaktion + `sleep`). `run-axe-batch.sh` ruft danach **immer** `axe screenshot` auf (**auch wenn der Batch fehlschlägt**), Standardausgabe **`scripts/axe/output/tankradar-launch.png`**. Ohne PNG: `AXE_SKIP_POST_SCREENSHOT=1`; eigener Pfad (z. B. Linear-Nachweis): `AXE_SCREENSHOT_PATH=.linear-evidence/TAN-XX-kurz.png`.
+
+## Siri & Kurzbefehle — QA ([TAN-53](https://linear.app/tankradar-app/issue/TAN-53/siri-shortcuts-qa-edge-cases-ohne-carplay-map))
+
+Manuelle Checkliste (Shortcuts-App, Siri DE/EN, Edge Cases, **ohne CarPlay**): **`docs/SiriShortcutsQA.md`**. Nachweise für Linear unter **`.linear-evidence/`** ablegen (nicht versionieren).
