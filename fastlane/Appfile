@@ -1,3 +1,4 @@
 # frozen_string_literal: true
 
 app_identifier("com.vibecoding.TankRadar")
+team_id("B2P5VXJP3K")
