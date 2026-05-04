@@ -32,7 +32,23 @@ if [[ -z "${UDID}" ]]; then
   exit 1
 fi
 
-mkdir -p "${ROOT}/scripts/axe/output"
+OUT_DIR="${ROOT}/scripts/axe/output"
+mkdir -p "${OUT_DIR}"
 
 echo "TankRadar: axe batch --file ${STEPS} --udid ${UDID}"
-exec axe batch --file "${STEPS}" --udid "${UDID}" "$@"
+set +e
+axe batch --file "${STEPS}" --udid "${UDID}" "$@"
+batch_status=$?
+set -e
+if [[ "${batch_status}" -ne 0 ]]; then
+  exit "${batch_status}"
+fi
+
+# axe batch unterstützt keine screenshot-Zeilen (nur tap/type/key/… und sleep).
+if [[ "${AXE_SKIP_POST_SCREENSHOT:-0}" == "1" ]]; then
+  exit 0
+fi
+
+SHOT="${AXE_SCREENSHOT_PATH:-${OUT_DIR}/tankradar-launch.png}"
+echo "TankRadar: axe screenshot → ${SHOT}"
+axe screenshot --udid "${UDID}" --output "${SHOT}"

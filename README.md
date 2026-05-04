@@ -14,4 +14,4 @@ Lokale UI-Automation (Taps, Screenshots, Batches) über die Accessibility-API �
 - **Build, App starten, Smoke-Batch:** `./scripts/build-run-and-axe.sh`  
   Optional: `SIMULATOR_NAME`, `AXE_LAUNCH_WAIT_SECONDS` (Standard 4), `AXE_STEPS_FILE`, `AXE_VERBOSE=1`
 - **Nur Batch** (Simulator muss laufen, App idealerweise im Vordergrund): `./scripts/run-axe-batch.sh` oder `./scripts/run-axe-batch.sh pfad/zu.flow.steps`
-- **Schritte:** `scripts/axe/tankradar-smoke.steps` anpassen; Screenshots landen unter `scripts/axe/output/` (gitignored).
+- **Schritte:** `scripts/axe/tankradar-smoke.steps` anpassen — `axe batch` unterstützt **keine** `screenshot`-Zeilen (nur Interaktion + `sleep`). Nach erfolgreichem Batch schreibt `run-axe-batch.sh` standardmäßig **`scripts/axe/output/tankradar-launch.png`** (`axe screenshot`). Ohne PNG: `AXE_SKIP_POST_SCREENSHOT=1`; anderer Pfad: `AXE_SCREENSHOT_PATH`.
