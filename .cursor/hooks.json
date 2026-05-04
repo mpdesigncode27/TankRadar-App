@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "afterShellExecution": [
+      {
+        "command": ".cursor/hooks/pr-created-review-merge-linear.sh",
+        "matcher": "gh pr create",
+        "timeout": 900
+      }
+    ]
+  }
+}
