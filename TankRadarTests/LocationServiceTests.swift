@@ -1,4 +1,5 @@
 import CoreLocation
+import Foundation
 import Testing
 @testable import TankRadar
 
@@ -43,6 +44,28 @@ struct LocationServiceTests {
         #expect(service.currentLocation?.coordinate.latitude == 52.5)
         #expect(service.currentLocation?.coordinate.longitude == 13.4)
         #expect(service.authorizationStatus == .authorizedWhenInUse)
+        service.stop()
+    }
+
+    @Test @MainActor
+    func persistsSnapshotsWhenSnapshotStoreConfigured() async throws {
+        let suiteName = "test.loc.\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suiteName))
+        defer { defaults.removePersistentDomain(forName: suiteName) }
+        let store = UserDefaultsLocationSnapshotStore(defaults: defaults)
+        let mock = MockLocationStreamProvider(events: [
+            LocationStreamEvent(latitude: 52.52, longitude: 13.405, horizontalAccuracy: 11),
+        ])
+        let service = LocationService(
+            streamProvider: mock,
+            authorizationProvider: { .authorizedWhenInUse },
+            snapshotStore: store
+        )
+        service.start()
+        try await Task.sleep(for: .milliseconds(150))
+        let cached = store.loadValid(referenceDate: Date(), ttl: LocationProvider.defaultTTL)
+        #expect(cached?.latitude == 52.52)
+        #expect(cached?.longitude == 13.405)
         service.stop()
     }
 

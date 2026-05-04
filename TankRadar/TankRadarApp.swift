@@ -3,7 +3,7 @@ import SwiftUI
 
 @main
 struct TankRadarApp: App {
-    @State private var locationService = LocationService()
+    @State private var locationService = LocationService(snapshotStore: UserDefaultsLocationSnapshotStore())
     @State private var stationStore = StationStoreFactory.makeDefault()
 
     var body: some Scene {

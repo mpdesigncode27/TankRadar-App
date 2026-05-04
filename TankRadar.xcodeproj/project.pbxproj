@@ -62,6 +62,10 @@
 		F65110000000000000000001 /* StationIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65100000000000000000001 /* StationIntentTests.swift */; };
 		F65410000000000000000001 /* QueryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65400000000000000000001 /* QueryService.swift */; };
 		F65410000000000000000002 /* QueryServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65400000000000000000002 /* QueryServiceTests.swift */; };
+		F65510000000000000000001 /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65500000000000000000001 /* LocationProvider.swift */; };
+		F65510000000000000000002 /* LocationSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65500000000000000000002 /* LocationSnapshot.swift */; };
+		F65510000000000000000003 /* OneShotLocationFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65500000000000000000003 /* OneShotLocationFetcher.swift */; };
+		F65510000000000000000004 /* LocationProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65500000000000000000004 /* LocationProviderTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +145,10 @@
 		F65100000000000000000001 /* StationIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationIntentTests.swift; sourceTree = "<group>"; };
 		F65400000000000000000001 /* QueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryService.swift; sourceTree = "<group>"; };
 		F65400000000000000000002 /* QueryServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryServiceTests.swift; sourceTree = "<group>"; };
+		F65500000000000000000001 /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
+		F65500000000000000000002 /* LocationSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSnapshot.swift; sourceTree = "<group>"; };
+		F65500000000000000000003 /* OneShotLocationFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneShotLocationFetcher.swift; sourceTree = "<group>"; };
+		F65500000000000000000004 /* LocationProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProviderTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +220,7 @@
 				F51100000000000000000001 /* FuelTypeTests.swift */,
 				F51100000000000000000002 /* StationTests.swift */,
 				F61100000000000000000001 /* LocationServiceTests.swift */,
+				F65500000000000000000004 /* LocationProviderTests.swift */,
 				F51500000000000000000001 /* TRDesignTokenTests.swift */,
 				F51800000000000000000001 /* TankerkoenigClientTests.swift */,
 				F52000000000000000000001 /* StationStoreTests.swift */,
@@ -284,7 +293,10 @@
 		F35000000000000000000001 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				F65500000000000000000001 /* LocationProvider.swift */,
 				F60100000000000000000001 /* LocationService.swift */,
+				F65500000000000000000002 /* LocationSnapshot.swift */,
+				F65500000000000000000003 /* OneShotLocationFetcher.swift */,
 				F65400000000000000000001 /* QueryService.swift */,
 				F60500000000000000000001 /* TankerkoenigClient.swift */,
 				F60700000000000000000001 /* StationFetching.swift */,
@@ -480,6 +492,9 @@
 				F50200000000000000000001 /* FuelType.swift in Sources */,
 				F50200000000000000000002 /* Station.swift in Sources */,
 				F60200000000000000000001 /* LocationService.swift in Sources */,
+				F65510000000000000000001 /* LocationProvider.swift in Sources */,
+				F65510000000000000000002 /* LocationSnapshot.swift in Sources */,
+				F65510000000000000000003 /* OneShotLocationFetcher.swift in Sources */,
 				F60600000000000000000002 /* TankerkoenigClient.swift in Sources */,
 				F60710000000000000000001 /* StationFetching.swift in Sources */,
 				F60710000000000000000002 /* StationStore.swift in Sources */,
@@ -518,6 +533,7 @@
 				F50300000000000000000001 /* FuelTypeTests.swift in Sources */,
 				F50300000000000000000002 /* StationTests.swift in Sources */,
 				F60300000000000000000001 /* LocationServiceTests.swift in Sources */,
+				F65510000000000000000004 /* LocationProviderTests.swift in Sources */,
 				F51600000000000000000001 /* TRDesignTokenTests.swift in Sources */,
 				F51900000000000000000001 /* TankerkoenigClientTests.swift in Sources */,
 				F52100000000000000000001 /* StationStoreTests.swift in Sources */,

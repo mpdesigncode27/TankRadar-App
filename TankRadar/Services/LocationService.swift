@@ -64,6 +64,8 @@ struct LiveLocationStreamProvider: LocationStreamProviding {
     }
 }
 
+/// Live-Standort für die Karte. Optional `snapshotStore`: bei gesetztem Store wird jeder gültige Fix in
+/// denselben UserDefaults-Cache geschrieben wie ``LocationProvider`` (App Intents / Siri, ~2 min TTL).
 @MainActor
 @Observable
 final class LocationService {
@@ -73,15 +75,18 @@ final class LocationService {
 
     private let streamProvider: any LocationStreamProviding
     private let authorizationProvider: @MainActor () -> CLAuthorizationStatus
+    private let snapshotStore: (any LocationSnapshotStore)?
 
     private var updatesTask: Task<Void, Never>?
 
     init(
         streamProvider: any LocationStreamProviding = LiveLocationStreamProvider(),
-        authorizationProvider: @escaping @MainActor () -> CLAuthorizationStatus = { CLLocationManager().authorizationStatus }
+        authorizationProvider: @escaping @MainActor () -> CLAuthorizationStatus = { CLLocationManager().authorizationStatus },
+        snapshotStore: (any LocationSnapshotStore)? = nil
     ) {
         self.streamProvider = streamProvider
         self.authorizationProvider = authorizationProvider
+        self.snapshotStore = snapshotStore
         authorizationStatus = authorizationProvider()
     }
 
@@ -121,6 +126,7 @@ final class LocationService {
     private func apply(_ event: LocationStreamEvent) {
         if let location = event.makeLocation() {
             currentLocation = location
+            snapshotStore?.save(LocationSnapshot(location: location))
         }
         authorizationStatus = authorizationProvider()
     }
