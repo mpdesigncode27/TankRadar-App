@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Baut TankRadar für den iOS-Simulator, installiert die App auf dem gewählten Simulator und startet sie.
+# Baut FuelNow für den iOS-Simulator, installiert die App auf dem gewählten Simulator und startet sie.
 # Überlappende Aufrufe (z. B. viele Saves) serialisieren sich per flock.
 set -euo pipefail
 
@@ -8,9 +8,9 @@ cd "$ROOT"
 # shellcheck source=simulator-env.sh
 source "${ROOT}/scripts/simulator-env.sh"
 
-SCHEME="${SCHEME:-TankRadar}"
+SCHEME="${SCHEME:-FuelNow}"
 SIMULATOR_NAME="${SIMULATOR_NAME:-iPhone 17}"
-BUNDLE_ID="${BUNDLE_ID:-com.vibecoding.TankRadar}"
+BUNDLE_ID="${BUNDLE_ID:-com.vibecoding.FuelNow}"
 DERIVED="${DERIVED_DATA_PATH:-$ROOT/.derived-data-ios}"
 
 mkdir -p "$DERIVED"
@@ -21,7 +21,7 @@ wait_for_build_lock() {
     sleep 0.25
     attempts=$((attempts + 1))
     if [[ $attempts -gt 600 ]]; then
-      echo "TankRadar: Build-Warteschlange-Timeout." >&2
+      echo "FuelNow: Build-Warteschlange-Timeout." >&2
       exit 1
     fi
   done
@@ -29,9 +29,9 @@ wait_for_build_lock() {
 }
 wait_for_build_lock
 
-UDID="$(tankradar_resolve_simulator_udid)"
+UDID="$(fuelnow_resolve_simulator_udid)"
 if [[ -z "${UDID}" ]]; then
-  echo "TankRadar: Kein Simulator „${SIMULATOR_NAME}“ gefunden. SIMULATOR_NAME anpassen oder Gerät in Xcode installieren." >&2
+  echo "FuelNow: Kein Simulator „${SIMULATOR_NAME}“ gefunden. SIMULATOR_NAME anpassen oder Gerät in Xcode installieren." >&2
   exit 1
 fi
 
@@ -40,7 +40,7 @@ if ! xcrun simctl list devices booted 2>/dev/null | grep -q "${UDID}"; then
 fi
 open -a Simulator 2>/dev/null || true
 
-echo "TankRadar: Build (${SCHEME}) → Simulator ${SIMULATOR_NAME} (${UDID}) …"
+echo "FuelNow: Build (${SCHEME}) → Simulator ${SIMULATOR_NAME} (${UDID}) …"
 
 xcodebuild \
   -scheme "${SCHEME}" \
@@ -49,13 +49,13 @@ xcodebuild \
   -quiet \
   build
 
-APP="${DERIVED}/Build/Products/Debug-iphonesimulator/TankRadar.app"
+APP="${DERIVED}/Build/Products/Debug-iphonesimulator/FuelNow.app"
 if [[ ! -d "${APP}" ]]; then
-  echo "TankRadar: Build-Produkt fehlt: ${APP}" >&2
+  echo "FuelNow: Build-Produkt fehlt: ${APP}" >&2
   exit 1
 fi
 
 xcrun simctl install "${UDID}" "${APP}"
 xcrun simctl launch "${UDID}" "${BUNDLE_ID}"
 
-echo "TankRadar: Installiert und gestartet."
+echo "FuelNow: Installiert und gestartet."

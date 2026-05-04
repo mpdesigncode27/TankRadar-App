@@ -1,0 +1,57 @@
+{
+  "identifier" : "8F3A21C4",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "B17E94D2",
+      "localizations" : [
+
+      ],
+      "name" : "FuelNow Plus",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "6.00",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "5C4E8A91",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "FuelNow Plus: CarPlay und Premium-Funktionen.",
+              "displayName" : "FuelNow Plus (Jahr)",
+              "locale" : "de_DE"
+            },
+            {
+              "description" : "FuelNow Plus: CarPlay and premium features.",
+              "displayName" : "FuelNow Plus (Year)",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.vibecoding.FuelNow.subscription.year",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "FuelNow Plus Yearly",
+          "subscriptionGroupID" : "B17E94D2",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}

@@ -19,40 +19,40 @@
 
 ## A. Kurzbefehle-App — alle App Shortcuts manuell
 
-Unter **Kurzbefehle → TankRadar** (bzw. nach App-Namen) jeden Shortcut **einmal ausführen** und Ergebnis markieren.
+Unter **Kurzbefehle → FuelNow** (bzw. nach App-Namen) jeden Shortcut **einmal ausführen** und Ergebnis markieren.
 
-**ApplicationName** in den App-Shortcuts ist der **Anzeigename der App** („TankRadar“).
+**ApplicationName** in den App-Shortcuts ist der **Anzeigename der App** („FuelNow“).
 
 | Shortcut (Kurztitel) | Erwartung | OK | Anmerkung |
 | --- | --- | --- | --- |
 | Nächste Tankstelle | Dialog + Snippet; realistische Station oder klarer Fehlertext (kein Ort, API, leerer Radius) | [ ] | |
 | Günstigste Tankstelle | Optional Kraftstoffparameter; sonst Standard-Sprit aus Einstellungen | [ ] | |
-| TankRadar öffnen | App springt zur Karte; kein hängender Zustand | [ ] | |
+| FuelNow öffnen | App springt zur Karte; kein hängender Zustand | [ ] | |
 | Tankstelle öffnen | Parameter „Tankstelle“ wählen → App öffnet Fokus auf Station (Deep Link), wenn Daten geladen | [ ] | |
 
 ---
 
 ## B. Siri — Spracheingabe (Gerät empfohlen)
 
-Pro Sprache mindestens **einen** Satz aus der folgenden Liste (oder nah genug, dass Siri den gleichen Intent trifft). Ersetze „TankRadar“ durch den **tatsächlichen App-Namen**, falls abweichend.
+Pro Sprache mindestens **einen** Satz aus der folgenden Liste (oder nah genug, dass Siri den gleichen Intent trifft). Ersetze „FuelNow“ durch den **tatsächlichen App-Namen**, falls abweichend.
 
 ### Deutsch
 
-- „Nächste Tankstelle in TankRadar“
-- „Wo ist die nächste Tankstelle in TankRadar“
-- „Günstigste Tankstelle in TankRadar“
-- „Wo ist die günstigste Tankstelle in TankRadar“
-- „Öffne TankRadar“ / „Zeig mir TankRadar“
-- „Tankstelle in TankRadar öffnen“ (ggf. mit Nachfrage zur Auswahl)
+- „Nächste Tankstelle in FuelNow“
+- „Wo ist die nächste Tankstelle in FuelNow“
+- „Günstigste Tankstelle in FuelNow“
+- „Wo ist die günstigste Tankstelle in FuelNow“
+- „Öffne FuelNow“ / „Zeig mir FuelNow“
+- „Tankstelle in FuelNow öffnen“ (ggf. mit Nachfrage zur Auswahl)
 
 ### English
 
-- „Nearest gas station in TankRadar“
-- „Where is the nearest gas station in TankRadar“
-- „Cheapest gas station in TankRadar“
-- „Where is the cheapest gas station in TankRadar“
-- „Open TankRadar“ / „Show TankRadar“
-- „Open station in TankRadar“
+- „Nearest gas station in FuelNow“
+- „Where is the nearest gas station in FuelNow“
+- „Cheapest gas station in FuelNow“
+- „Where is the cheapest gas station in FuelNow“
+- „Open FuelNow“ / „Show FuelNow“
+- „Open station in FuelNow“
 
 | Sprache | Getestete Phrase(n) | OK | Anmerkung |
 | --- | --- | --- | --- |
@@ -66,7 +66,7 @@ Pro Sprache mindestens **einen** Satz aus der folgenden Liste (oder nah genug, d
 | Szenario | Vorgehen | Ergebnis notieren |
 | --- | --- | --- |
 | App **beendet** (Switcher swipe), dann Shortcut/Siri | Kurzbefehl oder Siri auslösen | App startet / Intent wird bedient ohne Crash |
-| Standort **verweigert** | In iOS-Einstellungen für TankRadar deaktivieren, dann nearest/cheapest | Erwartete Fehlermeldung (Intent), kein stiller Fehler |
+| Standort **verweigert** | In iOS-Einstellungen für FuelNow deaktivieren, dann nearest/cheapest | Erwartete Fehlermeldung (Intent), kein stiller Fehler |
 | Optional: kein Netz / Flugmodus | Nach nearest/cheapest | Nutzerfreundliche Fehlermeldung |
 
 Im **Abschlusskommentar** bei Linear ausdrücklich erwähnen: QA betrifft **nur Siri/Kurzbefehle und iPhone-App** — **kein CarPlay-Map-Claim**.
@@ -85,8 +85,8 @@ Im **Abschlusskommentar** bei Linear ausdrücklich erwähnen: QA betrifft **nur 
 
 | Bereich | Dateien |
 | --- | --- |
-| Shortcuts & Intents | `TankRadar/Intents/TankRadarAppShortcuts.swift`, `StationSearchIntents.swift`, `OpenMapIntents.swift` |
-| Deep Link / Karte | `TankRadar/Navigation/TankRadarDeepLink.swift`, `MapDeepLinkStore.swift`, `MapScreen.swift` |
-| Snippet UI | `TankRadar/Intents/StationSnippetView.swift` |
+| Shortcuts & Intents | `FuelNow/Intents/FuelNowAppShortcuts.swift`, `StationSearchIntents.swift`, `OpenMapIntents.swift` |
+| Deep Link / Karte | `FuelNow/Navigation/FuelNowDeepLink.swift`, `MapDeepLinkStore.swift`, `MapScreen.swift` |
+| Snippet UI | `FuelNow/Intents/StationSnippetView.swift` |
 
 Bei Abweichung zwischen dieser Liste und der App: **Ticket-Beschreibung** oder dieses Dokument nachziehen.

@@ -4,20 +4,20 @@
 # Limits:
 # - Nur wenn die Shell `gh pr create` ausgeführt hat — nicht bei PRs nur in der GitHub-UI.
 # - Sandbox-Läufe: übersprungen (gh meist ohne Auth).
-# - Draft-PRs werden nicht gemerged (Ausnahme: TANKRADAR_MERGE_DRAFT_PRS=1).
+# - Draft-PRs werden nicht gemerged (Ausnahme: FUELNOW_MERGE_DRAFT_PRS=1).
 #
 # Env:
 #   LINEAR_API_KEY / LINEAR_KEY   Linear API Key für issueUpdate → Done (nach erfolgreichem Merge).
-#   TANKRADAR_PR_HOOK_DISABLE=1   Hook komplett aus.
-#   TANKRADAR_PR_HOOK_DRY_RUN=1   Nur Log, kein Merge / kein Linear.
-#   TANKRADAR_MERGE_DRAFT_PRS=1   Draft-PRs dürfen gemerged werden.
+#   FUELNOW_PR_HOOK_DISABLE=1   Hook komplett aus.
+#   FUELNOW_PR_HOOK_DRY_RUN=1   Nur Log, kein Merge / kein Linear.
+#   FUELNOW_MERGE_DRAFT_PRS=1   Draft-PRs dürfen gemerged werden.
 #   CURSOR_HOOK_LOG_DIR           Optional: Log-Verzeichnis (Default: $TMPDIR/cursor-hooks).
 
 set -euo pipefail
 
 LOG_DIR="${CURSOR_HOOK_LOG_DIR:-${TMPDIR:-/tmp}/cursor-hooks}"
 mkdir -p "$LOG_DIR"
-LOG_FILE="$LOG_DIR/tankradar-pr-hook.log"
+LOG_FILE="$LOG_DIR/fuelnow-pr-hook.log"
 
 log() {
   printf '%s %s\n' "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" "$*" | tee -a "$LOG_FILE" >&2
@@ -27,8 +27,8 @@ emit_empty_json() {
   printf '{}'
 }
 
-if [[ "${TANKRADAR_PR_HOOK_DISABLE:-}" == "1" ]]; then
-  log "hook disabled (TANKRADAR_PR_HOOK_DISABLE=1)"
+if [[ "${FUELNOW_PR_HOOK_DISABLE:-}" == "1" ]]; then
+  log "hook disabled (FUELNOW_PR_HOOK_DISABLE=1)"
   emit_empty_json
   exit 0
 fi
@@ -98,8 +98,8 @@ if not m:
     sys.exit(0)
 
 pr_url = m.group(0)
-dry = os.environ.get("TANKRADAR_PR_HOOK_DRY_RUN") == "1"
-merge_drafts = os.environ.get("TANKRADAR_MERGE_DRAFT_PRS") == "1"
+dry = os.environ.get("FUELNOW_PR_HOOK_DRY_RUN") == "1"
+merge_drafts = os.environ.get("FUELNOW_MERGE_DRAFT_PRS") == "1"
 
 log(f"pr-hook: detected PR {pr_url}")
 
@@ -144,7 +144,7 @@ log(
 
 concerns: list[str] = []
 if is_draft and not merge_drafts:
-    concerns.append("PR ist Draft — kein Auto-Merge (TANKRADAR_MERGE_DRAFT_PRS=1 zum Erlauben).")
+    concerns.append("PR ist Draft — kein Auto-Merge (FUELNOW_MERGE_DRAFT_PRS=1 zum Erlauben).")
 if mergeable == "CONFLICTING":
     concerns.append("Merge-Konflikte (mergeable=CONFLICTING).")
 if bad:

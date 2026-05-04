@@ -7,13 +7,13 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
 fail() {
-  echo "TankRadar: $*" >&2
+  echo "FuelNow: $*" >&2
   exit 1
 }
 
-if git ls-files --error-unmatch TankRadar/Support/APIKeys.swift >/dev/null 2>&1; then
+if git ls-files --error-unmatch FuelNow/Support/APIKeys.swift >/dev/null 2>&1; then
   fail "APIKeys.swift ist getrackt — darf nicht ins Repo."
 fi
 
-echo "TankRadar: OK — APIKeys.swift ist nicht versioniert."
-echo "TankRadar: Optional manuell: git log --all -p -S 'YOUR_KEY_SUBSTRING' | head"
+echo "FuelNow: OK — APIKeys.swift ist nicht versioniert."
+echo "FuelNow: Optional manuell: git log --all -p -S 'YOUR_KEY_SUBSTRING' | head"

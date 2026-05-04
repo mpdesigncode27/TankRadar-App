@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-app_identifier("com.vibecoding.TankRadar")
+app_identifier("com.vibecoding.FuelNow")
 team_id("B2P5VXJP3K")

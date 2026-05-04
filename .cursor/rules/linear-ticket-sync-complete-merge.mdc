@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Linear-Issue: Abschluss der Arbeit und Merge nach `main`
 
-Gilt für TankRadar-Arbeit, die einem **Linear-Ticket** (z. B. `TAN-XX`) zugeordnet ist — Tooling: Linear MCP (`save_issue`, `save_comment`, ggf. `create_attachment`).
+Gilt für FuelNow-Arbeit, die einem **Linear-Ticket** (z. B. `TAN-XX`) zugeordnet ist — Tooling: Linear MCP (`save_issue`, `save_comment`, ggf. `create_attachment`).
 
 ## Nach fertiger Umsetzung (vor oder mit PR)
 
