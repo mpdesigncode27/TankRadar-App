@@ -30,6 +30,7 @@
 		F37600000000000000000006 /* TRButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37500000000000000000006 /* TRButtonStyles.swift */; };
 		F37600000000000000000007 /* TRCardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37500000000000000000007 /* TRCardBackground.swift */; };
 		F37600000000000000000008 /* TRGlassPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37500000000000000000008 /* TRGlassPill.swift */; };
+		F37600000000000000000009 /* TRDesignSystemPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37500000000000000000009 /* TRDesignSystemPreview.swift */; };
 		F51600000000000000000001 /* TRDesignTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51500000000000000000001 /* TRDesignTokenTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +78,7 @@
 		F37500000000000000000006 /* TRButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRButtonStyles.swift; sourceTree = "<group>"; };
 		F37500000000000000000007 /* TRCardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRCardBackground.swift; sourceTree = "<group>"; };
 		F37500000000000000000008 /* TRGlassPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRGlassPill.swift; sourceTree = "<group>"; };
+		F37500000000000000000009 /* TRDesignSystemPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRDesignSystemPreview.swift; sourceTree = "<group>"; };
 		F51500000000000000000001 /* TRDesignTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRDesignTokenTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -230,6 +232,7 @@
 				F37500000000000000000003 /* TRTypography.swift */,
 				F37100000000000000000001 /* TRDesignAssets.xcassets */,
 				F37200000000000000000001 /* TRDesignPaletteNotes.swift */,
+				F37500000000000000000009 /* TRDesignSystemPreview.swift */,
 			);
 			path = Design;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				F37600000000000000000006 /* TRButtonStyles.swift in Sources */,
 				F37600000000000000000007 /* TRCardBackground.swift in Sources */,
 				F37600000000000000000008 /* TRGlassPill.swift in Sources */,
+				F37600000000000000000009 /* TRDesignSystemPreview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
