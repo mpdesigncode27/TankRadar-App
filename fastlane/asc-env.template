@@ -5,6 +5,15 @@
 #   export ASC_KEY_ID="XXXXXXXXXX"
 #   export ASC_ISSUER_ID="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 #   export ASC_KEY_PATH="$HOME/AuthKey_XXXXXXXXXX.p8"
-#   bundle exec fastlane asc_verify
+#   bundle exec fastlane ios asc_verify
 #
-# Or: source a gitignored file from repo root, e.g. `.env.asc.local`
+# TestFlight (API key needs App Manager or Admin + Developer):
+#   ./scripts/asc.sh ios asc_build_appstore_ipa
+#   IPA_PATH=build/FuelNow.ipa ./scripts/asc.sh ios asc_upload_ipa
+#   ./scripts/asc.sh ios asc_ship_testflight
+#
+# Optional:
+#   export ASC_SKIP_WAIT=1
+#   export ASC_WHATS_NEW="Fixes…"
+#
+# Or: source gitignored `.env.asc.local` from repo root (loaded by ./scripts/asc.sh)
