@@ -1,11 +1,12 @@
 ---
-description: Ticket work uses a dedicated Git branch and PR; never push ticket implementation directly to main.
+description: Ticket work uses a dedicated Git branch from main and PR; never push ticket implementation directly to main.
 alwaysApply: true
 ---
 
 # Branch pro Linear-Ticket
 
 - **Pflicht:** Sobald an einem Linear-Ticket gearbeitet wird (Code, Konfiguration, die zum Ticket gehört), auf einem **dedizierten Feature-Branch** arbeiten — nicht auf `main` committen oder pushen.
-- **Branch-Name:** Den von Linear vorgeschlagenen **`gitBranchName`** verwenden (Issue öffnen → „Copy git branch name“), oder gleichwertig `feature/TAN-XX-kurz-slug`, damit Branch ↔ Ticket eindeutig ist.
+- **Basis immer `main`:** Neuen Branch nur von **aktuellem `main`** abzweigen — nicht von anderen Feature-Branches und nicht von einem Namensraum, der wie ein zweiter Integrations-Branch wirkt. Praktisch: `git fetch origin`, `git checkout main`, `git pull origin main`, dann `git checkout -b …`.
+- **Branch-Name:** **`feature/TAN-XX-kurz-slug`** (Ticket-ID + kurzer Slug). Kein GitHub-/Linear-Nutzerpräfix wie `mpdesigncode27/…` — das ist ein Remote-Benutzername, keine Branch-Basis. Linears „Copy git branch name“ oft mit Benutzerpräfix ignorieren und stattdessen das Schema oben verwenden (Branch ↔ Ticket bleibt über `TAN-XX` eindeutig).
 - **Merge:** Änderungen über **Pull Request** in `main` (oder den Integrations-Branch des Teams) bringen; im PR Link zum Ticket und Checkliste aus der Issue-Description, wenn vorhanden.
 - **Ausnahme:** Nur ausdrücklich besprochene Hotfixes dürfen von dieser Regel abweichen.
