@@ -17,6 +17,8 @@
 		F50300000000000000000002 /* StationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51100000000000000000002 /* StationTests.swift */; };
 		F50400000000000000000001 /* station-list-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = F51200000000000000000001 /* station-list-sample.json */; };
 		F50400000000000000000002 /* station-price-false-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = F51200000000000000000002 /* station-price-false-sample.json */; };
+		F60200000000000000000001 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60100000000000000000001 /* LocationService.swift */; };
+		F60300000000000000000001 /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61100000000000000000001 /* LocationServiceTests.swift */; };
 		800000000000000000000005 /* TankRadarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500000000000000000000001 /* TankRadarUITests.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +53,8 @@
 		F51100000000000000000002 /* StationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTests.swift; sourceTree = "<group>"; };
 		F51200000000000000000001 /* station-list-sample.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "station-list-sample.json"; sourceTree = "<group>"; };
 		F51200000000000000000002 /* station-price-false-sample.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "station-price-false-sample.json"; sourceTree = "<group>"; };
+		F60100000000000000000001 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		F61100000000000000000001 /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
 		500000000000000000000001 /* TankRadarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankRadarUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,6 +161,7 @@
 		F35000000000000000000001 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				F60100000000000000000001 /* LocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -189,6 +194,7 @@
 			children = (
 				F51100000000000000000001 /* FuelTypeTests.swift */,
 				F51100000000000000000002 /* StationTests.swift */,
+				F61100000000000000000001 /* LocationServiceTests.swift */,
 				F51300000000000000000001 /* Fixtures */,
 			);
 			path = TankRadarTests;
@@ -331,6 +337,7 @@
 				F20000000000000000000001 /* APIKeys.example.swift in Sources */,
 				F50200000000000000000001 /* FuelType.swift in Sources */,
 				F50200000000000000000002 /* Station.swift in Sources */,
+				F60200000000000000000001 /* LocationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +347,7 @@
 			files = (
 				F50300000000000000000001 /* FuelTypeTests.swift in Sources */,
 				F50300000000000000000002 /* StationTests.swift in Sources */,
+				F60300000000000000000001 /* LocationServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
