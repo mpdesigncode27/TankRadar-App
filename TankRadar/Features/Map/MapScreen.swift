@@ -22,6 +22,8 @@ struct MapScreen: View {
     @State private var selectedStation: Station?
     @State private var showSettings = false
     @State private var didApplyInitialCamera = false
+    /// Gesetzt bei `.failed`, geleert bei anderem `loadState` — steuert den Retry-Alert (TAN-22).
+    @State private var presentedFetchErrorMessage: String?
 
     private var preferredFuel: FuelType {
         FuelType(rawValue: preferredFuelRaw) ?? .e10
@@ -34,6 +36,14 @@ struct MapScreen: View {
         default:
             false
         }
+    }
+
+    /// Erfolgreicher Fetch ohne Treffer — nicht bei verweigerter Location oder vor erstem Standort.
+    private var showEmptyStationsState: Bool {
+        guard !isLocationAccessDenied else { return false }
+        guard locationService.currentLocation != nil else { return false }
+        guard case .loaded = stationStore.loadState else { return false }
+        return stationStore.stations.isEmpty
     }
 
     var body: some View {
@@ -95,6 +105,23 @@ struct MapScreen: View {
             loadStateBanner
         }
         .overlay {
+            if showEmptyStationsState {
+                ContentUnavailableView {
+                    Label("Keine Tankstellen im Umkreis", systemImage: "fuelpump.slash")
+                } description: {
+                    Text("Versuche den Suchradius in den Einstellungen zu vergrößern oder einen anderen Ort.")
+                } actions: {
+                    Button("Einstellungen") {
+                        showSettings = true
+                    }
+                    .buttonStyle(TRPrimaryGlassButtonStyle())
+                }
+                .padding(TRSpacing.m)
+                .accessibilityLabel("Keine Tankstellen im Umkreis")
+                .accessibilityHint("Suchradius in den Einstellungen anpassen.")
+            }
+        }
+        .overlay {
             if isLocationAccessDenied {
                 LocationDeniedCallout {
                     showSettings = true
@@ -103,8 +130,36 @@ struct MapScreen: View {
             }
         }
         .animation(reduceMotion ? nil : .default, value: isLocationAccessDenied)
+        .animation(reduceMotion ? nil : .default, value: showEmptyStationsState)
+        .alert(
+            "Tankstellen konnten nicht geladen werden",
+            isPresented: Binding(
+                get: { presentedFetchErrorMessage != nil },
+                set: { newValue in
+                    if !newValue { presentedFetchErrorMessage = nil }
+                }
+            )
+        ) {
+            Button("Erneut versuchen") {
+                presentedFetchErrorMessage = nil
+                retryStationFetch()
+            }
+            Button("OK", role: .cancel) {
+                presentedFetchErrorMessage = nil
+            }
+        } message: {
+            Text(presentedFetchErrorMessage ?? "")
+        }
         .task {
             locationService.start()
+        }
+        .onChange(of: stationStore.loadState) { _, newState in
+            switch newState {
+            case let .failed(message):
+                presentedFetchErrorMessage = message
+            default:
+                presentedFetchErrorMessage = nil
+            }
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
@@ -140,14 +195,6 @@ struct MapScreen: View {
                 .padding(TRSpacing.s)
                 .background(.ultraThinMaterial, in: Capsule())
                 .padding(.top, TRSpacing.s)
-        case let .failed(message):
-            Text(message)
-                .font(TRTypography.caption())
-                .foregroundStyle(TRColors.labelPrimary)
-                .padding(TRSpacing.s)
-                .frame(maxWidth: .infinity)
-                .background(TRColors.accent.opacity(0.15))
-                .accessibilityLabel(message)
         default:
             EmptyView()
         }
@@ -168,6 +215,12 @@ struct MapScreen: View {
         guard let location = locationService.currentLocation else { return }
         stationStore.forceRefresh(using: location, radiusKm: Double(searchRadiusKm))
         try? await Task.sleep(for: .milliseconds(400))
+    }
+
+    /// Erneuter Abruf nach Netzwerk-/API-Fehler (`StationStore.forceRefresh`).
+    private func retryStationFetch() {
+        guard let location = locationService.currentLocation else { return }
+        stationStore.forceRefresh(using: location, radiusKm: Double(searchRadiusKm))
     }
 }
 
@@ -194,6 +247,12 @@ private struct UserLocationMapMarker: View {
 
 private struct StationListEnvelope: Decodable {
     let stations: [Station]
+}
+
+private struct PreviewThrowingFetcher: StationFetching {
+    func fetchStations(latitude: Double, longitude: Double, radiusKm: Double) async throws -> [Station] {
+        throw URLError(.notConnectedToInternet)
+    }
 }
 
 private actor PreviewStationFetcher: StationFetching {
@@ -253,4 +312,30 @@ private enum MapScreenPreviewData {
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewStationFetcher(stations: MapScreenPreviewData.stations)))
     .environment(\.dynamicTypeSize, .accessibility3)
+}
+
+#Preview("Leer — keine Stationen") {
+    NavigationStack {
+        MapScreen()
+    }
+    .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
+    .environment(StationStore(fetcher: PreviewStationFetcher(stations: [])))
+    .preferredColorScheme(.light)
+}
+
+#Preview("Leer — Dark") {
+    NavigationStack {
+        MapScreen()
+    }
+    .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
+    .environment(StationStore(fetcher: PreviewStationFetcher(stations: [])))
+    .preferredColorScheme(.dark)
+}
+
+#Preview("Fetch-Fehler") {
+    NavigationStack {
+        MapScreen()
+    }
+    .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
+    .environment(StationStore(fetcher: PreviewThrowingFetcher()))
 }
