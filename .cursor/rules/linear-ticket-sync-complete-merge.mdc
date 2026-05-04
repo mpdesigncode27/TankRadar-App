@@ -10,7 +10,7 @@ Gilt für TankRadar-Arbeit, die einem **Linear-Ticket** (z. B. `TAN-XX`) zugeo
 ## Nach fertiger Umsetzung (vor oder mit PR)
 
 - Das **Issue aktualisieren**: Beschreibung wo sinnvoll (Akzeptanzkriterien / DoD-Checkboxen), **Kommentar** mit Kurzfassung (was umgesetzt, welche Dateien/Tests, Branch-Name).
-- **Visueller Nachweis** und Ablage unter `.linear-evidence/` wie in der Branch-/Ticket-Workflow-Regel — nicht nur „Code fertig“, sondern Ticket nachvollziehbar halten.
+- **Visueller Nachweis** wie in der Branch-/Ticket-Workflow-Regel (Anhang am Linear-Issue) — nicht nur „Code fertig“, sondern Ticket nachvollziehbar halten.
 
 ## Sobald der Code in `main` ist
 

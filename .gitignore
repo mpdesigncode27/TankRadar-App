@@ -15,7 +15,7 @@ playground.xcworkspace
 APIKeys.swift
 .cursor/hooks/state/
 
-# Lokale Screenshots/Videos für Linear-Ticket-Nachweise (nicht committen)
+# Ignore if present (captures stay local + off-git; attach to Linear instead)
 .linear-evidence/
 
 # App Store Connect API (never commit keys)

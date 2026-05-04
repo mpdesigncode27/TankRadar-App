@@ -76,7 +76,7 @@ Im **Abschlusskommentar** bei Linear ausdrücklich erwähnen: QA betrifft **nur 
 ## D. Nachweise ([TAN-53](https://linear.app/tankradar-app/issue/TAN-53) DoD)
 
 1. Screenshots oder kurzes Video (Simulator oder Gerät): mindestens **ein erfolgreicher Kurzbefehl** und **ein Siri-Flow** (DE oder EN).
-2. Ablage lokal: **`.linear-evidence/`** (nicht committen), z. B. `TAN-53-siri-de.png`, `TAN-53-shortcuts-nearest.mov`.
+2. Ablage lokal beliebig (Desktop, Downloads, …), **nicht committen** — z. B. `TAN-53-siri-de.png`, `TAN-53-shortcuts-nearest.mov`.
 3. Linear: Dateien **anhängen** + kurzer Kommentar mit Build/Commit und Checkbox-Verweis auf diese Datei.
 
 ---

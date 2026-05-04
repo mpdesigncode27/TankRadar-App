@@ -15,13 +15,10 @@ alwaysApply: true
 
 ## Visueller Nachweis — konkret (TankRadar)
 
-1. **Ablage (lokal, nicht versionieren):** Im Projektroot Ordner **`.linear-evidence/`** anlegen (steht in `.gitignore`). Dateien dort **nie** committen.
-2. **Dateiname:** Schema **`TAN-XX-kurz-slug`** + Kontext, z. B.  
-   - `TAN-16-mapscreen-simulator.png`  
-   - `TAN-13-tests-passing.png` (Alternativnachweis für wenig UI)  
-   - `TAN-13-live-location-gpx.mov` (kurzes Screen-Recording, Simulator **Features → Location** mit GPX)
+1. **Ablage:** Screenshots/Videos **lokal beliebig** (Desktop, Downloads, `/tmp`, …) erzeugen — **nie** ins Git committen.
+2. **Dateiname (empfohlen):** Schema **`TAN-XX-kurz-slug`** + Kontext, z. B. `TAN-16-mapscreen-simulator.png`, `TAN-13-tests-passing.png`, kurzes `.mov` vom Simulator.
 3. **Was aufnehmen:**
    - **Mit UI:** Simulator oder Gerät — Screen(s), auf denen die Ticket-Änderung **erkennbar** ist (Annotation, Text, Flow-Ende).
    - **Ohne / wenig UI:** Xcode **Test**- oder **Report**-Ansicht mit **grünen** Tests für dieses Feature; oder App einmal gestartet im Simulator + ein Satz im Kommentar („noch kein Map-Screen — nur Service wiring“).
-4. **An Linear anhängen:** Entweder per Linear-UI (**Issue → Add attachment**) oder Agent mit MCP **`create_attachment`**: `issue` = z. B. `TAN-13`, `filename`, `contentType` (`image/png`, `image/jpeg`, `video/quicktime` …), `base64Content` = Dateiinhalt Base64-kodiert (macOS z. B. `base64 -i .linear-evidence/DEINE_DATEI.png`).
-5. **Beispiel TAN-13 (LocationService):** Sinnvoll: kurzes Video „Simulator läuft, App geöffnet“ **oder** Screenshot Xcode mit **`LocationServiceTests`** grün **oder** nach `start()` einmal Standort-Zeile in einer späteren Debug-Ansicht — im Kommentar kurz beschreiben.
+4. **An Linear anhängen:** Linear-UI (**Issue → Add attachment**) oder MCP **`create_attachment`** mit `base64Content` der Datei (macOS z. B. `base64 -i /Pfad/zum/Screenshot.png`).
+5. **Beispiel TAN-13 (LocationService):** Kurzes Video „Simulator läuft, App geöffnet“ **oder** Screenshot Xcode mit **`LocationServiceTests`** grün — im Kommentar kurz beschreiben.
