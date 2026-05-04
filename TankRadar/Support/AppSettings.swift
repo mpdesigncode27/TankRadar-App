@@ -5,6 +5,8 @@ enum AppSettings {
     enum UserDefaultsKey {
         static let preferredFuelType = "tr.preferredFuelType"
         static let searchRadiusKm = "tr.searchRadiusKm"
+        /// Hell / Dunkel / System (`AppearancePreference.rawValue`).
+        static let appearancePreference = "tr.appearancePreference"
         /// Letzter bekannter Standort für App Intents / Siri (`LocationProvider`, ~2 min TTL).
         static let locationCacheLatitude = "tr.locationCache.latitude"
         static let locationCacheLongitude = "tr.locationCache.longitude"
@@ -27,5 +29,18 @@ enum AppSettings {
 
     enum TankerkoenigAttribution {
         static let infoURL = URL(string: "https://creativecommons.tankerkoenig.de")!
+    }
+
+    /// Gespeicherte UI-Erscheinung; `system` folgt iOS Hell/Dunkel.
+    enum AppearancePreference: String, CaseIterable, Identifiable {
+        case system
+        case light
+        case dark
+
+        var id: String { rawValue }
+
+        static func resolved(storedRaw: String) -> AppearancePreference {
+            Self(rawValue: storedRaw) ?? .system
+        }
     }
 }

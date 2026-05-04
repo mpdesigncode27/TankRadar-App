@@ -6,6 +6,14 @@ struct SettingsView: View {
 
     @AppStorage(AppSettings.UserDefaultsKey.preferredFuelType) private var preferredFuelRaw = FuelType.e10.rawValue
     @AppStorage(AppSettings.UserDefaultsKey.searchRadiusKm) private var searchRadiusKm = AppSettings.SearchRadius.defaultKm
+    @AppStorage(AppSettings.UserDefaultsKey.appearancePreference) private var appearanceRaw = AppSettings.AppearancePreference.system.rawValue
+
+    private var appearanceBinding: Binding<AppSettings.AppearancePreference> {
+        Binding(
+            get: { AppSettings.AppearancePreference.resolved(storedRaw: appearanceRaw) },
+            set: { appearanceRaw = $0.rawValue }
+        )
+    }
 
     var body: some View {
         NavigationStack {
@@ -54,6 +62,21 @@ struct SettingsView: View {
                 }
 
                 Section {
+                    Picker("", selection: appearanceBinding) {
+                        ForEach(AppSettings.AppearancePreference.allCases) { mode in
+                            Text(mode.localizedTitle).tag(mode)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .accessibilityLabel(Text("settings.appearance.header"))
+                    .accessibilityHint(Text("settings.appearance.a11yHint"))
+                } header: {
+                    Text("settings.appearance.header")
+                } footer: {
+                    Text("settings.appearance.footer")
+                }
+
+                Section {
                     Link(destination: AppSettings.TankerkoenigAttribution.infoURL) {
                         Label("Tankerkönig / MTS-K (CC BY 4.0)", systemImage: "link")
                     }
@@ -96,4 +119,17 @@ struct SettingsView: View {
 #Preview("Accessibility 3") {
     SettingsView()
         .environment(\.dynamicTypeSize, .accessibility3)
+}
+
+private extension AppSettings.AppearancePreference {
+    var localizedTitle: LocalizedStringResource {
+        switch self {
+        case .system:
+            "settings.appearance.system"
+        case .light:
+            "settings.appearance.light"
+        case .dark:
+            "settings.appearance.dark"
+        }
+    }
 }

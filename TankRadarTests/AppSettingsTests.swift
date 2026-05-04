@@ -11,6 +11,7 @@ struct AppSettingsTests {
         #expect(AppSettings.UserDefaultsKey.locationCacheHorizontalAccuracy == "tr.locationCache.horizontalAccuracy")
         #expect(AppSettings.UserDefaultsKey.locationCacheRecordedAt == "tr.locationCache.recordedAt")
         #expect(AppSettings.UserDefaultsKey.pendingMapStationFocusID == "tr.pendingMapStationFocusID")
+        #expect(AppSettings.UserDefaultsKey.appearancePreference == "tr.appearancePreference")
     }
 
     @Test func searchRadiusBounds() {
@@ -44,5 +45,17 @@ struct AppSettingsTests {
         for fuel in FuelType.allCases {
             #expect(FuelType(rawValue: fuel.rawValue) == fuel)
         }
+    }
+
+    @Test func appearancePreferenceResolvedFallsBackToSystemForUnknownRaw() {
+        #expect(AppSettings.AppearancePreference.resolved(storedRaw: "system") == .system)
+        #expect(AppSettings.AppearancePreference.resolved(storedRaw: "light") == .light)
+        #expect(AppSettings.AppearancePreference.resolved(storedRaw: "dark") == .dark)
+        #expect(AppSettings.AppearancePreference.resolved(storedRaw: "") == .system)
+        #expect(AppSettings.AppearancePreference.resolved(storedRaw: "bogus") == .system)
+    }
+
+    @Test func appearancePreferenceCaseIterableIsStable() {
+        #expect(AppSettings.AppearancePreference.allCases.map(\.rawValue) == ["system", "light", "dark"])
     }
 }

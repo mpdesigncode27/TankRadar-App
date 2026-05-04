@@ -6,9 +6,15 @@ struct LocationDeniedCallout: View {
     /// Öffnet das In-App-Einstellungs-Sheet (Spritart, Radius, Datenquelle).
     var openInAppSettings: () -> Void
 
+    @Environment(\.colorScheme) private var colorScheme
+
+    private var scrimOpacity: Double {
+        colorScheme == .dark ? 0.58 : 0.35
+    }
+
     var body: some View {
         ZStack {
-            Color.black.opacity(0.35)
+            Color.black.opacity(scrimOpacity)
                 .ignoresSafeArea()
                 .accessibilityHidden(true)
 

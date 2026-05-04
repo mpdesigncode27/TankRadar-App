@@ -252,6 +252,11 @@ struct MapScreen: View {
 /// Blauer Punkt wie „Mein Standort“ in Apple Maps (SwiftUI-Annotation, nicht MapKit-`UserAnnotation`).
 private struct UserLocationMapMarker: View {
     @ScaledMetric(relativeTo: .body) private var diameter: CGFloat = 18
+    @Environment(\.colorScheme) private var colorScheme
+
+    private var haloShadowOpacity: Double {
+        colorScheme == .dark ? 0.45 : 0.22
+    }
 
     var body: some View {
         ZStack {
@@ -262,7 +267,7 @@ private struct UserLocationMapMarker: View {
                 .strokeBorder(Color.white, lineWidth: 3)
                 .frame(width: diameter, height: diameter)
         }
-        .shadow(color: .black.opacity(0.22), radius: 2, y: 1)
+        .shadow(color: .black.opacity(haloShadowOpacity), radius: colorScheme == .dark ? 3 : 2, y: 1)
         .accessibilityLabel("Mein Standort")
         .accessibilityHint("Zeigt deine ungefähre Position auf der Karte.")
     }

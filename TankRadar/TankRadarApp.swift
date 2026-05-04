@@ -5,10 +5,16 @@ import SwiftUI
 struct TankRadarApp: App {
     @State private var locationService = LocationService(snapshotStore: UserDefaultsLocationSnapshotStore())
     @State private var stationStore = StationStoreFactory.makeDefault()
+    @AppStorage(AppSettings.UserDefaultsKey.appearancePreference) private var appearanceRaw = AppSettings.AppearancePreference.system.rawValue
+
+    private var appearancePreference: AppSettings.AppearancePreference {
+        AppSettings.AppearancePreference.resolved(storedRaw: appearanceRaw)
+    }
 
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .preferredColorScheme(appearancePreference.preferredSwiftUIColorScheme)
                 .environment(locationService)
                 .environment(stationStore)
                 .environment(MapDeepLinkStore.shared)
@@ -36,5 +42,18 @@ struct TankRadarApp: App {
     private func requestLocationAuthorizationIfNeeded() async {
         guard ProcessInfo.processInfo.environment["UITESTING"] != "1" else { return }
         CLLocationManager().requestWhenInUseAuthorization()
+    }
+}
+
+private extension AppSettings.AppearancePreference {
+    var preferredSwiftUIColorScheme: ColorScheme? {
+        switch self {
+        case .system:
+            nil
+        case .light:
+            .light
+        case .dark:
+            .dark
+        }
     }
 }

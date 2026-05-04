@@ -11,7 +11,7 @@ struct StationSnippetView: View {
                 .font(TRTypography.headline())
             Text(subtitle)
                 .font(TRTypography.subheadline())
-                .foregroundStyle(.secondary)
+                .foregroundStyle(TRColors.labelSecondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, TRSpacing.xxs)
