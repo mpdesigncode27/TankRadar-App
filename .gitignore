@@ -16,6 +16,8 @@ playground.xcworkspace
 
 # Bundler — Gems lokal (bundle install); Konfiguration in .bundle/config ist committed
 vendor/bundle/
+# fastlane gym (asc_build_appstore_ipa)
+/build/
 APIKeys.swift
 .cursor/hooks/state/
 
