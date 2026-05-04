@@ -20,6 +20,8 @@
 		F60200000000000000000001 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60100000000000000000001 /* LocationService.swift */; };
 		F60300000000000000000001 /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61100000000000000000001 /* LocationServiceTests.swift */; };
 		800000000000000000000005 /* TankRadarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500000000000000000000001 /* TankRadarUITests.swift */; };
+		F37300000000000000000001 /* TRDesignAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F37100000000000000000001 /* TRDesignAssets.xcassets */; };
+		F37400000000000000000001 /* TRDesignPaletteNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37200000000000000000001 /* TRDesignPaletteNotes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		F60100000000000000000001 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		F61100000000000000000001 /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
 		500000000000000000000001 /* TankRadarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankRadarUITests.swift; sourceTree = "<group>"; };
+		F37100000000000000000001 /* TRDesignAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TRDesignAssets.xcassets; sourceTree = "<group>"; };
+		F37200000000000000000001 /* TRDesignPaletteNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRDesignPaletteNotes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +182,8 @@
 		F37000000000000000000001 /* Design */ = {
 			isa = PBXGroup;
 			children = (
+				F37100000000000000000001 /* TRDesignAssets.xcassets */,
+				F37200000000000000000001 /* TRDesignPaletteNotes.swift */,
 			);
 			path = Design;
 			sourceTree = "<group>";
@@ -313,6 +319,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				800000000000000000000003 /* Assets.xcassets in Resources */,
+				F37300000000000000000001 /* TRDesignAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +345,7 @@
 				F50200000000000000000001 /* FuelType.swift in Sources */,
 				F50200000000000000000002 /* Station.swift in Sources */,
 				F60200000000000000000001 /* LocationService.swift in Sources */,
+				F37400000000000000000001 /* TRColorCatalog.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
