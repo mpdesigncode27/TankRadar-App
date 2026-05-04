@@ -4,11 +4,13 @@ import SwiftUI
 @main
 struct TankRadarApp: App {
     @State private var locationService = LocationService()
+    @State private var stationStore = StationStore()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(locationService)
+                .environment(stationStore)
                 .task {
                     await requestLocationAuthorizationIfNeeded()
                     #if DEBUG
