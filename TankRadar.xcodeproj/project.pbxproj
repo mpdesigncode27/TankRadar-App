@@ -41,6 +41,8 @@
 		F60810000000000000000001 /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000001 /* MapScreen.swift */; };
 		F60810000000000000000002 /* StationDetailPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000002 /* StationDetailPlaceholderView.swift */; };
 		F60810000000000000000003 /* SettingsPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000003 /* SettingsPlaceholderView.swift */; };
+		F60810000000000000000004 /* StationAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000004 /* StationAnnotationView.swift */; };
+		F60810000000000000000005 /* LocateMeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000005 /* LocateMeButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +99,8 @@
 		F60800000000000000000001 /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
 		F60800000000000000000002 /* StationDetailPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationDetailPlaceholderView.swift; sourceTree = "<group>"; };
 		F60800000000000000000003 /* SettingsPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPlaceholderView.swift; sourceTree = "<group>"; };
+		F60800000000000000000004 /* StationAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationAnnotationView.swift; sourceTree = "<group>"; };
+		F60800000000000000000005 /* LocateMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocateMeButton.swift; sourceTree = "<group>"; };
 		F61100000000000000000001 /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -205,6 +209,8 @@
 			isa = PBXGroup;
 			children = (
 				F60800000000000000000001 /* MapScreen.swift */,
+				F60800000000000000000004 /* StationAnnotationView.swift */,
+				F60800000000000000000005 /* LocateMeButton.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -407,6 +413,8 @@
 				F60710000000000000000001 /* StationFetching.swift in Sources */,
 				F60710000000000000000002 /* StationStore.swift in Sources */,
 				F60810000000000000000001 /* MapScreen.swift in Sources */,
+				F60810000000000000000004 /* StationAnnotationView.swift in Sources */,
+				F60810000000000000000005 /* LocateMeButton.swift in Sources */,
 				F60810000000000000000002 /* StationDetailPlaceholderView.swift in Sources */,
 				F60810000000000000000003 /* SettingsPlaceholderView.swift in Sources */,
 				F37400000000000000000001 /* TRDesignPaletteNotes.swift in Sources */,

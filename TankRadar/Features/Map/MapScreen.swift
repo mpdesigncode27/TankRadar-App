@@ -30,7 +30,7 @@ struct MapScreen: View {
                 UserAnnotation()
                 ForEach(stationStore.stations) { station in
                     Annotation(station.name, coordinate: station.coordinate) {
-                        StationMapPinView()
+                        StationAnnotationView(station: station, preferredFuel: preferredFuel)
                             .onTapGesture {
                                 selectedStation = station
                             }
@@ -42,8 +42,12 @@ struct MapScreen: View {
                 await refreshStations()
             }
 
-            locateFloatingButton
-                .padding(TRSpacing.m)
+            LocateMeButton {
+                centerMapOnUser()
+            }
+            .disabled(locationService.currentLocation == nil)
+            .opacity(locationService.currentLocation == nil ? 0.45 : 1)
+            .padding(TRSpacing.m)
         }
         .navigationTitle("TankRadar")
         .navigationBarTitleDisplayMode(.inline)
@@ -103,21 +107,6 @@ struct MapScreen: View {
         }
     }
 
-    private var locateFloatingButton: some View {
-        Button {
-            centerMapOnUser()
-        } label: {
-            Image(systemName: "location.fill")
-                .font(.system(size: TRSpacing.m, weight: .semibold))
-                .foregroundStyle(TRColors.labelPrimary)
-                .frame(width: TRSpacing.xl, height: TRSpacing.xl)
-                .background(.ultraThinMaterial, in: Circle())
-                .shadow(color: .black.opacity(0.12), radius: TRSpacing.xxs, y: 2)
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Karte auf Standort zentrieren")
-    }
-
     private func centerMapOnUser() {
         guard let location = locationService.currentLocation else { return }
         cameraPosition = .region(
@@ -133,20 +122,6 @@ struct MapScreen: View {
         guard let location = locationService.currentLocation else { return }
         stationStore.forceRefresh(using: location, radiusKm: Double(searchRadiusKm))
         try? await Task.sleep(for: .milliseconds(400))
-    }
-}
-
-/// Einfacher Pin bis **TAN-17** (Glass / Preis-Annotation).
-private struct StationMapPinView: View {
-    var body: some View {
-        Circle()
-            .fill(TRColors.accent.opacity(0.92))
-            .frame(width: TRSpacing.s, height: TRSpacing.s)
-            .overlay {
-                Circle()
-                    .stroke(TRColors.background, lineWidth: 2)
-            }
-            .shadow(color: .black.opacity(0.2), radius: 2, y: 1)
     }
 }
 
