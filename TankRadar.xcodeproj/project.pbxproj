@@ -10,6 +10,7 @@
 		800000000000000000000001 /* TankRadarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300000000000000000000001 /* TankRadarApp.swift */; };
 		800000000000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300000000000000000000002 /* ContentView.swift */; };
 		800000000000000000000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 300000000000000000000003 /* Assets.xcassets */; };
+		F20000000000000000000001 /* APIKeys.example.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000001 /* APIKeys.example.swift */; };
 		800000000000000000000004 /* TankRadarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400000000000000000000001 /* TankRadarTests.swift */; };
 		800000000000000000000005 /* TankRadarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500000000000000000000001 /* TankRadarUITests.swift */; };
 /* End PBXBuildFile section */
@@ -38,6 +39,7 @@
 		300000000000000000000001 /* TankRadarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankRadarApp.swift; sourceTree = "<group>"; };
 		300000000000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		300000000000000000000003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F10000000000000000000001 /* APIKeys.example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.example.swift; sourceTree = "<group>"; };
 		400000000000000000000001 /* TankRadarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankRadarTests.swift; sourceTree = "<group>"; };
 		500000000000000000000001 /* TankRadarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankRadarUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -93,8 +95,81 @@
 				300000000000000000000001 /* TankRadarApp.swift */,
 				300000000000000000000002 /* ContentView.swift */,
 				300000000000000000000003 /* Assets.xcassets */,
+				F31000000000000000000001 /* Features */,
+				F35000000000000000000001 /* Services */,
+				F36000000000000000000001 /* Models */,
+				F37000000000000000000001 /* Design */,
+				F38000000000000000000001 /* Intents */,
+				F30000000000000000000001 /* Support */,
 			);
 			path = TankRadar;
+			sourceTree = "<group>";
+		};
+		F30000000000000000000001 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				F10000000000000000000001 /* APIKeys.example.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		F31000000000000000000001 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				F32000000000000000000001 /* Map */,
+				F33000000000000000000001 /* Detail */,
+				F34000000000000000000001 /* Settings */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		F32000000000000000000001 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		F33000000000000000000001 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		F34000000000000000000001 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		F35000000000000000000001 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		F36000000000000000000001 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F37000000000000000000001 /* Design */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Design;
+			sourceTree = "<group>";
+		};
+		F38000000000000000000001 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Intents;
 			sourceTree = "<group>";
 		};
 		600000000000000000000004 /* TankRadarTests */ = {
@@ -220,6 +295,7 @@
 			files = (
 				800000000000000000000001 /* TankRadarApp.swift in Sources */,
 				800000000000000000000002 /* ContentView.swift in Sources */,
+				F20000000000000000000001 /* APIKeys.example.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

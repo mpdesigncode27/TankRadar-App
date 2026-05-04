@@ -8,6 +8,9 @@ struct TankRadarApp: App {
             ContentView()
                 .task {
                     await requestLocationAuthorizationIfNeeded()
+                    #if DEBUG
+                    APIKeys.warnIfPlaceholderActive()
+                    #endif
                 }
         }
     }
