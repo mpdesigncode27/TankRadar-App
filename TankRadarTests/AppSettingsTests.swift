@@ -10,6 +10,7 @@ struct AppSettingsTests {
         #expect(AppSettings.UserDefaultsKey.locationCacheLongitude == "tr.locationCache.longitude")
         #expect(AppSettings.UserDefaultsKey.locationCacheHorizontalAccuracy == "tr.locationCache.horizontalAccuracy")
         #expect(AppSettings.UserDefaultsKey.locationCacheRecordedAt == "tr.locationCache.recordedAt")
+        #expect(AppSettings.UserDefaultsKey.pendingMapStationFocusID == "tr.pendingMapStationFocusID")
     }
 
     @Test func searchRadiusBounds() {

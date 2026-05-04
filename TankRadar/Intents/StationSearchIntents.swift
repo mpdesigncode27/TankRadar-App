@@ -142,29 +142,3 @@ struct FindCheapestStationIntent: AppIntent {
     }
 }
 
-// MARK: - Shortcuts
-
-/// Kurzbefehle-Sätze (Deutsch); Siri kann Formulierungen variieren.
-struct TankRadarAppShortcuts: AppShortcutsProvider {
-    @AppShortcutsBuilder
-    static var appShortcuts: [AppShortcut] {
-        AppShortcut(
-            intent: FindNearestStationIntent(),
-            phrases: [
-                "Nächste Tankstelle in \(.applicationName)",
-                "Wo ist die nächste Tankstelle in \(.applicationName)",
-            ],
-            shortTitle: "Nächste Tankstelle",
-            systemImageName: "fuelpump.fill"
-        )
-        AppShortcut(
-            intent: FindCheapestStationIntent(),
-            phrases: [
-                "Günstigste Tankstelle in \(.applicationName)",
-                "Wo ist die günstigste Tankstelle in \(.applicationName)",
-            ],
-            shortTitle: "Günstigste Tankstelle",
-            systemImageName: "eurosign.circle.fill"
-        )
-    }
-}

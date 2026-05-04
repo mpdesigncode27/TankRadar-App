@@ -12,4 +12,5 @@ struct ContentView: View {
     ContentView()
         .environment(LocationService())
         .environment(StationStore())
+        .environment(MapDeepLinkStore(defaults: UserDefaults(suiteName: "tr.preview.ContentView.deeplink")!))
 }

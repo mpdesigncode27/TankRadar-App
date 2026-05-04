@@ -10,6 +10,8 @@ enum AppSettings {
         static let locationCacheLongitude = "tr.locationCache.longitude"
         static let locationCacheHorizontalAccuracy = "tr.locationCache.horizontalAccuracy"
         static let locationCacheRecordedAt = "tr.locationCache.recordedAt"
+        /// Kurzbefehle / Custom-URL: Tankstelle auf der Karte fokussieren (`MapDeepLinkStore`).
+        static let pendingMapStationFocusID = "tr.pendingMapStationFocusID"
     }
 
     enum SearchRadius {

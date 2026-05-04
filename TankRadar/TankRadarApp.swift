@@ -11,6 +11,18 @@ struct TankRadarApp: App {
             ContentView()
                 .environment(locationService)
                 .environment(stationStore)
+                .environment(MapDeepLinkStore.shared)
+                .onOpenURL { url in
+                    Task { @MainActor in
+                        guard let link = TankRadarDeepLink.parse(url) else { return }
+                        switch link {
+                        case .map:
+                            MapDeepLinkStore.shared.clearPendingStationFocus()
+                        case let .station(id):
+                            MapDeepLinkStore.shared.enqueueStationFocus(id: id)
+                        }
+                    }
+                }
                 .task {
                     await requestLocationAuthorizationIfNeeded()
                     #if DEBUG

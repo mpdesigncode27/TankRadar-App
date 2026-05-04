@@ -7,6 +7,7 @@ import UIKit
 struct MapScreen: View {
     @Environment(LocationService.self) private var locationService
     @Environment(StationStore.self) private var stationStore
+    @Environment(MapDeepLinkStore.self) private var deepLinks
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -152,6 +153,13 @@ struct MapScreen: View {
         }
         .task {
             locationService.start()
+            applyPendingStationFocusFromDeepLink()
+        }
+        .onChange(of: deepLinks.pendingStationFocusID) { _, _ in
+            applyPendingStationFocusFromDeepLink()
+        }
+        .onChange(of: stationStore.stations) { _, _ in
+            applyPendingStationFocusFromDeepLink()
         }
         .onChange(of: stationStore.loadState) { _, newState in
             switch newState {
@@ -222,6 +230,21 @@ struct MapScreen: View {
         guard let location = locationService.currentLocation else { return }
         stationStore.forceRefresh(using: location, radiusKm: Double(searchRadiusKm))
     }
+
+    /// Kurzbefehle / Custom-URL (`TankRadarDeepLink`): Sheet und Kamera, sobald die Station geladen ist.
+    private func applyPendingStationFocusFromDeepLink() {
+        guard let id = deepLinks.pendingStationFocusID else { return }
+        guard let station = stationStore.stations.first(where: { $0.id == id }) else { return }
+        selectedStation = station
+        cameraPosition = .region(
+            MKCoordinateRegion(
+                center: station.coordinate,
+                latitudinalMeters: 3_500,
+                longitudinalMeters: 3_500
+            )
+        )
+        deepLinks.clearPendingStationFocus()
+    }
 }
 
 // MARK: - Previews
@@ -276,6 +299,12 @@ private struct PreviewLocationStreamProvider: LocationStreamProviding {
     }
 }
 
+private enum MapScreenPreviewHarness {
+    static var deepLinkStore: MapDeepLinkStore {
+        MapDeepLinkStore(defaults: UserDefaults(suiteName: "tr.preview.MapScreen.deeplink")!)
+    }
+}
+
 private enum MapScreenPreviewData {
     static let stations: [Station] = {
         let json = Data(
@@ -293,6 +322,7 @@ private enum MapScreenPreviewData {
     }
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewStationFetcher(stations: MapScreenPreviewData.stations)))
+    .environment(MapScreenPreviewHarness.deepLinkStore)
     .preferredColorScheme(.light)
 }
 
@@ -302,6 +332,7 @@ private enum MapScreenPreviewData {
     }
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewStationFetcher(stations: MapScreenPreviewData.stations)))
+    .environment(MapScreenPreviewHarness.deepLinkStore)
     .preferredColorScheme(.dark)
 }
 
@@ -311,6 +342,7 @@ private enum MapScreenPreviewData {
     }
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewStationFetcher(stations: MapScreenPreviewData.stations)))
+    .environment(MapScreenPreviewHarness.deepLinkStore)
     .environment(\.dynamicTypeSize, .accessibility3)
 }
 
@@ -320,6 +352,7 @@ private enum MapScreenPreviewData {
     }
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewStationFetcher(stations: [])))
+    .environment(MapScreenPreviewHarness.deepLinkStore)
     .preferredColorScheme(.light)
 }
 
@@ -329,6 +362,7 @@ private enum MapScreenPreviewData {
     }
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewStationFetcher(stations: [])))
+    .environment(MapScreenPreviewHarness.deepLinkStore)
     .preferredColorScheme(.dark)
 }
 
@@ -338,4 +372,5 @@ private enum MapScreenPreviewData {
     }
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewThrowingFetcher()))
+    .environment(MapScreenPreviewHarness.deepLinkStore)
 }
