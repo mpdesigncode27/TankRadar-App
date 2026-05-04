@@ -50,6 +50,8 @@ Die Jahres-Subscription wird **in App Store Connect** angelegt; ohne dieses Prod
 - [ ] App enthält **keinen** fest eingetragenen Jahresabo-Preis für die Plus-UI (aktuell keine Paywall — bei Implementierung nur dynamische StoreKit-Preise)
 - [ ] **Screenshot** der Abo-Produktseite in App Store Connect als Anhang an [TAN-42](https://linear.app/tankradar-app/issue/TAN-42)
 
+**IPA / TestFlight (Fastlane + ASC API Key):** Kurzanleitung [`docs/AppStoreConnectUpload.md`](docs/AppStoreConnectUpload.md) — `./scripts/asc.sh ios asc_verify`, `asc_build_appstore_ipa`, `asc_upload_ipa`, `asc_ship_testflight`.
+
 ## Simulator-UI: [AXe CLI](https://www.axe-cli.com/)
 
 Lokale UI-Automation (Taps, Screenshots, Batches) über die Accessibility-API — nützlich für schnelle Smokes und Agent-Workflows.

@@ -12,6 +12,8 @@ playground.xcworkspace
 .build/
 # Lokaler DerivedData-Pfad für scripts/build-and-run-simulator.sh
 .derived-data-ios/
+# fastlane gym (asc_build_appstore_ipa)
+/build/
 APIKeys.swift
 .cursor/hooks/state/
 

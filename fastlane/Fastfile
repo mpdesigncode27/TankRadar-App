@@ -20,6 +20,43 @@ def asc_load_token!
   )
 end
 
+def asc_api_key_lane!
+  missing = ASC_ENV_VARS.reject { |k| ENV[k] && !ENV[k].strip.empty? }
+  UI.user_error!("Missing env: #{missing.join(', ')} — see fastlane/asc-env.template") unless missing.empty?
+
+  key_path = File.expand_path(ENV.fetch("ASC_KEY_PATH"), Dir.pwd)
+  UI.user_error!("ASC_KEY_PATH not found: #{key_path}") unless File.file?(key_path)
+
+  app_store_connect_api_key(
+    key_id: ENV.fetch("ASC_KEY_ID"),
+    issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+    key_filepath: key_path
+  )
+end
+
+def asc_resolve_ipa!(options)
+  raw = options[:ipa] || ENV["IPA_PATH"]
+  UI.user_error!("Provide ipa:/IPA_PATH (path to .ipa)") if raw.nil? || raw.strip.empty?
+
+  path = File.expand_path(raw, Dir.pwd)
+  UI.user_error!("IPA not found: #{path}") unless File.file?(path)
+
+  path
+end
+
+def asc_run_gym_appstore!
+  gym(
+    project: "TankRadar.xcodeproj",
+    scheme: "TankRadar",
+    configuration: "Release",
+    export_method: "app-store",
+    export_options: "#{FastlaneCore::FastlaneFolder.path}/ExportOptions.appstore.plist",
+    output_directory: "build",
+    output_name: "TankRadar.ipa",
+    clean: true
+  )
+end
+
 platform :ios do
   desc "Verify App Store Connect API key (JWT): token + list apps + bundle ID lookup."
   lane :asc_verify do
@@ -61,5 +98,44 @@ platform :ios do
       )
       UI.success("Registered bundle ID #{bid}")
     end
+  end
+
+  desc "Archive Release and export an App Store IPA (signing via Xcode Automatic)."
+  lane :asc_build_appstore_ipa do
+    asc_run_gym_appstore!
+  end
+
+  desc "Upload an existing IPA to TestFlight (API key). Set ipa: or IPA_PATH."
+  lane :asc_upload_ipa do |options|
+    ipa = asc_resolve_ipa!(options)
+    api_key = asc_api_key_lane!
+
+    upload_to_testflight(
+      api_key: api_key,
+      ipa: ipa,
+      skip_waiting_for_build_processing: ENV["ASC_SKIP_WAIT"] == "1",
+      distribute_external: false,
+      changelog: ENV["ASC_WHATS_NEW"]
+    )
+  end
+
+  desc "Build App Store IPA then upload to TestFlight. Same env as asc_upload_ipa; optional skip_build:true ipa:path"
+  lane :asc_ship_testflight do |options|
+    ipa_path =
+      if options[:skip_build]
+        asc_resolve_ipa!(options)
+      else
+        asc_run_gym_appstore!
+        File.expand_path("build/TankRadar.ipa", Dir.pwd)
+      end
+
+    api_key = asc_api_key_lane!
+    upload_to_testflight(
+      api_key: api_key,
+      ipa: ipa_path,
+      skip_waiting_for_build_processing: ENV["ASC_SKIP_WAIT"] == "1",
+      distribute_external: false,
+      changelog: ENV["ASC_WHATS_NEW"]
+    )
   end
 end

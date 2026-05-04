@@ -31,6 +31,30 @@ Verify App Store Connect API key (JWT): token + list apps + bundle ID lookup.
 
 Register the iOS bundle identifier via Connect API (safe if it already exists).
 
+### ios asc_build_appstore_ipa
+
+```sh
+[bundle exec] fastlane ios asc_build_appstore_ipa
+```
+
+Archive Release and export an App Store IPA (signing via Xcode Automatic).
+
+### ios asc_upload_ipa
+
+```sh
+[bundle exec] fastlane ios asc_upload_ipa
+```
+
+Upload an existing IPA to TestFlight (API key). Set ipa: or IPA_PATH.
+
+### ios asc_ship_testflight
+
+```sh
+[bundle exec] fastlane ios asc_ship_testflight
+```
+
+Build App Store IPA then upload to TestFlight. Same env as asc_upload_ipa; optional skip_build:true ipa:path
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
