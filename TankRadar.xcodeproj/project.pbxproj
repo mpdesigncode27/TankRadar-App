@@ -20,7 +20,9 @@
 		F50300000000000000000002 /* StationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51100000000000000000002 /* StationTests.swift */; };
 		F50400000000000000000001 /* station-list-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = F51200000000000000000001 /* station-list-sample.json */; };
 		F50400000000000000000002 /* station-price-false-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = F51200000000000000000002 /* station-price-false-sample.json */; };
+		F50400000000000000000003 /* tankerkoenig-list-ok-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = F51200000000000000000003 /* tankerkoenig-list-ok-sample.json */; };
 		F60200000000000000000001 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60100000000000000000001 /* LocationService.swift */; };
+		F60600000000000000000002 /* TankerkoenigClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60500000000000000000001 /* TankerkoenigClient.swift */; };
 		F60300000000000000000001 /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61100000000000000000001 /* LocationServiceTests.swift */; };
 		F37600000000000000000001 /* TRSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37500000000000000000001 /* TRSpacing.swift */; };
 		F37600000000000000000002 /* TRRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37500000000000000000002 /* TRRadius.swift */; };
@@ -32,6 +34,7 @@
 		F37600000000000000000008 /* TRGlassPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37500000000000000000008 /* TRGlassPill.swift */; };
 		F37600000000000000000009 /* TRDesignSystemPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37500000000000000000009 /* TRDesignSystemPreview.swift */; };
 		F51600000000000000000001 /* TRDesignTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51500000000000000000001 /* TRDesignTokenTests.swift */; };
+		F51900000000000000000001 /* TankerkoenigClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51800000000000000000001 /* TankerkoenigClientTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +71,9 @@
 		F51100000000000000000002 /* StationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTests.swift; sourceTree = "<group>"; };
 		F51200000000000000000001 /* station-list-sample.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "station-list-sample.json"; sourceTree = "<group>"; };
 		F51200000000000000000002 /* station-price-false-sample.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "station-price-false-sample.json"; sourceTree = "<group>"; };
+		F51200000000000000000003 /* tankerkoenig-list-ok-sample.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "tankerkoenig-list-ok-sample.json"; sourceTree = "<group>"; };
 		F60100000000000000000001 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		F60500000000000000000001 /* TankerkoenigClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankerkoenigClient.swift; sourceTree = "<group>"; };
 		F61100000000000000000001 /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
 		F37500000000000000000001 /* TRSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRSpacing.swift; sourceTree = "<group>"; };
 		F37500000000000000000002 /* TRRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRRadius.swift; sourceTree = "<group>"; };
@@ -80,6 +85,7 @@
 		F37500000000000000000008 /* TRGlassPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRGlassPill.swift; sourceTree = "<group>"; };
 		F37500000000000000000009 /* TRDesignSystemPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRDesignSystemPreview.swift; sourceTree = "<group>"; };
 		F51500000000000000000001 /* TRDesignTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRDesignTokenTests.swift; sourceTree = "<group>"; };
+		F51800000000000000000001 /* TankerkoenigClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankerkoenigClientTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +156,7 @@
 				F51100000000000000000002 /* StationTests.swift */,
 				F61100000000000000000001 /* LocationServiceTests.swift */,
 				F51500000000000000000001 /* TRDesignTokenTests.swift */,
+				F51800000000000000000001 /* TankerkoenigClientTests.swift */,
 				F51300000000000000000001 /* Fixtures */,
 			);
 			path = TankRadarTests;
@@ -206,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				F60100000000000000000001 /* LocationService.swift */,
+				F60500000000000000000001 /* TankerkoenigClient.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -249,6 +257,7 @@
 			children = (
 				F51200000000000000000001 /* station-list-sample.json */,
 				F51200000000000000000002 /* station-price-false-sample.json */,
+				F51200000000000000000003 /* tankerkoenig-list-ok-sample.json */,
 			);
 			path = Fixtures;
 			sourceTree = "<group>";
@@ -359,6 +368,7 @@
 			files = (
 				F50400000000000000000001 /* station-list-sample.json in Resources */,
 				F50400000000000000000002 /* station-price-false-sample.json in Resources */,
+				F50400000000000000000003 /* tankerkoenig-list-ok-sample.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +385,7 @@
 				F50200000000000000000001 /* FuelType.swift in Sources */,
 				F50200000000000000000002 /* Station.swift in Sources */,
 				F60200000000000000000001 /* LocationService.swift in Sources */,
+				F60600000000000000000002 /* TankerkoenigClient.swift in Sources */,
 				F37400000000000000000001 /* TRDesignPaletteNotes.swift in Sources */,
 				F37600000000000000000001 /* TRSpacing.swift in Sources */,
 				F37600000000000000000002 /* TRRadius.swift in Sources */,
@@ -396,6 +407,7 @@
 				F50300000000000000000002 /* StationTests.swift in Sources */,
 				F60300000000000000000001 /* LocationServiceTests.swift in Sources */,
 				F51600000000000000000001 /* TRDesignTokenTests.swift in Sources */,
+				F51900000000000000000001 /* TankerkoenigClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
