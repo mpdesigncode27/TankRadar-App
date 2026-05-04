@@ -24,3 +24,6 @@ AuthKey_*.p8
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
+
+# AXe CLI smoke output (scripts/build-run-and-axe.sh, run-axe-batch.sh)
+scripts/axe/output/

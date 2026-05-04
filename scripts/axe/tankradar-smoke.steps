@@ -1,0 +1,14 @@
+# TankRadar — AXe smoke batch (https://www.axe-cli.com/)
+# Ausführen via: ./scripts/build-run-and-axe.sh
+# Oder App manuell starten, dann: ./scripts/run-axe-batch.sh
+#
+# Pfade für screenshot sind relativ zum Repo-Root (run-axe-batch.sh cd't dorthin).
+
+sleep 3
+screenshot --output scripts/axe/output/tankradar-launch.png
+
+# Optional: Einstellungen-Sheet und zurück (Labels aus MapScreen.swift / SettingsView.swift)
+# tap --label "Einstellungen" --wait-timeout 20
+# sleep 1
+# tap --label "Schließen" --wait-timeout 10
+# screenshot --output scripts/axe/output/tankradar-after-settings.png

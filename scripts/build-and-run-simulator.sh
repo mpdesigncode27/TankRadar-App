@@ -5,6 +5,8 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
+# shellcheck source=simulator-env.sh
+source "${ROOT}/scripts/simulator-env.sh"
 
 SCHEME="${SCHEME:-TankRadar}"
 SIMULATOR_NAME="${SIMULATOR_NAME:-iPhone 17}"
@@ -27,15 +29,7 @@ wait_for_build_lock() {
 }
 wait_for_build_lock
 
-resolve_udid() {
-  xcrun simctl list devices available 2>/dev/null \
-    | grep "${SIMULATOR_NAME} (" \
-    | head -1 \
-    | grep -oE '[A-F0-9]{8}-([A-F0-9]{4}-){3}[A-F0-9]{12}' \
-    | head -1
-}
-
-UDID="$(resolve_udid)"
+UDID="$(tankradar_resolve_simulator_udid)"
 if [[ -z "${UDID}" ]]; then
   echo "TankRadar: Kein Simulator „${SIMULATOR_NAME}“ gefunden. SIMULATOR_NAME anpassen oder Gerät in Xcode installieren." >&2
   exit 1

@@ -10,6 +10,7 @@
 - Expectations include strong Swift and SwiftUI quality, automated tests where appropriate, and alignment with current Apple Human Interface Guidelines alongside Liquid Glass styling.
 - When ticket work is finished (merged or otherwise complete), update the relevant Linear issue and delete or prune feature branches that are fully merged and no longer needed.
 - **TankRadar / iOS:** Nach relevanten Codeänderungen oder zur Verifikation **immer neu bauen und die App im Simulator starten** — bevorzugt `./scripts/build-and-run-simulator.sh` (legt Derived Data unter `.derived-data-ios/`, installiert auf den gewählten Simulator und startet `com.vibecoding.TankRadar`). Bei Bedarf vorher `open -a Simulator` bzw. Zielgerät per `SIMULATOR_NAME` anpassen.
+- **AXe CLI** ([axe-cli.com](https://www.axe-cli.com/)): Für Simulator-UI-Flows (Screenshot, `describe-ui`, `axe batch`) nach `./scripts/build-run-and-axe.sh` oder nur `./scripts/run-axe-batch.sh`; Schritte in `scripts/axe/*.steps`. Skill: `~/.agents/skills/axe/SKILL.md` (oder `axe init` für lokale Kopie). Install: `brew tap cameroncooke/axe && brew install axe`.
 
 ## Learned Workspace Facts
 
