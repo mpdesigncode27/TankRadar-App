@@ -60,6 +60,8 @@
 		F65010000000000000000004 /* StationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65000000000000000000004 /* StationEntity.swift */; };
 		F65010000000000000000005 /* StationQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65000000000000000000005 /* StationQuery.swift */; };
 		F65110000000000000000001 /* StationIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65100000000000000000001 /* StationIntentTests.swift */; };
+		F65410000000000000000001 /* QueryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65400000000000000000001 /* QueryService.swift */; };
+		F65410000000000000000002 /* QueryServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65400000000000000000002 /* QueryServiceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +139,8 @@
 		F65000000000000000000004 /* StationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationEntity.swift; sourceTree = "<group>"; };
 		F65000000000000000000005 /* StationQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationQuery.swift; sourceTree = "<group>"; };
 		F65100000000000000000001 /* StationIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationIntentTests.swift; sourceTree = "<group>"; };
+		F65400000000000000000001 /* QueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryService.swift; sourceTree = "<group>"; };
+		F65400000000000000000002 /* QueryServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryServiceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +215,7 @@
 				F51500000000000000000001 /* TRDesignTokenTests.swift */,
 				F51800000000000000000001 /* TankerkoenigClientTests.swift */,
 				F52000000000000000000001 /* StationStoreTests.swift */,
+				F65400000000000000000002 /* QueryServiceTests.swift */,
 				F52400000000000000000001 /* AppSettingsTests.swift */,
 				F52400000000000000000002 /* StationVoiceOverCopyTests.swift */,
 				F64000000000000000000003 /* SubscriptionConstantsTests.swift */,
@@ -280,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				F60100000000000000000001 /* LocationService.swift */,
+				F65400000000000000000001 /* QueryService.swift */,
 				F60500000000000000000001 /* TankerkoenigClient.swift */,
 				F60700000000000000000001 /* StationFetching.swift */,
 				F60700000000000000000002 /* StationStore.swift */,
@@ -477,6 +483,7 @@
 				F60600000000000000000002 /* TankerkoenigClient.swift in Sources */,
 				F60710000000000000000001 /* StationFetching.swift in Sources */,
 				F60710000000000000000002 /* StationStore.swift in Sources */,
+				F65410000000000000000001 /* QueryService.swift in Sources */,
 				F62B10000000000000000001 /* BundledMockStationFetcher.swift in Sources */,
 				F62C10000000000000000001 /* StationStoreFactory.swift in Sources */,
 				F60810000000000000000001 /* MapScreen.swift in Sources */,
@@ -514,6 +521,7 @@
 				F51600000000000000000001 /* TRDesignTokenTests.swift in Sources */,
 				F51900000000000000000001 /* TankerkoenigClientTests.swift in Sources */,
 				F52100000000000000000001 /* StationStoreTests.swift in Sources */,
+				F65410000000000000000002 /* QueryServiceTests.swift in Sources */,
 				F52410000000000000000001 /* AppSettingsTests.swift in Sources */,
 				F52430000000000000000001 /* StationVoiceOverCopyTests.swift in Sources */,
 				F64110000000000000000002 /* SubscriptionConstantsTests.swift in Sources */,

@@ -26,7 +26,7 @@ final class StationStore {
     /// Letzter Fehler für UI/Debug (z. B. `LocalizedError`); bei Erfolg `nil`.
     private(set) var lastError: Error?
 
-    private let fetcher: any StationFetching
+    private let queryService: QueryService
     private let clock: () -> Date
     private let minimumDisplacementMeters: Double
     private let minimumFetchInterval: TimeInterval
@@ -42,7 +42,7 @@ final class StationStore {
         minimumDisplacementMeters: Double = 500,
         minimumFetchInterval: TimeInterval = 30
     ) {
-        self.fetcher = fetcher
+        self.queryService = QueryService(fetcher: fetcher)
         self.clock = clock
         self.minimumDisplacementMeters = minimumDisplacementMeters
         self.minimumFetchInterval = minimumFetchInterval
@@ -103,7 +103,7 @@ final class StationStore {
         fetchTask = Task { [weak self] in
             guard let self else { return }
             do {
-                let list = try await fetcher.fetchStations(latitude: lat, longitude: lng, radiusKm: radiusKm)
+                let list = try await queryService.fetchStationsSortedByDistance(latitude: lat, longitude: lng, radiusKm: radiusKm)
                 try Task.checkCancellation()
                 self.applySuccess(list, reference: capturedLocation)
             } catch is CancellationError {
