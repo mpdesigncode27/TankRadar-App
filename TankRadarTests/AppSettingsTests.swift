@@ -6,6 +6,10 @@ struct AppSettingsTests {
     @Test func userDefaultsKeysMatchMapAndSettings() {
         #expect(AppSettings.UserDefaultsKey.preferredFuelType == "tr.preferredFuelType")
         #expect(AppSettings.UserDefaultsKey.searchRadiusKm == "tr.searchRadiusKm")
+        #expect(AppSettings.UserDefaultsKey.locationCacheLatitude == "tr.locationCache.latitude")
+        #expect(AppSettings.UserDefaultsKey.locationCacheLongitude == "tr.locationCache.longitude")
+        #expect(AppSettings.UserDefaultsKey.locationCacheHorizontalAccuracy == "tr.locationCache.horizontalAccuracy")
+        #expect(AppSettings.UserDefaultsKey.locationCacheRecordedAt == "tr.locationCache.recordedAt")
     }
 
     @Test func searchRadiusBounds() {
