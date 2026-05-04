@@ -9,4 +9,5 @@ alwaysApply: true
 - **Basis immer `main`:** Neuen Branch nur von **aktuellem `main`** abzweigen — nicht von anderen Feature-Branches und nicht von einem Namensraum, der wie ein zweiter Integrations-Branch wirkt. Praktisch: `git fetch origin`, `git checkout main`, `git pull origin main`, dann `git checkout -b …`.
 - **Branch-Name:** **`feature/TAN-XX-kurz-slug`** (Ticket-ID + kurzer Slug). Kein GitHub-/Linear-Nutzerpräfix wie `mpdesigncode27/…` — das ist ein Remote-Benutzername, keine Branch-Basis. Linears „Copy git branch name“ oft mit Benutzerpräfix ignorieren und stattdessen das Schema oben verwenden (Branch ↔ Ticket bleibt über `TAN-XX` eindeutig).
 - **Merge:** Änderungen über **Pull Request** in `main` (oder den Integrations-Branch des Teams) bringen; im PR Link zum Ticket und Checkliste aus der Issue-Description, wenn vorhanden.
+- **Nach dem Merge:** Den **Ticket-Branch löschen** — lokal (`git branch -d …`) und auf dem Remote (`git push origin --delete …`), sobald der PR in `main` ist und nichts Offenes auf dem Branch hängt.
 - **Ausnahme:** Nur ausdrücklich besprochene Hotfixes dürfen von dieser Regel abweichen.
