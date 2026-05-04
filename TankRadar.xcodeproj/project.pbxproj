@@ -11,7 +11,12 @@
 		800000000000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300000000000000000000002 /* ContentView.swift */; };
 		800000000000000000000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 300000000000000000000003 /* Assets.xcassets */; };
 		F20000000000000000000001 /* APIKeys.example.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000001 /* APIKeys.example.swift */; };
-		800000000000000000000004 /* TankRadarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400000000000000000000001 /* TankRadarTests.swift */; };
+		F50200000000000000000001 /* FuelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50100000000000000000001 /* FuelType.swift */; };
+		F50200000000000000000002 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50100000000000000000002 /* Station.swift */; };
+		F50300000000000000000001 /* FuelTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51100000000000000000001 /* FuelTypeTests.swift */; };
+		F50300000000000000000002 /* StationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51100000000000000000002 /* StationTests.swift */; };
+		F50400000000000000000001 /* station-list-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = F51200000000000000000001 /* station-list-sample.json */; };
+		F50400000000000000000002 /* station-price-false-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = F51200000000000000000002 /* station-price-false-sample.json */; };
 		800000000000000000000005 /* TankRadarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500000000000000000000001 /* TankRadarUITests.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,7 +45,12 @@
 		300000000000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		300000000000000000000003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F10000000000000000000001 /* APIKeys.example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.example.swift; sourceTree = "<group>"; };
-		400000000000000000000001 /* TankRadarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankRadarTests.swift; sourceTree = "<group>"; };
+		F50100000000000000000001 /* FuelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuelType.swift; sourceTree = "<group>"; };
+		F50100000000000000000002 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
+		F51100000000000000000001 /* FuelTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuelTypeTests.swift; sourceTree = "<group>"; };
+		F51100000000000000000002 /* StationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationTests.swift; sourceTree = "<group>"; };
+		F51200000000000000000001 /* station-list-sample.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "station-list-sample.json"; sourceTree = "<group>"; };
+		F51200000000000000000002 /* station-price-false-sample.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "station-price-false-sample.json"; sourceTree = "<group>"; };
 		500000000000000000000001 /* TankRadarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankRadarUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,6 +164,8 @@
 		F36000000000000000000001 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F50100000000000000000001 /* FuelType.swift */,
+				F50100000000000000000002 /* Station.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -175,9 +187,20 @@
 		600000000000000000000004 /* TankRadarTests */ = {
 			isa = PBXGroup;
 			children = (
-				400000000000000000000001 /* TankRadarTests.swift */,
+				F51100000000000000000001 /* FuelTypeTests.swift */,
+				F51100000000000000000002 /* StationTests.swift */,
+				F51300000000000000000001 /* Fixtures */,
 			);
 			path = TankRadarTests;
+			sourceTree = "<group>";
+		};
+		F51300000000000000000001 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				F51200000000000000000001 /* station-list-sample.json */,
+				F51200000000000000000002 /* station-price-false-sample.json */,
+			);
+			path = Fixtures;
 			sourceTree = "<group>";
 		};
 		600000000000000000000005 /* TankRadarUITests */ = {
@@ -214,6 +237,7 @@
 			buildPhases = (
 				700000000000000000000011 /* Sources */,
 				700000000000000000000012 /* Frameworks */,
+				700000000000000000000013 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -286,6 +310,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		700000000000000000000013 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F50400000000000000000001 /* station-list-sample.json in Resources */,
+				F50400000000000000000002 /* station-price-false-sample.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -296,6 +329,8 @@
 				800000000000000000000001 /* TankRadarApp.swift in Sources */,
 				800000000000000000000002 /* ContentView.swift in Sources */,
 				F20000000000000000000001 /* APIKeys.example.swift in Sources */,
+				F50200000000000000000001 /* FuelType.swift in Sources */,
+				F50200000000000000000002 /* Station.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,7 +338,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				800000000000000000000004 /* TankRadarTests.swift in Sources */,
+				F50300000000000000000001 /* FuelTypeTests.swift in Sources */,
+				F50300000000000000000002 /* StationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

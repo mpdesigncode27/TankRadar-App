@@ -1,0 +1,15 @@
+{
+  "id": "60c0eefa-d2a8-4f5c-82cc-b5244ecae955",
+  "name": "Beispiel",
+  "brand": "BRAND",
+  "street": "HAUPTSTR.",
+  "houseNumber": "1",
+  "place": "MUENCHEN",
+  "postCode": 80331,
+  "lat": 48.137154,
+  "lng": 11.576124,
+  "isOpen": true,
+  "e5": false,
+  "e10": false,
+  "diesel": 1.189
+}
