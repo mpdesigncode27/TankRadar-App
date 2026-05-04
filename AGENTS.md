@@ -2,7 +2,7 @@
 
 - Git ticket branches must branch off **updated `main`** only (never off another feature branch). Prefer branch names **`feature/TAN-XX-short-slug`** — avoid Linear/GitHub-style prefixes such as `mpdesigncode27/` before the ticket slug.
 - Before implementing tickets that involve Tankerkönig (API shapes, networking, station/price models), read `.cursor/skills/tankerkoenig-api/SKILL.md`, verify the ticket matches the real API, and update the Linear issue if specs drift.
-- When marking a Linear ticket complete, attach at least one screenshot or short screen recording of the implementation to the issue (Simulator or device), unless the work is purely non-visual—in that case attach an alternative proof such as an Xcode test-run screenshot and note it in the closing comment.
+- When marking a Linear ticket complete, attach at least one screenshot or short screen recording of the implementation to the issue (Simulator or device), unless the work is purely non-visual—in that case attach an alternative proof such as an Xcode test-run screenshot and note it in the closing comment. Store capture files under **`.linear-evidence/`** (gitignored); naming pattern **`TAN-XX-short-description.png`** (or `.mov`/`.mp4`). See `.cursor/rules/ticket-branch-workflow.mdc` § „Visueller Nachweis — konkret“.
 - When planning SDD-style work, track scope with Linear issues per task and keep those issues updated as implementation progresses.
 - Linear issues should include explicit acceptance criteria so completion can be verified objectively.
 - Linear issues should include a concise opening statement of the ticket’s goal and intended outcome.

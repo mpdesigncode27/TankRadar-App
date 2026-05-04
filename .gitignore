@@ -12,3 +12,6 @@ playground.xcworkspace
 .build/
 APIKeys.swift
 .cursor/hooks/state/
+
+# Lokale Screenshots/Videos für Linear-Ticket-Nachweise (nicht committen)
+.linear-evidence/
