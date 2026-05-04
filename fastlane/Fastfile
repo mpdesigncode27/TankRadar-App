@@ -46,7 +46,7 @@ def asc_resolve_ipa!(options)
 end
 
 def asc_run_gym_appstore!
-  gym(
+  opts = {
     project: "FuelNow.xcodeproj",
     scheme: "FuelNow",
     configuration: "Release",
@@ -55,7 +55,11 @@ def asc_run_gym_appstore!
     output_directory: "build",
     output_name: "FuelNow.ipa",
     clean: true
-  )
+  }
+  tid = ENV["ASC_EXPORT_TEAM_ID"]&.strip
+  opts[:export_team_id] = tid unless tid.nil? || tid.empty?
+
+  gym(opts)
 end
 
 platform :ios do

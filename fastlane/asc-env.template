@@ -15,5 +15,6 @@
 # Optional:
 #   export ASC_SKIP_WAIT=1
 #   export ASC_WHATS_NEW="Fixes…"
+#   export ASC_EXPORT_TEAM_ID="XXXXXXXXXX"   # bei Export „No profiles found“ / mehrere Teams
 #
 # Or: source gitignored `.env.asc.local` from repo root (loaded by ./scripts/asc.sh)
