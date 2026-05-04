@@ -27,7 +27,7 @@ platform :ios do
     apps = Spaceship::ConnectAPI::App.all
     UI.success("ASC API OK — #{apps.count} app record(s) visible.")
 
-    bid = "com.tankradar.TankRadar"
+    bid = "com.vibecoding.TankRadar"
     bundle = Spaceship::ConnectAPI::BundleId.find(bid)
     if bundle
       UI.success("Developer bundle ID exists: #{bundle.identifier}")
@@ -50,7 +50,7 @@ platform :ios do
   desc "Register the iOS bundle identifier via Connect API (safe if it already exists)."
   lane :asc_register_bundle_id do
     Spaceship::ConnectAPI.token = asc_load_token!
-    bid = "com.tankradar.TankRadar"
+    bid = "com.vibecoding.TankRadar"
     existing = Spaceship::ConnectAPI::BundleId.find(bid)
     if existing
       UI.success("Bundle ID already registered: #{existing.identifier}")

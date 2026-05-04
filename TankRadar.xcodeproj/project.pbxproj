@@ -10,7 +10,10 @@
 		800000000000000000000001 /* TankRadarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300000000000000000000001 /* TankRadarApp.swift */; };
 		800000000000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300000000000000000000002 /* ContentView.swift */; };
 		800000000000000000000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 300000000000000000000003 /* Assets.xcassets */; };
+		800000000000000000000005 /* TankRadarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500000000000000000000001 /* TankRadarUITests.swift */; };
 		F20000000000000000000001 /* APIKeys.example.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000001 /* APIKeys.example.swift */; };
+		F37300000000000000000001 /* TRDesignAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F37100000000000000000001 /* TRDesignAssets.xcassets */; };
+		F37400000000000000000001 /* TRDesignPaletteNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37200000000000000000001 /* TRDesignPaletteNotes.swift */; };
 		F50200000000000000000001 /* FuelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50100000000000000000001 /* FuelType.swift */; };
 		F50200000000000000000002 /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50100000000000000000002 /* Station.swift */; };
 		F50300000000000000000001 /* FuelTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51100000000000000000001 /* FuelTypeTests.swift */; };
@@ -19,9 +22,6 @@
 		F50400000000000000000002 /* station-price-false-sample.json in Resources */ = {isa = PBXBuildFile; fileRef = F51200000000000000000002 /* station-price-false-sample.json */; };
 		F60200000000000000000001 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60100000000000000000001 /* LocationService.swift */; };
 		F60300000000000000000001 /* LocationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61100000000000000000001 /* LocationServiceTests.swift */; };
-		800000000000000000000005 /* TankRadarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500000000000000000000001 /* TankRadarUITests.swift */; };
-		F37300000000000000000001 /* TRDesignAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F37100000000000000000001 /* TRDesignAssets.xcassets */; };
-		F37400000000000000000001 /* TRDesignPaletteNotes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37200000000000000000001 /* TRDesignPaletteNotes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +48,10 @@
 		300000000000000000000001 /* TankRadarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankRadarApp.swift; sourceTree = "<group>"; };
 		300000000000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		300000000000000000000003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		500000000000000000000001 /* TankRadarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankRadarUITests.swift; sourceTree = "<group>"; };
 		F10000000000000000000001 /* APIKeys.example.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.example.swift; sourceTree = "<group>"; };
+		F37100000000000000000001 /* TRDesignAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TRDesignAssets.xcassets; sourceTree = "<group>"; };
+		F37200000000000000000001 /* TRDesignPaletteNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRDesignPaletteNotes.swift; sourceTree = "<group>"; };
 		F50100000000000000000001 /* FuelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuelType.swift; sourceTree = "<group>"; };
 		F50100000000000000000002 /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		F51100000000000000000001 /* FuelTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuelTypeTests.swift; sourceTree = "<group>"; };
@@ -57,9 +60,6 @@
 		F51200000000000000000002 /* station-price-false-sample.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "station-price-false-sample.json"; sourceTree = "<group>"; };
 		F60100000000000000000001 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		F61100000000000000000001 /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
-		500000000000000000000001 /* TankRadarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankRadarUITests.swift; sourceTree = "<group>"; };
-		F37100000000000000000001 /* TRDesignAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TRDesignAssets.xcassets; sourceTree = "<group>"; };
-		F37200000000000000000001 /* TRDesignPaletteNotes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRDesignPaletteNotes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +121,25 @@
 				F30000000000000000000001 /* Support */,
 			);
 			path = TankRadar;
+			sourceTree = "<group>";
+		};
+		600000000000000000000004 /* TankRadarTests */ = {
+			isa = PBXGroup;
+			children = (
+				F51100000000000000000001 /* FuelTypeTests.swift */,
+				F51100000000000000000002 /* StationTests.swift */,
+				F61100000000000000000001 /* LocationServiceTests.swift */,
+				F51300000000000000000001 /* Fixtures */,
+			);
+			path = TankRadarTests;
+			sourceTree = "<group>";
+		};
+		600000000000000000000005 /* TankRadarUITests */ = {
+			isa = PBXGroup;
+			children = (
+				500000000000000000000001 /* TankRadarUITests.swift */,
+			);
+			path = TankRadarUITests;
 			sourceTree = "<group>";
 		};
 		F30000000000000000000001 /* Support */ = {
@@ -195,17 +214,6 @@
 			path = Intents;
 			sourceTree = "<group>";
 		};
-		600000000000000000000004 /* TankRadarTests */ = {
-			isa = PBXGroup;
-			children = (
-				F51100000000000000000001 /* FuelTypeTests.swift */,
-				F51100000000000000000002 /* StationTests.swift */,
-				F61100000000000000000001 /* LocationServiceTests.swift */,
-				F51300000000000000000001 /* Fixtures */,
-			);
-			path = TankRadarTests;
-			sourceTree = "<group>";
-		};
 		F51300000000000000000001 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
@@ -213,14 +221,6 @@
 				F51200000000000000000002 /* station-price-false-sample.json */,
 			);
 			path = Fixtures;
-			sourceTree = "<group>";
-		};
-		600000000000000000000005 /* TankRadarUITests */ = {
-			isa = PBXGroup;
-			children = (
-				500000000000000000000001 /* TankRadarUITests.swift */,
-			);
-			path = TankRadarUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -345,7 +345,7 @@
 				F50200000000000000000001 /* FuelType.swift in Sources */,
 				F50200000000000000000002 /* Station.swift in Sources */,
 				F60200000000000000000001 /* LocationService.swift in Sources */,
-				F37400000000000000000001 /* TRColorCatalog.swift in Sources */,
+				F37400000000000000000001 /* TRDesignPaletteNotes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,7 +508,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
@@ -523,7 +522,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tankradar.TankRadar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vibecoding.TankRadar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -538,7 +537,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
@@ -553,7 +551,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tankradar.TankRadar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vibecoding.TankRadar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_STRICT_CONCURRENCY = complete;
@@ -570,7 +568,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tankradar.TankRadarTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vibecoding.TankRadarTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
@@ -587,7 +585,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tankradar.TankRadarTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vibecoding.TankRadarTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
@@ -603,7 +601,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tankradar.TankRadarUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vibecoding.TankRadarUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
@@ -619,7 +617,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tankradar.TankRadarUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vibecoding.TankRadarUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
