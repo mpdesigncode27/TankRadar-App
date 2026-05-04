@@ -5,6 +5,7 @@ opt_out_usage
 default_platform(:ios)
 
 ASC_ENV_VARS = %w[ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_PATH].freeze
+FASTLANE_ROOT = File.expand_path(__dir__).freeze
 
 def asc_load_token!
   missing = ASC_ENV_VARS.reject { |k| ENV[k] && !ENV[k].strip.empty? }
@@ -50,7 +51,7 @@ def asc_run_gym_appstore!
     scheme: "FuelNow",
     configuration: "Release",
     export_method: "app-store",
-    export_options: "#{FastlaneCore::FastlaneFolder.path}/ExportOptions.appstore.plist",
+    export_options: File.join(FASTLANE_ROOT, "ExportOptions.appstore.plist"),
     output_directory: "build",
     output_name: "FuelNow.ipa",
     clean: true
