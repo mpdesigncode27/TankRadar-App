@@ -16,7 +16,7 @@
 
 ## StoreKit Testing (FuelNow Plus, TAN-43)
 
-- Konfiguration: **`FuelNowPlus.storekit`** (Jahresabo `com.vibecoding.FuelNow.subscription.year`, Gruppe „FuelNow Plus“). Produkt-ID gehört auch zu **`SubscriptionConstants`** im Target.
+- Konfiguration: **`FuelNowPlus.storekit`** (Jahresabo `com.vibecoding.fuelnow.subscription.year`, Gruppe „FuelNow Plus“). Produkt-ID gehört auch zu **`SubscriptionConstants`** im Target.
 - Scheme **FuelNow** nutzt diese Datei beim **Run** (lokale Transaktionen ohne Sandbox-Account).
 - In Xcode: **Debug → StoreKit → Manage Transactions…** bzw. Transaction Inspector nutzen, um Kauf, Renewal und Ablauf zu simulieren.
 - App Store Connect ([TAN-42](https://linear.app/tankradar-app/issue/TAN-42)): dieselbe Product-ID anlegen und mit der `.storekit`-Datei abgleichen — Details unten.
@@ -29,9 +29,9 @@ Die Jahres-Subscription wird **in App Store Connect** angelegt; ohne dieses Prod
 
 | | |
 | --- | --- |
-| **Bundle-ID der App** | `com.vibecoding.FuelNow` (siehe Xcode / [TAN-73](https://linear.app/tankradar-app/issue/TAN-73)) |
+| **Bundle-ID der App** | `com.vibecoding.fuelnow` (siehe Xcode / [TAN-73](https://linear.app/tankradar-app/issue/TAN-73)) |
 | **Subscription Group** (Anzeigename) | z. B. **FuelNow Plus** — konsistent mit `FuelNowPlus.storekit` |
-| **Product-ID** | **`com.vibecoding.FuelNow.subscription.year`** — **identisch** zu `SubscriptionConstants.plusYearlyProductID` und zum Feld `productID` in `FuelNowPlus.storekit` |
+| **Product-ID** | **`com.vibecoding.fuelnow.subscription.year`** — **identisch** zu `SubscriptionConstants.plusYearlyProductID` und zum Feld `productID` in `FuelNowPlus.storekit` |
 | **Typ / Laufzeit** | Auto-Renewable Subscription, **1 Jahr** |
 | **Basispreis** | In ASC das Preisniveau wählen, das zur geplanten **ca. 6 €/Jahr**-Position passt (Endpreise sind länderabhängig; **nicht** als Literal in der App-UI hardcodieren — später nur StoreKit `displayPrice` / Lokalisierung nutzen) |
 

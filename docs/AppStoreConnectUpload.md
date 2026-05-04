@@ -4,7 +4,7 @@ Das Repo nutzt **`./scripts/asc.sh`** → **Fastlane** mit einem **App Store Con
 
 ## Voraussetzungen
 
-1. App-Eintrag in App Store Connect für **`com.vibecoding.FuelNow`** (einmalig in der Web-UI).
+1. App-Eintrag in App Store Connect für **`com.vibecoding.fuelnow`** (einmalig in der Web-UI; Schreibweise wie in ASC).
 2. API Key unter *Users and Access → Integrations → App Store Connect API* mit ausreichender Rolle für Builds.
 3. **Signing:** Xcode *Release* mit Automatic Signing auf dem Mac, der archiviert. **`fastlane/Appfile`** → `team_id` muss dieselbe **Apple Team ID** sein wie unter *Signing & Capabilities* / `DEVELOPMENT_TEAM` im Xcode-Projekt (Mitgliedschaft: [developer.apple.com/account](https://developer.apple.com/account) → Membership details).
 
@@ -55,14 +55,14 @@ Vor dem ersten Lauf: `bundle install` im Repo-Root.
 | `ASC_WHATS_NEW` | „What to Test“ für TestFlight |
 | `ASC_EXPORT_TEAM_ID` | Optional: 10-stellige Team-ID, falls `gym` beim Export das Team nicht eindeutig zuordnet |
 
-## Fehler: „No profiles for 'com.vibecoding.FuelNow' were found“ (Export)
+## Fehler: „No profiles for 'com.vibecoding.fuelnow' were found“ (Export)
 
 Das **Archiv** kann erfolgreich sein, der Schritt **`exportArchive`** scheitert trotzdem: für die Bundle-ID fehlt ein **Distribution-/App-Store-Provisioning-Profil** (oder Xcode hat es noch nicht geladen).
 
 **Checkliste:**
 
 1. **[Certificates, Identifiers & Profiles](https://developer.apple.com/account/resources/identifiers/list)**  
-   - Identifier **`com.vibecoding.FuelNow`** existiert.  
+   - Identifier **`com.vibecoding.fuelnow`** existiert (exakt wie im Xcode-Projekt).  
    - Unter *Profiles* gibt es ein **App Store**-Profil für genau diese App-ID — oder du nutzt **Automatic Signing** und lässt Xcode das erzeugen.
 
 2. **Xcode** → Target **FuelNow** → **Signing & Capabilities**  
