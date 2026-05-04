@@ -12,10 +12,10 @@ WAIT="${AXE_LAUNCH_WAIT_SECONDS:-4}"
 echo "TankRadar: Warte ${WAIT}s auf UI …"
 sleep "${WAIT}"
 
-AXE_ARGS=()
-if [[ "${AXE_VERBOSE:-0}" == "1" ]]; then
-  AXE_ARGS+=(--verbose)
-fi
-
 STEPS="${AXE_STEPS_FILE:-${ROOT}/scripts/axe/tankradar-smoke.steps}"
-exec "${ROOT}/scripts/run-axe-batch.sh" "${STEPS}" "${AXE_ARGS[@]}"
+# Bash 3.2 + set -u: "${array[@]}" on an empty array can error ("unbound variable").
+if [[ "${AXE_VERBOSE:-0}" == "1" ]]; then
+  exec "${ROOT}/scripts/run-axe-batch.sh" "${STEPS}" --verbose
+else
+  exec "${ROOT}/scripts/run-axe-batch.sh" "${STEPS}"
+fi
