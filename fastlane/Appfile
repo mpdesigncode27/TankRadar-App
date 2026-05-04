@@ -1,4 +1,5 @@
 # frozen_string_literal: true
 
 app_identifier("com.vibecoding.FuelNow")
-team_id("B2P5VXJP3K")
+# Muss mit Xcode „Signing & Capabilities“ → Team / DEVELOPMENT_TEAM im Projekt übereinstimmen.
+team_id("FNXU97S3QK")
