@@ -40,15 +40,16 @@ set +e
 axe batch --file "${STEPS}" --udid "${UDID}" "$@"
 batch_status=$?
 set -e
-if [[ "${batch_status}" -ne 0 ]]; then
-  exit "${batch_status}"
-fi
 
 # axe batch unterstützt keine screenshot-Zeilen (nur tap/type/key/… und sleep).
-if [[ "${AXE_SKIP_POST_SCREENSHOT:-0}" == "1" ]]; then
-  exit 0
+# Post-Screenshot immer (auch bei Batch-Fehler), damit Agent/CI den letzten UI-Zustand sieht.
+if [[ "${AXE_SKIP_POST_SCREENSHOT:-0}" != "1" ]]; then
+  SHOT="${AXE_SCREENSHOT_PATH:-${OUT_DIR}/tankradar-launch.png}"
+  mkdir -p "$(dirname "${SHOT}")"
+  echo "TankRadar: axe screenshot → ${SHOT}"
+  if ! axe screenshot --udid "${UDID}" --output "${SHOT}"; then
+    echo "TankRadar: axe screenshot fehlgeschlagen (Simulator zu?)" >&2
+  fi
 fi
 
-SHOT="${AXE_SCREENSHOT_PATH:-${OUT_DIR}/tankradar-launch.png}"
-echo "TankRadar: axe screenshot → ${SHOT}"
-axe screenshot --udid "${UDID}" --output "${SHOT}"
+exit "${batch_status}"
