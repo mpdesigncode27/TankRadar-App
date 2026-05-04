@@ -19,7 +19,36 @@
 - Konfiguration: **`TankRadarPlus.storekit`** (Jahresabo `com.vibecoding.TankRadar.subscription.year`, Gruppe „TankRadar Plus“). Produkt-ID gehört auch zu **`SubscriptionConstants`** im Target.
 - Scheme **TankRadar** nutzt diese Datei beim **Run** (lokale Transaktionen ohne Sandbox-Account).
 - In Xcode: **Debug → StoreKit → Manage Transactions…** bzw. Transaction Inspector nutzen, um Kauf, Renewal und Ablauf zu simulieren.
-- App Store Connect ([TAN-42](https://linear.app/tankradar-app/issue/TAN-42)): dieselbe Product-ID anlegen und mit der `.storekit`-Datei abgleichen.
+- App Store Connect ([TAN-42](https://linear.app/tankradar-app/issue/TAN-42)): dieselbe Product-ID anlegen und mit der `.storekit`-Datei abgleichen — Details unten.
+
+## App Store Connect: TankRadar Plus ([TAN-42](https://linear.app/tankradar-app/issue/TAN-42))
+
+Die Jahres-Subscription wird **in App Store Connect** angelegt; ohne dieses Produkt liefert StoreKit in Sandbox/TestFlight keine kaufbare SKU. Die folgende Checkliste dient der **manuellen Validierung** und dem Abgleich mit Repo und Xcode.
+
+### Pflichtwerte (vor Einreichung bitte verifizieren)
+
+| | |
+| --- | --- |
+| **Bundle-ID der App** | `com.vibecoding.TankRadar` (siehe Xcode / [TAN-73](https://linear.app/tankradar-app/issue/TAN-73)) |
+| **Subscription Group** (Anzeigename) | z. B. **TankRadar Plus** — konsistent mit `TankRadarPlus.storekit` |
+| **Product-ID** | **`com.vibecoding.TankRadar.subscription.year`** — **identisch** zu `SubscriptionConstants.plusYearlyProductID` und zum Feld `productID` in `TankRadarPlus.storekit` |
+| **Typ / Laufzeit** | Auto-Renewable Subscription, **1 Jahr** |
+| **Basispreis** | In ASC das Preisniveau wählen, das zur geplanten **ca. 6 €/Jahr**-Position passt (Endpreise sind länderabhängig; **nicht** als Literal in der App-UI hardcodieren — später nur StoreKit `displayPrice` / Lokalisierung nutzen) |
+
+### Schritte in App Store Connect (überblick)
+
+1. **App** auswählen → **Subscriptions** (oder „In-App-Käufe“ je nach Oberfläche) → **Subscription Group** anlegen, falls noch keine existiert.
+2. **Subscription** in dieser Gruppe erstellen: Product-ID exakt wie oben (**nach Erstellung nicht änderbar**).
+3. **Lokalisierungen** mindestens **Deutsch** und **Englisch** anlegen — Anzeigenamen und Beschreibung analog zu den Einträgen in `TankRadarPlus.storekit` (`de_DE` / `en_US`); Texte dürfen leicht abweichen, die Product-ID nicht.
+4. **Review-Hinweise:** In den App-Review-Notizen oder der Produktbeschreibung klarstellen, dass **CarPlay** zu **TankRadar Plus** gehört (Akzeptanzkriterium im Ticket).
+5. **Sandbox:** Unter *Users and Access* einen **Sandbox Tester** anlegen; nach erstem Build mit Kauflogik mit diesem Account auf Gerät oder Simulator (Sandbox) prüfen, dass die Subscription geladen und gekauft werden kann.
+
+### Abgleich Repo ↔ ASC (Checkbox fürs Ticket)
+
+- [ ] Product-ID in ASC = Zeichenkette in `TankRadar/Support/SubscriptionConstants.swift`
+- [ ] Gleiche Product-ID in `TankRadarPlus.storekit` unter `productID`
+- [ ] App enthält **keinen** fest eingetragenen Jahresabo-Preis für die Plus-UI (aktuell keine Paywall — bei Implementierung nur dynamische StoreKit-Preise)
+- [ ] **Screenshot** der Abo-Produktseite in App Store Connect als Anhang an [TAN-42](https://linear.app/tankradar-app/issue/TAN-42)
 
 ## Simulator-UI: [AXe CLI](https://www.axe-cli.com/)
 
