@@ -67,3 +67,7 @@ Lokale UI-Automation (Taps, Screenshots, Batches) über die Accessibility-API �
 ## Siri & Kurzbefehle — QA ([TAN-53](https://linear.app/tankradar-app/issue/TAN-53/siri-shortcuts-qa-edge-cases-ohne-carplay-map))
 
 Manuelle Checkliste (Shortcuts-App, Siri DE/EN, Edge Cases, **ohne CarPlay**): **`docs/SiriShortcutsQA.md`**. Screenshots/Videos lokal erzeugen (**nicht** ins Repo) und am Linear-Issue **anhängen**.
+
+## CarPlay — Capability, Entitlement & Apple-Antrag ([TAN-54](https://linear.app/tankradar-app/issue/TAN-54))
+
+Vorbereitung der CarPlay-Fueling-Kategorie: Antragsdraft an Apple, Entitlement-Datei, Scene-Manifest-Snippet (für TAN-55) und Plan B (Limited UX): **[`docs/CARPLAY.md`](docs/CARPLAY.md)**. Die Entitlements-Datei `FuelNow/FuelNow.entitlements` ist committed und im Build-Setting verlinkt — Simulator-Builds funktionieren weiter, Device-Builds erst nach Apple-Approval.

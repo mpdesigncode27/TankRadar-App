@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+		CarPlay Fueling-Kategorie.
+
+		Nach Apple-Approval per https://developer.apple.com/contact/carplay aktiv.
+		Bis zur Genehmigung lehnt das Provisioning das Flag für Device-Builds ab —
+		Simulator-Builds sind davon nicht betroffen. Siehe `docs/CARPLAY.md`.
+
+		Der Wert MUSS Boolean YES bleiben (siehe Apple Developer Documentation:
+		`com.apple.developer.carplay-fueling`).
+	-->
+	<key>com.apple.developer.carplay-fueling</key>
+	<true/>
+</dict>
+</plist>
