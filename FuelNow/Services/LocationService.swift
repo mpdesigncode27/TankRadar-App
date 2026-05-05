@@ -64,8 +64,60 @@ struct LiveLocationStreamProvider: LocationStreamProviding {
     }
 }
 
+extension CLAuthorizationStatus {
+    /// `true` für `.authorizedWhenInUse` und `.authorizedAlways` — App darf den Standort nutzen.
+    var isAuthorizedForFuelNow: Bool {
+        self == .authorizedWhenInUse || self == .authorizedAlways
+    }
+}
+
+/// Hält den iOS-`CLLocationManager` über die App-Laufzeit hinweg lebendig (TAN-79).
+///
+/// Eine Wegwerf-`CLLocationManager()`-Instanz für die Permission-Anfrage ist fragil — Apple verlangt
+/// eine über die Anfrage hinaus gehaltene Instanz mit Delegate, sonst geht der System-Dialog/die
+/// Antwort verloren. Diese Klasse dient als Adapter, damit ``LocationService`` reaktiv auf
+/// Authorization-Wechsel reagieren kann (`locationManagerDidChangeAuthorization`).
+@MainActor
+final class LocationAuthorizationCenter: NSObject, CLLocationManagerDelegate {
+    private let manager = CLLocationManager()
+    private var changeHandler: (@MainActor (CLAuthorizationStatus) -> Void)?
+
+    override init() {
+        super.init()
+        manager.delegate = self
+    }
+
+    var currentStatus: CLAuthorizationStatus {
+        manager.authorizationStatus
+    }
+
+    /// Beobachtet künftige Authorization-Wechsel. Liefert den aktuellen Status sofort einmal mit.
+    func observeAuthorizationChanges(_ handler: @escaping @MainActor (CLAuthorizationStatus) -> Void) {
+        changeHandler = handler
+        handler(currentStatus)
+    }
+
+    /// Triggert den iOS-Permission-Dialog, wenn noch keine Entscheidung vorliegt. No-op sonst.
+    func requestWhenInUseAuthorizationIfNeeded() {
+        guard manager.authorizationStatus == .notDetermined else { return }
+        manager.requestWhenInUseAuthorization()
+    }
+
+    nonisolated func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        let status = manager.authorizationStatus
+        Task { @MainActor [weak self] in
+            self?.changeHandler?(status)
+        }
+    }
+}
+
 /// Live-Standort für die Karte. Optional `snapshotStore`: bei gesetztem Store wird jeder gültige Fix in
-/// denselben UserDefaults-Cache geschrieben wie ``LocationProvider`` (App Intents / Siri, ~2 min TTL).
+/// denselben UserDefaults-Cache geschrieben wie ``LocationProvider`` (App Intents / Siri, ~2 min TTL).
+///
+/// **Permission-Lifecycle (TAN-79):** Wird ohne expliziten `authorizationProvider` initialisiert,
+/// hält der Service einen ``LocationAuthorizationCenter`` und startet ``start()`` automatisch neu,
+/// sobald die Authorization von `.notDetermined` / `.denied` auf `.authorizedWhenInUse` /
+/// `.authorizedAlways` wechselt — damit der „Mein Standort"-Marker ohne App-Restart erscheint.
 @MainActor
 @Observable
 final class LocationService {
@@ -76,25 +128,49 @@ final class LocationService {
     private let streamProvider: any LocationStreamProviding
     private let authorizationProvider: @MainActor () -> CLAuthorizationStatus
     private let snapshotStore: (any LocationSnapshotStore)?
+    private let authorizationCenter: LocationAuthorizationCenter?
 
     private var updatesTask: Task<Void, Never>?
 
+    /// Produktiver Init: hält einen ``LocationAuthorizationCenter`` und reagiert reaktiv auf
+    /// iOS-Authorization-Wechsel (`CLLocationManagerDelegate`).
+    convenience init(snapshotStore: (any LocationSnapshotStore)? = nil) {
+        let center = LocationAuthorizationCenter()
+        self.init(
+            streamProvider: LiveLocationStreamProvider(),
+            authorizationProvider: { @MainActor in center.currentStatus },
+            snapshotStore: snapshotStore,
+            authorizationCenter: center
+        )
+    }
+
+    /// Test-/DI-Init: nimmt einen mockbaren `authorizationProvider` und optional einen
+    /// ``LocationAuthorizationCenter`` (Produktion) oder `nil` (Tests).
     init(
-        streamProvider: any LocationStreamProviding = LiveLocationStreamProvider(),
-        authorizationProvider: @escaping @MainActor () -> CLAuthorizationStatus = { CLLocationManager().authorizationStatus },
-        snapshotStore: (any LocationSnapshotStore)? = nil
+        streamProvider: any LocationStreamProviding,
+        authorizationProvider: @escaping @MainActor () -> CLAuthorizationStatus,
+        snapshotStore: (any LocationSnapshotStore)? = nil,
+        authorizationCenter: LocationAuthorizationCenter? = nil
     ) {
         self.streamProvider = streamProvider
         self.authorizationProvider = authorizationProvider
         self.snapshotStore = snapshotStore
+        self.authorizationCenter = authorizationCenter
         authorizationStatus = authorizationProvider()
+        authorizationCenter?.observeAuthorizationChanges { [weak self] status in
+            self?.handleAuthorizationChange(status)
+        }
     }
 
     /// Startet den Live-Updates-Consumer. Mehrfacher Aufruf bricht die vorherige Session ab.
+    ///
+    /// **Hinweis (TAN-79):** Der `authorizationStatus` wird hier bewusst **nicht** überschrieben —
+    /// die wahre Quelle ist ``handleAuthorizationChange(_:)`` (vom ``LocationAuthorizationCenter``
+    /// oder dem Test-Hook), sonst würde ein Re-`start()` direkt nach Permission-Grant den gerade
+    /// gesetzten Status wieder zurücksetzen.
     func start() {
         stop()
         lastError = nil
-        authorizationStatus = authorizationProvider()
         let provider = streamProvider
         updatesTask = Task { [weak self] in
             let stream = provider.makeStream()
@@ -118,9 +194,27 @@ final class LocationService {
         updatesTask = nil
     }
 
-    /// Aktualisiert den Berechtigungsstatus vom System (z. B. nach Rückkehr aus den iOS-Einstellungen).
+    /// Aktualisiert den Berechtigungsstatus vom System (z. B. nach Rückkehr aus den iOS-Einstellungen).
     func refreshAuthorizationStatus() {
-        authorizationStatus = authorizationProvider()
+        handleAuthorizationChange(authorizationProvider())
+    }
+
+    /// Triggert den iOS-Permission-Dialog (nur bei `.notDetermined`); produktiv über den
+    /// gehaltenen ``LocationAuthorizationCenter``. In Tests ohne Center: No-op.
+    func requestWhenInUseAuthorizationIfNeeded() {
+        authorizationCenter?.requestWhenInUseAuthorizationIfNeeded()
+    }
+
+    /// Reaktiver Authorization-Wechsel. Startet ``start()`` automatisch neu, wenn der User die
+    /// Permission gerade erteilt hat (`.notDetermined` / `.denied` → `.authorizedWhenInUse` /
+    /// `.authorizedAlways`) — damit der „Mein Standort"-Marker ohne App-Restart erscheint.
+    /// Sichtbar für Tests, damit Auto-Restart ohne echten `CLLocationManager` simuliert werden kann.
+    func handleAuthorizationChange(_ status: CLAuthorizationStatus) {
+        let previouslyAuthorized = authorizationStatus.isAuthorizedForFuelNow
+        authorizationStatus = status
+        if !previouslyAuthorized && status.isAuthorizedForFuelNow {
+            start()
+        }
     }
 
     private func apply(_ event: LocationStreamEvent) {
@@ -128,6 +222,7 @@ final class LocationService {
             currentLocation = location
             snapshotStore?.save(LocationSnapshot(location: location))
         }
-        authorizationStatus = authorizationProvider()
+        // Authorization wird reaktiv über `handleAuthorizationChange(_:)` gepflegt — kein Read aus
+        // `authorizationProvider()` hier (sonst kollidiert der Re-`start()`-Pfad nach Permission-Grant).
     }
 }

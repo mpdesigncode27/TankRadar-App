@@ -1139,38 +1139,6 @@
         }
       }
     },
-    "settings.radius.footer" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tankstellen werden bis zu diesem Radius geladen (max. 25 km, entsprechend Tankerkönig)."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stations load up to this radius (25 km max per Tankerkönig)."
-          }
-        }
-      }
-    },
-    "settings.row.radiusTitle" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suchradius"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search radius"
-          }
-        }
-      }
-    },
     "settings.section.dataSource" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1188,7 +1156,7 @@
         }
       }
     },
-    "settings.section.displayAndRadius" : {
+    "settings.section.appearance" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1264,22 +1232,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Coming soon"
-          }
-        }
-      }
-    },
-    "settings.section.search" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suchradius"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search radius"
           }
         }
       }

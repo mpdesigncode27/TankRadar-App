@@ -1,4 +1,3 @@
-import CoreLocation
 import SwiftUI
 
 @main
@@ -44,7 +43,10 @@ struct FuelNowApp: App {
     @MainActor
     private func requestLocationAuthorizationIfNeeded() async {
         guard ProcessInfo.processInfo.environment["UITESTING"] != "1" else { return }
-        CLLocationManager().requestWhenInUseAuthorization()
+        // Über den gehaltenen LocationService, nicht über eine Wegwerf-CLLocationManager-Instanz
+        // (TAN-79): Apple verlangt eine über die Anfrage hinaus gehaltene Instanz mit Delegate,
+        // sonst geht der System-Dialog/die Antwort verloren.
+        locationService.requestWhenInUseAuthorizationIfNeeded()
     }
 }
 

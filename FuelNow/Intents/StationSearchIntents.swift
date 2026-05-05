@@ -4,12 +4,12 @@ import SwiftUI
 
 // MARK: - Find nearest
 
-/// Siri/Kurzbefehle: geografisch nächste Tankstelle im eingestellten Suchradius.
+/// Siri/Kurzbefehle: geografisch nächste Tankstelle im 25-km-Umkreis (Tankerkönig-API-Maximum, TAN-79).
 struct FindNearestStationIntent: AppIntent {
     static var title: LocalizedStringResource { "Nächste Tankstelle" }
 
     static var description: IntentDescription {
-        IntentDescription("Sucht die nächste Tankstelle um deinen Standort im aktuellen Suchradius.")
+        IntentDescription("Sucht die nächste Tankstelle in deinem 25-km-Umkreis.")
     }
 
     static var openAppWhenRun: Bool { false }
@@ -17,7 +17,7 @@ struct FindNearestStationIntent: AppIntent {
     func perform() async throws -> some IntentResult & ProvidesDialog & ShowsSnippetView {
         do {
             guard let pair = try await StationIntentLookup.shared.findNearestStation() else {
-                let message = "Keine Tankstelle im Suchradius gefunden."
+                let message = "Keine Tankstelle im 25-km-Umkreis gefunden."
                 return .result(
                     dialog: IntentDialog(LocalizedStringResource(stringLiteral: message)),
                     view: StationIntentSnippetView(title: "FuelNow", subtitle: message)
@@ -82,7 +82,7 @@ struct FindCheapestStationIntent: AppIntent {
     func perform() async throws -> some IntentResult & ProvidesDialog & ShowsSnippetView {
         do {
             guard let triple = try await StationIntentLookup.shared.findCheapestStation(explicitFuel: fuel) else {
-                let message = "Keine Tankstelle mit Preis für diese Sorte im Suchradius."
+                let message = "Keine Tankstelle mit Preis für diese Sorte im 25-km-Umkreis."
                 return .result(
                     dialog: IntentDialog(LocalizedStringResource(stringLiteral: message)),
                     view: StationIntentSnippetView(title: "FuelNow", subtitle: message)

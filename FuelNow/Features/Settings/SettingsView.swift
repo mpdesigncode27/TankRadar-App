@@ -3,22 +3,23 @@ import SwiftUI
 
 /// Einstellungen als nutzerzentrierte `Form` mit Sections — Liquid Glass nur auf primären Aktionen.
 ///
-/// Reihenfolge (TAN-78):
+/// Reihenfolge (TAN-78, angepasst durch TAN-79):
 /// 1. **Kraftstoff** – große Karten-Auswahl (E5 / E10 / Diesel) mit aktiver Glas-Karte als visuellem Anker.
-/// 2. **Suchradius** – Slider mit `km`-Pille rechts neben dem Label, damit der aktuelle Wert sofort lesbar ist.
-/// 3. **Erscheinungsbild** – kompakter `Picker(.menu)`, gehört zu den selteneren Anpassungen.
-/// 4. **FuelNow Plus** – Mini-Hero mit Eyebrow / Headline / 1–2 Benefits / Preis prominent / einem
+/// 2. **Erscheinungsbild** – kompakter `Picker(.menu)`, gehört zu den selteneren Anpassungen.
+/// 3. **FuelNow Plus** – Mini-Hero mit Eyebrow / Headline / 1–2 Benefits / Preis prominent / einem
 ///    Glas-CTA, der das volle `PlusUpgradeView`-Sheet (TAN-45) öffnet. Bei aktivem Abo erscheint stattdessen
 ///    eine schlichte Status-Sektion mit Verwaltungs- und Restore-Aktionen.
-/// 5. **Stammtankstellen-Platzhalter** – inaktive Vorbereitung für Phase 9 (Appwrite-Sync, kein Datenmodell).
-/// 6. **Datenquellen-Footer** – unauffälliger Tankerkönig/MTS-K-Hinweis (CC BY 4.0).
+/// 4. **Stammtankstellen-Platzhalter** – inaktive Vorbereitung für Phase 9 (Appwrite-Sync, kein Datenmodell).
+/// 5. **Datenquellen-Footer** – unauffälliger Tankerkönig/MTS-K-Hinweis (CC BY 4.0).
+///
+/// Der frühere „Suchradius"-Slider ist mit TAN-79 entfernt; die App nutzt fest das
+/// Tankerkönig-API-Maximum von 25 km (`AppSettings.SearchRadius.apiMaxKm`).
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
     @Environment(EntitlementManager.self) private var entitlementManager
 
     @AppStorage(AppSettings.UserDefaultsKey.preferredFuelType) private var preferredFuelRaw = FuelType.e10.rawValue
-    @AppStorage(AppSettings.UserDefaultsKey.searchRadiusKm) private var searchRadiusKm = AppSettings.SearchRadius.defaultKm
     @AppStorage(AppSettings.UserDefaultsKey.appearancePreference) private var appearanceRaw = AppSettings.AppearancePreference.system.rawValue
 
     private var appearanceBinding: Binding<AppSettings.AppearancePreference> {
@@ -46,7 +47,6 @@ struct SettingsView: View {
         NavigationStack {
             Form {
                 fuelSection
-                searchRadiusSection
                 appearanceSection
                 plusSection
                 favoritesPlaceholderSection
@@ -110,43 +110,6 @@ struct SettingsView: View {
         }
     }
 
-    private var searchRadiusSection: some View {
-        Section {
-            VStack(alignment: .leading, spacing: TRSpacing.xs) {
-                HStack(alignment: .firstTextBaseline) {
-                    Text("settings.row.radiusTitle")
-                        .font(TRTypography.body())
-                    Spacer()
-                    Text("\(searchRadiusKm) km")
-                        .font(TRTypography.bodyBold())
-                        .foregroundStyle(TRColors.labelPrimary)
-                        .monospacedDigit()
-                        .padding(.horizontal, TRSpacing.s)
-                        .padding(.vertical, TRSpacing.xxs)
-                        .trGlassPill(interactive: false)
-                }
-                .accessibilityElement(children: .ignore)
-
-                Slider(
-                    value: Binding(
-                        get: { Double(searchRadiusKm) },
-                        set: { searchRadiusKm = AppSettings.SearchRadius.clampedKm(sliderValue: $0) }
-                    ),
-                    in: Double(AppSettings.SearchRadius.minKm)...Double(AppSettings.SearchRadius.maxKm),
-                    step: 1
-                )
-                .tint(TRColors.accent)
-                .accessibilityLabel(Text("settings.row.radiusTitle"))
-                .accessibilityValue("\(searchRadiusKm) Kilometer")
-            }
-            .padding(.vertical, TRSpacing.xxs)
-        } header: {
-            Text("settings.section.search")
-        } footer: {
-            Text("settings.radius.footer")
-        }
-    }
-
     private var appearanceSection: some View {
         Section {
             Picker(selection: appearanceBinding) {
@@ -159,7 +122,7 @@ struct SettingsView: View {
             .pickerStyle(.menu)
             .accessibilityHint(Text("settings.appearance.a11yHint"))
         } header: {
-            Text("settings.section.displayAndRadius")
+            Text("settings.section.appearance")
         } footer: {
             Text("settings.appearance.footer")
         }

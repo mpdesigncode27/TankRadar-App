@@ -34,8 +34,9 @@ hinterlegen** (idealerweise mit Screenshot/Mail).
 > iPhone-App zeigt umliegende Tankstellen (Datenquelle: Tankerkönig / MTS-K,
 > CC BY 4.0) inklusive aktueller Preise pro Sorte und Öffnungsstatus auf
 > einer Karte. Nutzer\:innen wählen ihre bevorzugte Kraftstoffsorte (E5, E10,
-> Diesel) und einen Suchradius (1–25 km) und können von dort eine
-> Tankstellen-Routenführung in Apple Maps starten.
+> Diesel); die App zeigt immer alle Tankstellen im maximal von Tankerkönig
+> erlaubten 25-km-Umkreis (TAN-79) und ermöglicht von dort eine
+> Tankstellen-Routenführung in Apple Maps.
 >
 > **CarPlay-Erfahrung:** Während der Fahrt zeigt FuelNow die nächsten und
 > günstigsten Tankstellen entlang oder im Umkreis als POIs
