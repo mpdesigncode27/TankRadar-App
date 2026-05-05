@@ -3,8 +3,15 @@ import SwiftUI
 
 /// Einstellungen als nutzerzentrierte `Form` mit Sections — Liquid Glass nur auf primären Aktionen.
 ///
-/// Reihenfolge: **Kraftstoff & Suche** → **Erscheinungsbild** → **FuelNow Plus** → kleiner Datenquellen-Footer.
-/// Werte greifen über `@AppStorage` direkt; Schließen über Toolbar `Fertig` oder Sheet-Swipe.
+/// Reihenfolge (TAN-78):
+/// 1. **Kraftstoff** – große Karten-Auswahl (E5 / E10 / Diesel) mit aktiver Glas-Karte als visuellem Anker.
+/// 2. **Suchradius** – Slider mit `km`-Pille rechts neben dem Label, damit der aktuelle Wert sofort lesbar ist.
+/// 3. **Erscheinungsbild** – kompakter `Picker(.menu)`, gehört zu den selteneren Anpassungen.
+/// 4. **FuelNow Plus** – Mini-Hero mit Eyebrow / Headline / 1–2 Benefits / Preis prominent / einem
+///    Glas-CTA, der das volle `PlusUpgradeView`-Sheet (TAN-45) öffnet. Bei aktivem Abo erscheint stattdessen
+///    eine schlichte Status-Sektion mit Verwaltungs- und Restore-Aktionen.
+/// 5. **Stammtankstellen-Platzhalter** – inaktive Vorbereitung für Phase 9 (Appwrite-Sync, kein Datenmodell).
+/// 6. **Datenquellen-Footer** – unauffälliger Tankerkönig/MTS-K-Hinweis (CC BY 4.0).
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
@@ -38,9 +45,11 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                fuelAndSearchSection
+                fuelSection
+                searchRadiusSection
                 appearanceSection
                 plusSection
+                favoritesPlaceholderSection
                 dataSourceFooterSection
             }
             .navigationTitle(Text("settings.title"))
@@ -50,8 +59,9 @@ struct SettingsView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Text("settings.done.close")
-                            .fontWeight(.semibold)
+                        Image(systemName: "xmark.circle.fill")
+                            .imageScale(.large)
+                            .foregroundStyle(TRColors.labelSecondary)
                     }
                     .accessibilityLabel(Text("settings.done.close"))
                     .accessibilityHint("Schließt die Einstellungen.")
@@ -87,25 +97,33 @@ struct SettingsView: View {
 
     // MARK: - Sections
 
-    private var fuelAndSearchSection: some View {
+    private var fuelSection: some View {
         Section {
-            Picker(selection: fuelBinding) {
-                ForEach(FuelType.allCases) { fuel in
-                    Text(fuel.displayName).tag(fuel)
-                }
-            } label: {
-                Text("settings.fuel.row.title")
-            }
-            .pickerStyle(.menu)
-            .accessibilityHint(Text("Bestimmt, welche Sorte auf der Karte für Preise verwendet wird."))
+            FuelTypeCardPicker(selection: fuelBinding)
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets(top: TRSpacing.xs, leading: 0, bottom: TRSpacing.xs, trailing: 0))
+                .listRowSeparator(.hidden)
+        } header: {
+            Text("settings.section.fuelType")
+        } footer: {
+            Text("settings.fuel.cards.footer")
+        }
+    }
 
-            VStack(alignment: .leading, spacing: TRSpacing.xxs) {
-                HStack {
+    private var searchRadiusSection: some View {
+        Section {
+            VStack(alignment: .leading, spacing: TRSpacing.xs) {
+                HStack(alignment: .firstTextBaseline) {
                     Text("settings.row.radiusTitle")
+                        .font(TRTypography.body())
                     Spacer()
                     Text("\(searchRadiusKm) km")
-                        .foregroundStyle(.secondary)
+                        .font(TRTypography.bodyBold())
+                        .foregroundStyle(TRColors.labelPrimary)
                         .monospacedDigit()
+                        .padding(.horizontal, TRSpacing.s)
+                        .padding(.vertical, TRSpacing.xxs)
+                        .trGlassPill(interactive: false)
                 }
                 .accessibilityElement(children: .ignore)
 
@@ -123,7 +141,7 @@ struct SettingsView: View {
             }
             .padding(.vertical, TRSpacing.xxs)
         } header: {
-            Text("settings.section.fuelType")
+            Text("settings.section.search")
         } footer: {
             Text("settings.radius.footer")
         }
@@ -147,43 +165,52 @@ struct SettingsView: View {
         }
     }
 
+    @ViewBuilder
     private var plusSection: some View {
-        Section {
-            if entitlementManager.isPlusSubscriber {
-                Label {
-                    Text("settings.plus.status.active")
-                } icon: {
-                    Image(systemName: "checkmark.seal.fill")
-                        .foregroundStyle(TRColors.accent)
-                }
-            } else if let product = plusYearlyProduct {
-                HStack(alignment: .firstTextBaseline) {
-                    Text(product.displayPrice)
-                        .font(TRTypography.bodyBold())
-                    Text("settings.plus.perYear")
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                }
-                .accessibilityElement(children: .combine)
+        if entitlementManager.isPlusSubscriber {
+            plusActiveSection
+        } else {
+            plusPromoSection
+        }
+    }
 
-                Button {
-                    Task { await subscribePlusYearly() }
-                } label: {
-                    Text("settings.plus.subscribe")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.trPrimaryGlass)
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .disabled(purchase.isBusy)
-                .accessibilityHint("Startet den Jahresabo-Kauf über den App Store.")
-            } else {
-                HStack {
-                    ProgressView()
-                    Text("settings.plus.priceLoading")
-                        .foregroundStyle(.secondary)
-                }
+    /// Promo-Sektion für Nicht-Plus-User: Mini-Hero als einziges visuelles Asset, plus dezente Zweit-Aktionen.
+    private var plusPromoSection: some View {
+        Section {
+            PlusMiniHero(
+                product: plusYearlyProduct,
+                isLoading: plusYearlyProduct == nil,
+                openPlusSheet: { showPlusUpgradeSheet = true }
+            )
+            .listRowInsets(EdgeInsets(top: TRSpacing.xs, leading: 0, bottom: TRSpacing.xs, trailing: 0))
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
+
+            Button {
+                Task { await restorePurchases() }
+            } label: {
+                Label("settings.plus.restore", systemImage: "arrow.clockwise")
             }
+            .disabled(purchase.isBusy)
+            .accessibilityHint("Synchronisiert Käufe mit deinem Apple-ID-Konto.")
+        } header: {
+            Text("settings.section.plus")
+        } footer: {
+            Text("settings.plus.footer")
+        }
+    }
+
+    /// Status-Sektion für aktive Plus-Abonnenten: keine Promo, klare Verwaltungs-Aktionen.
+    private var plusActiveSection: some View {
+        Section {
+            Label {
+                Text("settings.plus.status.active")
+                    .font(TRTypography.bodyBold())
+            } icon: {
+                Image(systemName: "checkmark.seal.fill")
+                    .foregroundStyle(TRColors.accent)
+            }
+            .accessibilityElement(children: .combine)
 
             Button {
                 openURL(Self.manageSubscriptionsURL)
@@ -199,17 +226,34 @@ struct SettingsView: View {
             }
             .disabled(purchase.isBusy)
             .accessibilityHint("Synchronisiert Käufe mit deinem Apple-ID-Konto.")
-
-            Button {
-                showPlusUpgradeSheet = true
-            } label: {
-                Label("settings.plus.learnMore", systemImage: "info.circle")
-            }
-            .accessibilityHint("Öffnet eine Übersicht der FuelNow-Plus-Vorteile.")
         } header: {
             Text("settings.section.plus")
         } footer: {
             Text("settings.plus.footer")
+        }
+    }
+
+    /// Sichtbare, aber inaktive Vorschau auf Stammtankstellen (Phase 9 / Appwrite-Sync — TAN-37).
+    /// Liefert keinerlei Daten oder Persistenz; rein UI-Anker, damit der Platzhalter erwartbar bleibt.
+    private var favoritesPlaceholderSection: some View {
+        Section {
+            Label {
+                VStack(alignment: .leading, spacing: TRSpacing.xxs) {
+                    Text("settings.section.favorites.placeholder.title")
+                        .font(TRTypography.body())
+                        .foregroundStyle(TRColors.labelSecondary)
+                    Text("settings.section.favorites.placeholder.subtitle")
+                        .font(TRTypography.caption())
+                        .foregroundStyle(TRColors.labelTertiary)
+                }
+            } icon: {
+                Image(systemName: "star.slash")
+                    .foregroundStyle(TRColors.labelTertiary)
+            }
+            .accessibilityElement(children: .combine)
+            .accessibilityHint(Text("settings.section.favorites.placeholder.a11yHint"))
+        } header: {
+            Text("settings.section.favorites.placeholder.header")
         }
     }
 
@@ -241,15 +285,6 @@ struct SettingsView: View {
     }
 
     // MARK: - Store actions
-
-    @MainActor
-    private func subscribePlusYearly() async {
-        guard let product = plusYearlyProduct else {
-            purchase.alertMessage = String(localized: "settings.plus.priceLoading")
-            return
-        }
-        await purchase.subscribe(to: product, via: entitlementManager)
-    }
 
     @MainActor
     private func restorePurchases() async {

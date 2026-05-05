@@ -443,6 +443,86 @@
         }
       }
     },
+    "settings.fuel.card.a11yHint" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doppeltippen, um diese Sorte für die Karte auszuwählen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Double tap to use this grade on the map."
+          }
+        }
+      }
+    },
+    "settings.fuel.card.diesel.subtitle" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieselkraftstoff für Pkw und Lkw"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diesel fuel for cars and trucks"
+          }
+        }
+      }
+    },
+    "settings.fuel.card.e10.subtitle" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bio-Anteil bis 10 % Ethanol"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up to 10 % ethanol blend"
+          }
+        }
+      }
+    },
+    "settings.fuel.card.e5.subtitle" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard-Super, bis 5 % Ethanol"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard premium, up to 5 % ethanol"
+          }
+        }
+      }
+    },
+    "settings.fuel.cards.footer" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Sorte wird auf der Karte und in den Anzeigen verwendet."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This grade is used on the map and in price displays."
+          }
+        }
+      }
+    },
     "settings.fuel.badge.recommended" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -930,6 +1010,55 @@
         }
       }
     },
+    "settings.plus.miniHero.cta" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FuelNow Plus ansehen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See FuelNow Plus"
+          }
+        }
+      }
+    },
+    "settings.plus.miniHero.cta.a11yHint" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffnet eine Übersicht der FuelNow-Plus-Vorteile und den Kauf-Flow."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens an overview of FuelNow Plus benefits and the purchase flow."
+          }
+        }
+      }
+    },
+    "settings.plus.priceReframe" : {
+      "comment" : "Approximate per-month rephrasing of an annual subscription price. Argument is the formatted monthly amount (e.g. €0.50).",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈ %@ / Monat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "≈ %@ / month"
+          }
+        }
+      }
+    },
     "settings.plus.perYear" : {
       "localizations" : {
         "de" : {
@@ -1071,6 +1200,86 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Appearance"
+          }
+        }
+      }
+    },
+    "settings.section.favorites.placeholder.a11yHint" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stammtankstellen folgen in einem späteren Update."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home stations are coming in a later update."
+          }
+        }
+      }
+    },
+    "settings.section.favorites.placeholder.header" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stammtankstellen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home stations"
+          }
+        }
+      }
+    },
+    "settings.section.favorites.placeholder.subtitle" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Folgt mit Phase 9 (Cloud-Sync). Aktuell ohne Funktion."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coming with phase 9 (cloud sync). Currently inactive."
+          }
+        }
+      }
+    },
+    "settings.section.favorites.placeholder.title" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demnächst verfügbar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coming soon"
+          }
+        }
+      }
+    },
+    "settings.section.search" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suchradius"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search radius"
           }
         }
       }
