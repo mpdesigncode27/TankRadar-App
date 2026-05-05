@@ -80,6 +80,9 @@
 		F65710000000000000000006 /* FuelNowDeepLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65700000000000000000006 /* FuelNowDeepLinkTests.swift */; };
 		F65810000000000000000001 /* EntitlementManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65800000000000000000001 /* EntitlementManager.swift */; };
 		F65810000000000000000002 /* EntitlementManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65800000000000000000002 /* EntitlementManagerTests.swift */; };
+		F66010000000000000000002 /* PlusPurchaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66000000000000000000002 /* PlusPurchaseController.swift */; };
+		F66010000000000000000003 /* PlusUpgradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66000000000000000000003 /* PlusUpgradeView.swift */; };
+		F66010000000000000000004 /* PlusPurchaseControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66000000000000000000004 /* PlusPurchaseControllerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,6 +180,9 @@
 		F65700000000000000000006 /* FuelNowDeepLinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuelNowDeepLinkTests.swift; sourceTree = "<group>"; };
 		F65800000000000000000001 /* EntitlementManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitlementManager.swift; sourceTree = "<group>"; };
 		F65800000000000000000002 /* EntitlementManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitlementManagerTests.swift; sourceTree = "<group>"; };
+		F66000000000000000000002 /* PlusPurchaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPurchaseController.swift; sourceTree = "<group>"; };
+		F66000000000000000000003 /* PlusUpgradeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusUpgradeView.swift; sourceTree = "<group>"; };
+		F66000000000000000000004 /* PlusPurchaseControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPurchaseControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +268,7 @@
 				F65600000000000000000004 /* SiriStationLookupTests.swift */,
 				F65700000000000000000006 /* FuelNowDeepLinkTests.swift */,
 				F65800000000000000000002 /* EntitlementManagerTests.swift */,
+				F66000000000000000000004 /* PlusPurchaseControllerTests.swift */,
 				F51300000000000000000001 /* Fixtures */,
 			);
 			path = FuelNowTests;
@@ -292,8 +299,18 @@
 				F32000000000000000000001 /* Map */,
 				F33000000000000000000001 /* Detail */,
 				F34000000000000000000001 /* Settings */,
+				F66000000000000000000001 /* Plus */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		F66000000000000000000001 /* Plus */ = {
+			isa = PBXGroup;
+			children = (
+				F66000000000000000000002 /* PlusPurchaseController.swift */,
+				F66000000000000000000003 /* PlusUpgradeView.swift */,
+			);
+			path = Plus;
 			sourceTree = "<group>";
 		};
 		F32000000000000000000001 /* Map */ = {
@@ -560,6 +577,8 @@
 				F60810000000000000000006 /* LocationDeniedCallout.swift in Sources */,
 				F60810000000000000000002 /* StationDetailView.swift in Sources */,
 				F60810000000000000000003 /* SettingsView.swift in Sources */,
+				F66010000000000000000002 /* PlusPurchaseController.swift in Sources */,
+				F66010000000000000000003 /* PlusUpgradeView.swift in Sources */,
 				F37400000000000000000001 /* TRDesignPaletteNotes.swift in Sources */,
 				F37600000000000000000001 /* TRSpacing.swift in Sources */,
 				F37600000000000000000002 /* TRRadius.swift in Sources */,
@@ -606,6 +625,7 @@
 				F65610000000000000000004 /* SiriStationLookupTests.swift in Sources */,
 				F65710000000000000000006 /* FuelNowDeepLinkTests.swift in Sources */,
 				F65810000000000000000002 /* EntitlementManagerTests.swift in Sources */,
+				F66010000000000000000004 /* PlusPurchaseControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

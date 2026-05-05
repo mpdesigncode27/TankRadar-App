@@ -28,15 +28,12 @@ struct SettingsView: View {
         )
     }
 
-    @State private var isPurchasing = false
-    @State private var isRestoring = false
-    @State private var storeAlertMessage: String?
+    @State private var purchase = PlusPurchaseController()
+    @State private var showPlusUpgradeSheet = false
 
     private var plusYearlyProduct: Product? {
         entitlementManager.products.first { $0.id == SubscriptionConstants.plusYearlyProductID }
     }
-
-    private var isStoreBusy: Bool { isPurchasing || isRestoring }
 
     var body: some View {
         NavigationStack {
@@ -63,19 +60,24 @@ struct SettingsView: View {
             .task {
                 await entitlementManager.loadProducts()
             }
+            .sheet(isPresented: $showPlusUpgradeSheet) {
+                PlusUpgradeView()
+                    .presentationDetents([.large])
+                    .presentationDragIndicator(.visible)
+            }
             .alert(
                 Text("settings.plus.alert.title"),
                 isPresented: Binding(
-                    get: { storeAlertMessage != nil },
-                    set: { if !$0 { storeAlertMessage = nil } }
+                    get: { purchase.alertMessage != nil },
+                    set: { if !$0 { purchase.alertMessage = nil } }
                 ),
                 actions: {
                     Button("settings.plus.alert.ok", role: .cancel) {
-                        storeAlertMessage = nil
+                        purchase.alertMessage = nil
                     }
                 },
                 message: {
-                    if let message = storeAlertMessage {
+                    if let message = purchase.alertMessage {
                         Text(message)
                     }
                 }
@@ -173,7 +175,7 @@ struct SettingsView: View {
                 .buttonStyle(.trPrimaryGlass)
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
-                .disabled(isStoreBusy)
+                .disabled(purchase.isBusy)
                 .accessibilityHint("Startet den Jahresabo-Kauf über den App Store.")
             } else {
                 HStack {
@@ -195,8 +197,15 @@ struct SettingsView: View {
             } label: {
                 Label("settings.plus.restore", systemImage: "arrow.clockwise")
             }
-            .disabled(isStoreBusy)
+            .disabled(purchase.isBusy)
             .accessibilityHint("Synchronisiert Käufe mit deinem Apple-ID-Konto.")
+
+            Button {
+                showPlusUpgradeSheet = true
+            } label: {
+                Label("settings.plus.learnMore", systemImage: "info.circle")
+            }
+            .accessibilityHint("Öffnet eine Übersicht der FuelNow-Plus-Vorteile.")
         } header: {
             Text("settings.section.plus")
         } footer: {
@@ -236,35 +245,15 @@ struct SettingsView: View {
     @MainActor
     private func subscribePlusYearly() async {
         guard let product = plusYearlyProduct else {
-            storeAlertMessage = String(localized: "settings.plus.priceLoading")
+            purchase.alertMessage = String(localized: "settings.plus.priceLoading")
             return
         }
-        guard !isStoreBusy else { return }
-        isPurchasing = true
-        defer { isPurchasing = false }
-        do {
-            try await entitlementManager.purchase(product)
-        } catch EntitlementManagerError.userCancelled {
-            return
-        } catch EntitlementManagerError.pending {
-            storeAlertMessage = String(localized: "settings.plus.error.pending")
-        } catch EntitlementManagerError.unknownPurchaseResult {
-            storeAlertMessage = String(localized: "settings.plus.error.generic")
-        } catch {
-            storeAlertMessage = error.localizedDescription
-        }
+        await purchase.subscribe(to: product, via: entitlementManager)
     }
 
     @MainActor
     private func restorePurchases() async {
-        guard !isStoreBusy else { return }
-        isRestoring = true
-        defer { isRestoring = false }
-        do {
-            try await entitlementManager.restorePurchases()
-        } catch {
-            storeAlertMessage = error.localizedDescription
-        }
+        await purchase.restore(via: entitlementManager)
     }
 }
 

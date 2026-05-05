@@ -1,0 +1,19 @@
+# FuelNow — AXe: FuelNow-Plus-Upgrade-Sheet für Linear-Screenshots öffnen
+# Nutzung:
+#   AXE_STEPS_FILE=scripts/axe/fuelnow-plus-sheet.steps ./scripts/build-run-and-axe.sh
+#   ./scripts/capture-linear-evidence.sh TAN-45-plus-sheet --plus-sheet
+#
+# Abschluss-Screenshot zeigt das geöffnete „FuelNow Plus"-Sheet
+# (Hero, Benefits, Subscribe-Button, Restore/Manage-Aktionen).
+
+sleep 2
+tap --label "Einstellungen" --wait-timeout 25
+sleep 2
+# Settings-Sheet von medium auf large ziehen, damit der „Was ist FuelNow Plus?"-Eintrag sichtbar ist.
+swipe --start-x 200 --start-y 430 --end-x 200 --end-y 140 --duration 0.4
+sleep 1
+# Koordinaten-Tap auf den „Was ist FuelNow Plus?"-Button — Label-Tap scheitert an
+# einem AXe-Decoding-Issue beim `Label(_,systemImage:)`-Composite mit Fragezeichen.
+# Position aus describe-ui (Frame y≈697, Höhe 52) auf iPhone 17 Sim.
+tap -x 200 -y 723
+sleep 3
