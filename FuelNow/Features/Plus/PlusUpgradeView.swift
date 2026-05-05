@@ -4,10 +4,9 @@ import SwiftUI
 /// Optionales Upgrade-Sheet für FuelNow Plus.
 ///
 /// Reine Opt-in-Surface: wird ausschließlich aus den Einstellungen heraus geöffnet
-/// („Was ist FuelNow Plus?"). Es gibt **keine** automatische Einblendung, keinen
-/// Nag-Banner und keine „kostenlos probieren"-Copy — `FuelNowPlus.storekit`
-/// definiert keinen `introductoryOffer`. Subscription-Pipeline kommt komplett
-/// aus dem geteilten `PlusPurchaseController` + `EntitlementManager` (TAN-44).
+/// („Was ist FuelNow Plus?"). Es gibt **keine** automatische Einblendung und keinen
+/// Nag-Banner — Trial-Copy erscheint nur, wenn der Apple-Kunde nachweislich eligibel
+/// ist (`Product.SubscriptionInfo.isEligibleForIntroOffer`, TAN-81).
 struct PlusUpgradeView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
@@ -19,11 +18,38 @@ struct PlusUpgradeView: View {
         entitlementManager.products.first { $0.id == SubscriptionConstants.plusYearlyProductID }
     }
 
+    private var audience: PlusPaywallCopy.Audience {
+        PlusPaywallCopy.audience(
+            isSubscriber: entitlementManager.isPlusSubscriber,
+            trialOffer: purchase.trialOffer
+        )
+    }
+
+    private var trialDurationText: String? {
+        guard let trial = purchase.trialOffer else { return nil }
+        return PlusPaywallCopy.formattedTrialDuration(offer: trial)
+    }
+
+    /// Bevorzugt `Product.displayPrice`; im Simulator-Mock-Modus
+    /// (DEBUG, Launch-Arg `--mock-trial-offer-eligible`) ein Platzhalter,
+    /// damit Trial-Copy auch ohne StoreKit-Configuration-File rendern kann.
+    private var displayPriceText: String? {
+        if let product = plusYearlyProduct {
+            return product.displayPrice
+        }
+        #if DEBUG
+        return purchase.debugMockDisplayPrice
+        #else
+        return nil
+        #endif
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: TRSpacing.l) {
                     heroSection
+                    trialBlock
                     benefitsSection
                     purchaseSection
                     secondaryActionsSection
@@ -48,7 +74,13 @@ struct PlusUpgradeView: View {
                 }
             }
             .task {
+                #if DEBUG
+                purchase.applyDebugMockIfRequested()
+                #endif
                 await entitlementManager.loadProducts()
+                if let product = plusYearlyProduct {
+                    await purchase.refreshTrialOffer(for: product)
+                }
             }
             .alert(
                 Text("settings.plus.alert.title"),
@@ -92,6 +124,42 @@ struct PlusUpgradeView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .combine)
+    }
+
+    @ViewBuilder
+    private var trialBlock: some View {
+        if let price = displayPriceText,
+           let duration = trialDurationText,
+           let headline = PlusPaywallCopy.trialHeadline(
+               audience: audience,
+               trialDuration: duration,
+               displayPrice: price
+           )
+        {
+            HStack(alignment: .top, spacing: TRSpacing.s) {
+                Image(systemName: "gift.fill")
+                    .font(TRTypography.title2())
+                    .foregroundStyle(TRColors.accentText)
+                    .accessibilityHidden(true)
+
+                Text(headline)
+                    .font(TRTypography.bodyBold())
+                    .foregroundStyle(TRColors.labelPrimary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .padding(TRSpacing.m)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                TRColors.accent.opacity(0.10),
+                in: RoundedRectangle(cornerRadius: TRRadius.lg, style: .continuous)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: TRRadius.lg, style: .continuous)
+                    .strokeBorder(TRColors.accent.opacity(0.35), lineWidth: 1)
+            )
+            .accessibilityElement(children: .combine)
+        }
     }
 
     private var benefitsSection: some View {
@@ -140,24 +208,75 @@ struct PlusUpgradeView: View {
                         if purchase.isPurchasing {
                             ProgressView()
                         } else {
-                            Text("plus.sheet.subscribe")
+                            Text(ctaText)
                         }
                     }
                     .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.trPrimaryGlass)
                 .disabled(purchase.isBusy)
-                .accessibilityLabel("plus.sheet.subscribe")
-                .accessibilityHint("Startet den Jahresabo-Kauf über den App Store.")
+                .accessibilityLabel(Text(ctaText))
+                .accessibilityHint(ctaAccessibilityHint)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         } else {
+            #if DEBUG
+            if let mockPrice = purchase.debugMockDisplayPrice {
+                VStack(spacing: TRSpacing.s) {
+                    HStack(alignment: .firstTextBaseline) {
+                        Text(mockPrice)
+                            .font(TRTypography.title2())
+                        Text("settings.plus.perYear")
+                            .font(TRTypography.body())
+                            .foregroundStyle(TRColors.labelSecondary)
+                        Spacer()
+                    }
+                    .accessibilityElement(children: .combine)
+
+                    Button {
+                        // No-op in mock mode — kein echtes Produkt vorhanden.
+                    } label: {
+                        Text(ctaText)
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.trPrimaryGlass)
+                    .disabled(true)
+                    .accessibilityLabel(Text(ctaText))
+                    .accessibilityHint(ctaAccessibilityHint)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            } else {
+                HStack(spacing: TRSpacing.s) {
+                    ProgressView()
+                    Text("settings.plus.priceLoading")
+                        .foregroundStyle(TRColors.labelSecondary)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            #else
             HStack(spacing: TRSpacing.s) {
                 ProgressView()
                 Text("settings.plus.priceLoading")
                     .foregroundStyle(TRColors.labelSecondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            #endif
+        }
+    }
+
+    private var ctaText: String {
+        PlusPaywallCopy.ctaLabel(
+            audience: audience,
+            trialDuration: trialDurationText ?? ""
+        )
+    }
+
+    private var ctaAccessibilityHint: Text {
+        switch audience {
+        case .eligibleForTrial:
+            Text("plus.sheet.subscribe.trial.a11yHint")
+        default:
+            Text("plus.sheet.subscribe.a11yHint")
         }
     }
 
@@ -194,13 +313,18 @@ struct PlusUpgradeView: View {
                 .foregroundStyle(TRColors.labelSecondary)
                 .fixedSize(horizontal: false, vertical: true)
 
-            Text("plus.sheet.footer.cancel")
+            Text(footerText)
                 .font(TRTypography.caption())
                 .foregroundStyle(TRColors.labelSecondary)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .combine)
+    }
+
+    private var footerText: String {
+        let price = displayPriceText ?? ""
+        return PlusPaywallCopy.footer(audience: audience, displayPrice: price)
     }
 }
 

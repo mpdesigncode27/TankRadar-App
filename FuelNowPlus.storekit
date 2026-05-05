@@ -28,7 +28,13 @@
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "5C4E8A91",
-          "introductoryOffer" : null,
+          "introductoryOffer" : {
+            "displayPrice" : "0.00",
+            "internalID" : "7A1B9C3D",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P3D"
+          },
           "localizations" : [
             {
               "description" : "FuelNow Plus: CarPlay und Premium-Funktionen.",

@@ -9,15 +9,54 @@ import SwiftUI
 struct PlusMiniHero: View {
     let product: Product?
     let isLoading: Bool
+    let trialOffer: PlusPurchaseController.TrialOfferState?
     let openPlusSheet: () -> Void
+
+    init(
+        product: Product?,
+        isLoading: Bool,
+        trialOffer: PlusPurchaseController.TrialOfferState? = nil,
+        openPlusSheet: @escaping () -> Void
+    ) {
+        self.product = product
+        self.isLoading = isLoading
+        self.trialOffer = trialOffer
+        self.openPlusSheet = openPlusSheet
+    }
+
+    private var trialBadge: String? {
+        let audience = PlusPaywallCopy.audience(isSubscriber: false, trialOffer: trialOffer)
+        guard let trial = trialOffer else { return nil }
+        let duration = PlusPaywallCopy.formattedTrialDuration(offer: trial)
+        return PlusPaywallCopy.miniHeroBadge(audience: audience, trialDuration: duration)
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: TRSpacing.s) {
-            Text("plus.hero.eyebrow")
-                .font(TRTypography.captionSmall())
-                .textCase(.uppercase)
-                .foregroundStyle(TRColors.accentText)
-                .accessibilityAddTraits(.isHeader)
+            HStack(spacing: TRSpacing.xs) {
+                Text("plus.hero.eyebrow")
+                    .font(TRTypography.captionSmall())
+                    .textCase(.uppercase)
+                    .foregroundStyle(TRColors.accentText)
+                    .accessibilityAddTraits(.isHeader)
+                if let badge = trialBadge {
+                    Text(badge)
+                        .font(TRTypography.captionSmall())
+                        .textCase(.uppercase)
+                        .padding(.horizontal, TRSpacing.xs)
+                        .padding(.vertical, TRSpacing.xxs)
+                        .background(
+                            TRColors.accent.opacity(0.15),
+                            in: Capsule(style: .continuous)
+                        )
+                        .overlay(
+                            Capsule(style: .continuous)
+                                .strokeBorder(TRColors.accent.opacity(0.45), lineWidth: 1)
+                        )
+                        .foregroundStyle(TRColors.accentText)
+                        .accessibilityLabel(badge)
+                }
+            }
 
             Text("plus.hero.headline")
                 .font(TRTypography.title2())

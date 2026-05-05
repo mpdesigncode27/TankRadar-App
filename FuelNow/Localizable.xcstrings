@@ -394,6 +394,23 @@
         }
       }
     },
+    "plus.sheet.footer.cancel.trial" : {
+      "comment" : "Footer for eligible/active trial: explains auto-renew price after trial ends. %@ = displayPrice (e.g. €6.99).",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verlängert sich automatisch zu %@/Jahr. Kündigung jederzeit über deine Apple-ID."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto-renews at %@/year. Cancel anytime via your Apple ID."
+          }
+        }
+      }
+    },
     "plus.sheet.subscribe" : {
       "localizations" : {
         "de" : {
@@ -406,6 +423,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Subscribe to Plus"
+          }
+        }
+      }
+    },
+    "plus.sheet.subscribe.a11yHint" : {
+      "comment" : "VoiceOver hint for the standard subscribe CTA (no trial available).",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Startet den Jahresabo-Kauf über den App Store."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starts the annual subscription purchase via the App Store."
+          }
+        }
+      }
+    },
+    "plus.sheet.subscribe.trial.a11yHint" : {
+      "comment" : "VoiceOver hint when the CTA starts a free trial that converts to a paid subscription.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Startet den kostenlosen Probezeitraum und das Jahresabo über den App Store."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starts the free trial and annual subscription via the App Store."
           }
         }
       }
@@ -438,6 +489,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Thanks! CarPlay activates automatically as soon as the experience ships in the app."
+          }
+        }
+      }
+    },
+    "plus.trial.cta.eligible" : {
+      "comment" : "Primary CTA label when eligible for the free trial. %@ = localized trial duration (e.g. „3 Tage\" / „3 days\").",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ kostenlos starten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start %@ free trial"
+          }
+        }
+      }
+    },
+    "plus.trial.headline.eligible" : {
+      "comment" : "Headline above price block when eligible for the free trial. %1$@ = trial duration, %2$@ = displayPrice (e.g. €6.99).",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ kostenlos testen, danach %2$@/Jahr"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ free, then %2$@/year"
+          }
+        }
+      }
+    },
+    "plus.trial.miniHero.badge" : {
+      "comment" : "Small pill in the Settings PlusMiniHero, eyebrow row. %@ = localized trial duration.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ kostenlos"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ free"
           }
         }
       }

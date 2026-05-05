@@ -68,7 +68,13 @@ struct SettingsView: View {
                 }
             }
             .task {
+                #if DEBUG
+                purchase.applyDebugMockIfRequested()
+                #endif
                 await entitlementManager.loadProducts()
+                if let product = plusYearlyProduct {
+                    await purchase.refreshTrialOffer(for: product)
+                }
             }
             .sheet(isPresented: $showPlusUpgradeSheet) {
                 PlusUpgradeView()
@@ -143,6 +149,7 @@ struct SettingsView: View {
             PlusMiniHero(
                 product: plusYearlyProduct,
                 isLoading: plusYearlyProduct == nil,
+                trialOffer: purchase.trialOffer,
                 openPlusSheet: { showPlusUpgradeSheet = true }
             )
             .listRowInsets(EdgeInsets(top: TRSpacing.xs, leading: 0, bottom: TRSpacing.xs, trailing: 0))
