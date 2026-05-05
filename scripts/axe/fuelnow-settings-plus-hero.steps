@@ -1,0 +1,13 @@
+# FuelNow — AXe: Settings öffnen, scrollen bis Plus-MiniHero sichtbar (TAN-78)
+# Nutzung:
+#   AXE_STEPS_FILE=scripts/axe/fuelnow-settings-plus-hero.steps ./scripts/build-run-and-axe.sh
+#
+# Abschluss-Screenshot zeigt die FuelNow-Plus-MiniHero in den Einstellungen.
+
+sleep 2
+tap --label "Einstellungen" --wait-timeout 25
+sleep 1.5
+swipe --start-x 200 --start-y 700 --end-x 200 --end-y 200 --duration 0.4
+sleep 1
+swipe --start-x 200 --start-y 700 --end-x 200 --end-y 250 --duration 0.4
+sleep 1.5

@@ -1,5 +1,4 @@
-fastlane documentation
-----
+## fastlane documentation
 
 # Installation
 
@@ -9,7 +8,7 @@ Make sure you have the latest version of the Xcode command line tools installed:
 xcode-select --install
 ```
 
-For _fastlane_ installation instructions, see [Installing _fastlane_](https://docs.fastlane.tools/#installing-fastlane)
+For *fastlane* installation instructions, see [Installing *fastlane](https://docs.fastlane.tools/#installing-fastlane)*
 
 # Available Actions
 
@@ -55,10 +54,10 @@ Upload an existing IPA to TestFlight (API key). Set ipa: or IPA_PATH.
 
 Build App Store IPA then upload to TestFlight. Optional skip_build:true ipa:path
 
-----
+---
 
-This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
+This README.md is auto-generated and will be re-generated every time *[fastlane](https://fastlane.tools)* is run.
 
-More information about _fastlane_ can be found on [fastlane.tools](https://fastlane.tools).
+More information about *fastlane* can be found on [fastlane.tools](https://fastlane.tools).
 
-The documentation of _fastlane_ can be found on [docs.fastlane.tools](https://docs.fastlane.tools).
+The documentation of *fastlane* can be found on [docs.fastlane.tools](https://docs.fastlane.tools).
