@@ -15,7 +15,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
 usage() {
-  echo "Nutze: $0 <Dateiname-ohne-.png> [--settings-sheet]" >&2
+  echo "Nutze: $0 <Dateiname-ohne-.png> [--settings-sheet | --plus-sheet]" >&2
   echo "  Beispiel: $0 TAN-47-settings-after-merge" >&2
   echo "  Slug: nur Buchstaben, Ziffern, Punkt, Unterstrich, Bindestrich." >&2
   exit 1
@@ -42,6 +42,9 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --settings-sheet)
       export AXE_STEPS_FILE="${ROOT}/scripts/axe/fuelnow-settings-sheet.steps"
+      ;;
+    --plus-sheet)
+      export AXE_STEPS_FILE="${ROOT}/scripts/axe/fuelnow-plus-sheet.steps"
       ;;
     --help|-h)
       usage

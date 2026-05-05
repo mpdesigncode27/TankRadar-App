@@ -544,6 +544,246 @@
         }
       }
     },
+    "plus.benefit.carplay.description" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tankstellen, Preise und Status direkt im Auto, sobald die CarPlay-Erfahrung verfügbar ist."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stations, prices and status right in your car, as soon as the CarPlay experience ships."
+          }
+        }
+      }
+    },
+    "plus.benefit.carplay.title" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CarPlay-Karte mit FuelNow"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CarPlay map with FuelNow"
+          }
+        }
+      }
+    },
+    "plus.benefit.future.description" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neue Plus-Features (z. B. Favoriten, Verlauf) erreichen dich automatisch — kein erneutes Bezahlen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Plus features (e.g. favorites, history) reach you automatically — no further payment."
+          }
+        }
+      }
+    },
+    "plus.benefit.future.title" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frühzeitiger Zugang"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Early access"
+          }
+        }
+      }
+    },
+    "plus.benefit.support.description" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Abo deckt API-Kosten und Entwicklungszeit für eine werbefreie App."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your subscription covers API costs and dev time for an ad-free app."
+          }
+        }
+      }
+    },
+    "plus.benefit.support.title" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direkte Unterstützung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direct support"
+          }
+        }
+      }
+    },
+    "plus.hero.eyebrow" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optional · Jahresabo"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optional · Annual subscription"
+          }
+        }
+      }
+    },
+    "plus.hero.headline" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schalte CarPlay frei und unterstütze FuelNow."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock CarPlay and support FuelNow."
+          }
+        }
+      }
+    },
+    "plus.hero.subhead" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FuelNow bleibt komplett nutzbar — Plus aktiviert CarPlay-Funktionen, sobald sie verfügbar sind, und finanziert die Weiterentwicklung."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FuelNow stays fully usable — Plus activates CarPlay features once they ship and funds further development."
+          }
+        }
+      }
+    },
+    "plus.sheet.close" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schließen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+    "plus.sheet.footer.billing" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrechnung über dein Apple-ID-Konto. Das Jahresabo verlängert sich automatisch und kann jederzeit unter „Abonnement verwalten“ gekündigt werden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Billing goes through your Apple ID. The annual subscription renews automatically and can be canceled anytime via “Manage subscription”."
+          }
+        }
+      }
+    },
+    "plus.sheet.footer.cancel" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kein kostenloser Probezeitraum. Es fallen die im App Store angezeigten Kosten an."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No free trial. You are charged the price shown in the App Store."
+          }
+        }
+      }
+    },
+    "plus.sheet.subscribe" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus abonnieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribe to Plus"
+          }
+        }
+      }
+    },
+    "plus.sheet.title" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FuelNow Plus"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "FuelNow Plus"
+          }
+        }
+      }
+    },
+    "plus.status.active.detail" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Danke! CarPlay wird automatisch aktiv, sobald die Erfahrung in der App verfügbar ist."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thanks! CarPlay activates automatically as soon as the experience ships in the app."
+          }
+        }
+      }
+    },
     "settings.plus.alert.ok" : {
       "localizations" : {
         "de" : {
@@ -654,6 +894,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Support FuelNow and unlock Plus features — including CarPlay when available."
+          }
+        }
+      }
+    },
+    "settings.plus.learnMore" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was ist FuelNow Plus?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is FuelNow Plus?"
           }
         }
       }
