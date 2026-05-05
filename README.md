@@ -1,5 +1,7 @@
 # FuelNow
 
+**Produktspezifikation (Index):** [`docs/PRODUCT_SPEC.md`](docs/PRODUCT_SPEC.md) — Vision, Konventionen und Links zu allen weiteren Specs im Repo und in Linear.
+
 **Tankerkönig-API-Key:** Beantragung und Eintragung über Linear [**TAN-72**](https://linear.app/tankradar-app/issue/TAN-72).
 
 ### Checkliste TAN-72 (betrieblich)
