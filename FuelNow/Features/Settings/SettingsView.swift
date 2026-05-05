@@ -171,7 +171,7 @@ struct SettingsView: View {
                     .font(TRTypography.bodyBold())
             } icon: {
                 Image(systemName: "checkmark.seal.fill")
-                    .foregroundStyle(TRColors.accent)
+                    .foregroundStyle(TRColors.accentText)
             }
             .accessibilityElement(children: .combine)
 

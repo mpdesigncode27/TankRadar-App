@@ -47,6 +47,10 @@ struct StationAnnotationView: View {
         .accessibilityHint("Tippen für Details.")
     }
 
+    /// Status-Punkt: Farbe **only** auf bewusste Designentscheidung (TAN-80 Folge).
+    /// Die Farbe ist hochkontrastreich (`success` / `danger` jeweils ≥ 4:1 vs. weißes Glas
+    /// der Pille); SC 1.4.1 für sehende Nutzer mit Rot-Grün-Schwäche wird in Kauf genommen,
+    /// VoiceOver-Label am `accessibilitySummary` bleibt als zweite Info erhalten.
     private var statusBadge: some View {
         Circle()
             .fill(station.isOpen ? TRColors.success : TRColors.danger)

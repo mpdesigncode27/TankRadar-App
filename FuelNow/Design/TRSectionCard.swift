@@ -10,7 +10,7 @@ struct TRSectionCard<Content: View>: View {
         VStack(alignment: .leading, spacing: TRSpacing.xs) {
             Text(title)
                 .font(TRTypography.caption())
-                .foregroundStyle(accentTitle ? TRColors.accent : TRColors.labelSecondary)
+                .foregroundStyle(accentTitle ? TRColors.accentText : TRColors.labelSecondary)
                 .accessibilityAddTraits(.isHeader)
             content()
                 .frame(maxWidth: .infinity, alignment: .leading)

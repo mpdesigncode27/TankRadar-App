@@ -69,13 +69,13 @@ private struct TROutlineButtonBody: View {
     var body: some View {
         configuration.label
             .font(TRTypography.bodyBold())
-            .foregroundStyle(TRColors.accent)
+            .foregroundStyle(TRColors.accentText)
             .padding(.horizontal, TRSpacing.l)
             .padding(.vertical, TRSpacing.xs)
             .background(Capsule().fill(TRColors.backgroundSecondary.opacity(0.001)))
             .overlay {
                 Capsule()
-                    .strokeBorder(TRColors.accent, lineWidth: 1.5)
+                    .strokeBorder(TRColors.accentText, lineWidth: 1.5)
             }
             .opacity(configuration.isPressed ? 0.75 : 1)
             .animation(reduceMotion ? nil : .easeOut(duration: 0.12), value: configuration.isPressed)

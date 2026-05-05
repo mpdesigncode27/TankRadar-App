@@ -2,7 +2,7 @@ import CoreLocation
 import MapKit
 import SwiftUI
 
-/// Detail-Sheet für eine Tankstelle: Stammdaten, alle Spritpreise, Status, Entfernung und Start der Apple-Maps-Navigation (Autoroute).
+/// Detail-Sheet für eine Tankstelle: Marke, alle Spritpreise, Status, Entfernung und Start der Apple-Maps-Navigation (Autoroute).
 struct StationDetailView: View {
     let station: Station
     let preferredFuel: FuelType
@@ -18,13 +18,6 @@ struct StationDetailView: View {
                             .font(TRTypography.title2())
                             .foregroundStyle(TRColors.labelSecondary)
                             .accessibilityAddTraits(.isHeader)
-                    }
-
-                    TRSectionCard(title: "Adresse") {
-                        Text(station.fullAddress)
-                            .font(TRTypography.body())
-                            .foregroundStyle(TRColors.labelPrimary)
-                            .fixedSize(horizontal: false, vertical: true)
                     }
 
                     TRSectionCard(title: "Preise") {
@@ -104,7 +97,7 @@ struct StationDetailView: View {
                 if isPreferred {
                     Image(systemName: "checkmark.circle.fill")
                         .font(TRTypography.caption())
-                        .foregroundStyle(TRColors.accent)
+                        .foregroundStyle(TRColors.accentText)
                         .accessibilityHidden(true)
                 }
             }
@@ -113,7 +106,7 @@ struct StationDetailView: View {
                 if let euros = station.price(for: fuel) {
                     Text(StationDetailFormatting.priceString(euros: euros))
                         .font(TRTypography.bodyBold())
-                        .foregroundStyle(TRColors.accent)
+                        .foregroundStyle(TRColors.accentText)
                         .lineLimit(2)
                         .minimumScaleFactor(0.85)
                 } else {
