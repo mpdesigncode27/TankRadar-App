@@ -11,7 +11,6 @@ struct MapScreen: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    @AppStorage(AppSettings.UserDefaultsKey.searchRadiusKm) private var searchRadiusKm = AppSettings.SearchRadius.defaultKm
     @AppStorage(AppSettings.UserDefaultsKey.preferredFuelType) private var preferredFuelRaw = FuelType.e10.rawValue
 
     @State private var cameraPosition: MapCameraPosition = .region(
@@ -89,7 +88,7 @@ struct MapScreen: View {
                     showSettings = true
                 }
                 .accessibilityLabel("Einstellungen")
-                .accessibilityHint("Öffnet Spritart, Suchradius und Datenquelle.")
+                .accessibilityHint("Öffnet Spritart, Erscheinungsbild und Datenquelle.")
             }
         }
         .sheet(item: $selectedStation) { station in
@@ -108,18 +107,17 @@ struct MapScreen: View {
         .overlay {
             if showEmptyStationsState {
                 ContentUnavailableView {
-                    Label("Keine Tankstellen im Umkreis", systemImage: "fuelpump.slash")
+                    Label("Keine Tankstellen im 25-km-Umkreis", systemImage: "fuelpump.slash")
                 } description: {
-                    Text("Versuche den Suchradius in den Einstellungen zu vergrößern oder einen anderen Ort.")
+                    Text("Versuche es an einem anderen Ort oder lade die Karte erneut.")
                 } actions: {
-                    Button("Einstellungen") {
-                        showSettings = true
+                    Button("Erneut laden") {
+                        retryStationFetch()
                     }
                     .buttonStyle(TRPrimaryGlassButtonStyle())
                 }
                 .padding(TRSpacing.m)
-                .accessibilityLabel("Keine Tankstellen im Umkreis")
-                .accessibilityHint("Suchradius in den Einstellungen anpassen.")
+                .accessibilityLabel("Keine Tankstellen im 25-km-Umkreis")
             }
         }
         .overlay {
@@ -176,7 +174,7 @@ struct MapScreen: View {
         }
         .onChange(of: locationService.currentLocation) { _, newValue in
             guard let location = newValue else { return }
-            stationStore.handleLocationUpdate(location, radiusKm: Double(searchRadiusKm))
+            stationStore.handleLocationUpdate(location, radiusKm: AppSettings.SearchRadius.apiMaxKm)
             if !didApplyInitialCamera {
                 didApplyInitialCamera = true
                 cameraPosition = .region(
@@ -187,10 +185,6 @@ struct MapScreen: View {
                     )
                 )
             }
-        }
-        .onChange(of: searchRadiusKm) { _, _ in
-            guard let location = locationService.currentLocation else { return }
-            stationStore.forceRefresh(using: location, radiusKm: Double(searchRadiusKm))
         }
     }
 
@@ -221,14 +215,14 @@ struct MapScreen: View {
 
     private func refreshStations() async {
         guard let location = locationService.currentLocation else { return }
-        stationStore.forceRefresh(using: location, radiusKm: Double(searchRadiusKm))
+        stationStore.forceRefresh(using: location, radiusKm: AppSettings.SearchRadius.apiMaxKm)
         try? await Task.sleep(for: .milliseconds(400))
     }
 
     /// Erneuter Abruf nach Netzwerk-/API-Fehler (`StationStore.forceRefresh`).
     private func retryStationFetch() {
         guard let location = locationService.currentLocation else { return }
-        stationStore.forceRefresh(using: location, radiusKm: Double(searchRadiusKm))
+        stationStore.forceRefresh(using: location, radiusKm: AppSettings.SearchRadius.apiMaxKm)
     }
 
     /// Kurzbefehle / Custom-URL (`FuelNowDeepLink`): Sheet und Kamera, sobald die Station geladen ist.

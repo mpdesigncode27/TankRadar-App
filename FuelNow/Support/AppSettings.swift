@@ -4,6 +4,10 @@ import Foundation
 enum AppSettings {
     enum UserDefaultsKey {
         static let preferredFuelType = "tr.preferredFuelType"
+        /// Veraltet seit TAN-79: Suchradius wurde aus den Settings entfernt und ist
+        /// fest auf das Tankerkönig-API-Maximum (25 km) gesetzt. Der Key bleibt definiert,
+        /// damit alte Werte in `UserDefaults` nicht aktiv aufgeräumt werden müssen — die
+        /// App liest ihn nicht mehr.
         static let searchRadiusKm = "tr.searchRadiusKm"
         /// Hell / Dunkel / System (`AppearancePreference.rawValue`).
         static let appearancePreference = "tr.appearancePreference"
@@ -16,15 +20,16 @@ enum AppSettings {
         static let pendingMapStationFocusID = "tr.pendingMapStationFocusID"
     }
 
+    /// Suchradius für Tankerkönig-`list.php` (TAN-79).
+    ///
+    /// Seit TAN-79 ist der Suchradius aus den User-Settings entfernt und fest auf das
+    /// **API-Maximum von 25 km** gesetzt. Tankerkönig erlaubt im freien Tier
+    /// (`creativecommons.tankerkoenig.de`) keinen größeren Radius und untersagt das
+    /// Bulk-Mirroring; „alle Tankstellen anzeigen" bedeutet daher konsequent
+    /// „alle im 25-km-Umkreis um den Standort".
     enum SearchRadius {
-        static let minKm = 1
-        static let maxKm = 25
-        static let defaultKm = 5
-
-        /// Entspricht dem Setter des Radius-Sliders in `SettingsView`.
-        static func clampedKm(sliderValue: Double) -> Int {
-            min(maxKm, max(minKm, Int(sliderValue.rounded())))
-        }
+        /// Tankerkönig-API-Maximum für `rad` in `list.php`.
+        static let apiMaxKm: Double = 25
     }
 
     enum TankerkoenigAttribution {

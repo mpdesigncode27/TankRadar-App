@@ -29,6 +29,37 @@ struct MockLocationStreamProvider: LocationStreamProviding {
     }
 }
 
+/// Zählt, wie oft ``makeStream()`` aufgerufen wurde — Beweis für Auto-Restart in TAN-79.
+final class CountingLocationStreamProvider: LocationStreamProviding, @unchecked Sendable {
+    private let lock = NSLock()
+    private var _streamCount = 0
+    private let events: [LocationStreamEvent]
+
+    init(events: [LocationStreamEvent] = []) {
+        self.events = events
+    }
+
+    var streamCount: Int {
+        lock.lock(); defer { lock.unlock() }
+        return _streamCount
+    }
+
+    func makeStream() -> AsyncThrowingStream<LocationStreamEvent, Error> {
+        lock.lock(); _streamCount += 1; lock.unlock()
+        let events = self.events
+        return AsyncThrowingStream { continuation in
+            Task {
+                for event in events {
+                    try? await Task.sleep(for: .milliseconds(5))
+                    continuation.yield(event)
+                }
+                continuation.finish()
+            }
+        }
+    }
+}
+
+@Suite(.serialized)
 struct LocationServiceTests {
     @Test @MainActor
     func deliversMockedLocations() async throws {
@@ -93,4 +124,74 @@ struct LocationServiceTests {
         service.stop()
     }
 
+    /// TAN-79: Sobald die Authorization von `.notDetermined` auf `.authorizedWhenInUse` wechselt,
+    /// muss der Live-Updates-Stream **automatisch** neu gestartet werden — sonst bleibt der blaue
+    /// „Mein Standort"-Marker auch nach erteilter Permission unsichtbar (App-Restart wäre nötig).
+    @Test @MainActor
+    func handleAuthorizationChangeRestartsStreamWhenPermissionGranted() async throws {
+        let provider = CountingLocationStreamProvider(events: [
+            LocationStreamEvent(latitude: 52.5, longitude: 13.4, horizontalAccuracy: 8),
+        ])
+        let service = LocationService(
+            streamProvider: provider,
+            authorizationProvider: { .notDetermined }
+        )
+        service.start()
+        try await Task.sleep(for: .milliseconds(150))
+        let countAfterFirstStart = provider.streamCount
+        #expect(countAfterFirstStart >= 1)
+
+        service.handleAuthorizationChange(.authorizedWhenInUse)
+        try await Task.sleep(for: .milliseconds(300))
+
+        #expect(provider.streamCount > countAfterFirstStart, "stream must be re-established after authorization grant")
+        #expect(service.authorizationStatus == .authorizedWhenInUse)
+        #expect(service.currentLocation?.coordinate.latitude == 52.5)
+        service.stop()
+    }
+
+    /// TAN-79: Wechselt die Authorization von einem bereits autorisierten Status (`.authorizedWhenInUse`)
+    /// auf einen anderen autorisierten Status (`.authorizedAlways`), darf der Stream **nicht**
+    /// unnötig neu gestartet werden — verhindert flackernde UI und doppelte Netzwerk-Requests.
+    @Test @MainActor
+    func handleAuthorizationChangeDoesNotRestartIfAlreadyAuthorized() async throws {
+        let provider = CountingLocationStreamProvider(events: [])
+        let service = LocationService(
+            streamProvider: provider,
+            authorizationProvider: { .authorizedWhenInUse }
+        )
+        service.start()
+        try await Task.sleep(for: .milliseconds(40))
+        let countAfterFirstStart = provider.streamCount
+
+        service.handleAuthorizationChange(.authorizedAlways)
+        try await Task.sleep(for: .milliseconds(40))
+
+        #expect(provider.streamCount == countAfterFirstStart)
+        #expect(service.authorizationStatus == .authorizedAlways)
+        service.stop()
+    }
+
+    /// TAN-79: `requestWhenInUseAuthorizationIfNeeded()` ist im Test-Init (ohne ``LocationAuthorizationCenter``)
+    /// ein No-op und darf weder crashen noch den Status verändern.
+    @Test @MainActor
+    func requestWhenInUseAuthorizationIfNeededIsNoOpWithoutCenter() {
+        let service = LocationService(
+            streamProvider: MockLocationStreamProvider(events: []),
+            authorizationProvider: { .notDetermined }
+        )
+        service.requestWhenInUseAuthorizationIfNeeded()
+        #expect(service.authorizationStatus == .notDetermined)
+    }
+
+    /// TAN-79: Das `CLAuthorizationStatus`-Helper soll exakt für die beiden System-Status
+    /// `.authorizedWhenInUse` und `.authorizedAlways` true sein — Anker für die Auto-Restart-Logik.
+    @Test
+    func isAuthorizedForFuelNowMatchesAuthorizedStates() {
+        #expect(CLAuthorizationStatus.authorizedWhenInUse.isAuthorizedForFuelNow == true)
+        #expect(CLAuthorizationStatus.authorizedAlways.isAuthorizedForFuelNow == true)
+        #expect(CLAuthorizationStatus.notDetermined.isAuthorizedForFuelNow == false)
+        #expect(CLAuthorizationStatus.denied.isAuthorizedForFuelNow == false)
+        #expect(CLAuthorizationStatus.restricted.isAuthorizedForFuelNow == false)
+    }
 }

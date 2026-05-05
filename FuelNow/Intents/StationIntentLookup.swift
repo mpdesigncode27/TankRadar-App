@@ -56,10 +56,10 @@ actor StationIntentLookup {
         return (station, fuel, snap)
     }
 
-    nonisolated static func radiusKm(defaults: UserDefaults) -> Double {
-        let km = defaults.integer(forKey: AppSettings.UserDefaultsKey.searchRadiusKm)
-        let effective = km > 0 ? km : AppSettings.SearchRadius.defaultKm
-        return Double(AppSettings.SearchRadius.clampedKm(sliderValue: Double(effective)))
+    /// TAN-79: Suchradius ist nicht mehr konfigurierbar. Liefert immer das Tankerkönig-API-Maximum.
+    /// Der `defaults`-Parameter bleibt aus Quell-/Test-Stabilität erhalten, wird aber bewusst ignoriert.
+    nonisolated static func radiusKm(defaults _: UserDefaults) -> Double {
+        AppSettings.SearchRadius.apiMaxKm
     }
 
     nonisolated static func resolvedFuel(defaults: UserDefaults, explicit: FuelType?) -> FuelType {

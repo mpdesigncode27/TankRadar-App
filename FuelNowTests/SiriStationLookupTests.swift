@@ -25,15 +25,19 @@ private actor MockStationFetcher: StationFetching {
 
 @Suite("Siri / Station lookup")
 enum SiriStationLookupTests {
-    @Test static func radiusKmUsesDefaultsOrFallback() throws {
+    @Test static func radiusKmAlwaysReturnsTankerkoenigApiMaximum() throws {
+        // TAN-79: Suchradius ist nicht mehr konfigurierbar — `radiusKm` ignoriert UserDefaults
+        // und liefert immer das API-Maximum (25 km), unabhängig vom (evtl. aus älteren App-Versionen
+        // verbliebenen) gespeicherten Wert.
         let suiteName = "test.intent.radius.\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suiteName))
         defer { defaults.removePersistentDomain(forName: suiteName) }
 
-        #expect(StationIntentLookup.radiusKm(defaults: defaults) == Double(AppSettings.SearchRadius.defaultKm))
+        #expect(StationIntentLookup.radiusKm(defaults: defaults) == AppSettings.SearchRadius.apiMaxKm)
 
         defaults.set(12, forKey: AppSettings.UserDefaultsKey.searchRadiusKm)
-        #expect(StationIntentLookup.radiusKm(defaults: defaults) == 12)
+        #expect(StationIntentLookup.radiusKm(defaults: defaults) == AppSettings.SearchRadius.apiMaxKm,
+                "Migrations-Werte aus alten App-Versionen dürfen den festen 25-km-Radius nicht mehr beeinflussen.")
     }
 
     @Test static func resolvedFuelUsesExplicitOverDefaults() throws {
