@@ -17,7 +17,7 @@ struct TRSettingsSectionHeader: View {
             .font(TRTypography.captionSmall())
             .fontWeight(.semibold)
             .tracking(1.1)
-            .foregroundStyle(accent ? TRColors.accent : TRColors.labelSecondary)
+            .foregroundStyle(accent ? TRColors.accentText : TRColors.labelSecondary)
             .frame(maxWidth: .infinity, alignment: .leading)
             .accessibilityAddTraits(.isHeader)
     }

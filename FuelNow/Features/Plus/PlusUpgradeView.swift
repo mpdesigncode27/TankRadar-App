@@ -77,7 +77,7 @@ struct PlusUpgradeView: View {
             Text("plus.hero.eyebrow")
                 .font(TRTypography.caption())
                 .textCase(.uppercase)
-                .foregroundStyle(TRColors.accent)
+                .foregroundStyle(TRColors.accentText)
                 .accessibilityAddTraits(.isHeader)
 
             Text("plus.hero.headline")
@@ -112,7 +112,7 @@ struct PlusUpgradeView: View {
                         .font(TRTypography.bodyBold())
                 } icon: {
                     Image(systemName: "checkmark.seal.fill")
-                        .foregroundStyle(TRColors.accent)
+                        .foregroundStyle(TRColors.accentText)
                 }
                 Text("plus.status.active.detail")
                     .font(TRTypography.callout())
@@ -171,7 +171,7 @@ struct PlusUpgradeView: View {
             }
             .buttonStyle(.plain)
             .disabled(purchase.isBusy)
-            .foregroundStyle(TRColors.accent)
+            .foregroundStyle(TRColors.accentText)
             .accessibilityHint("Synchronisiert Käufe mit deinem Apple-ID-Konto.")
 
             Button {
@@ -181,7 +181,7 @@ struct PlusUpgradeView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .buttonStyle(.plain)
-            .foregroundStyle(TRColors.accent)
+            .foregroundStyle(TRColors.accentText)
             .accessibilityHint("Öffnet die Abonnementverwaltung deines Apple-ID-Kontos.")
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -246,7 +246,7 @@ private struct BenefitRow: View {
         HStack(alignment: .top, spacing: TRSpacing.m) {
             Image(systemName: benefit.systemImage)
                 .font(.title2)
-                .foregroundStyle(TRColors.accent)
+                .foregroundStyle(TRColors.accentText)
                 .frame(width: 32, height: 32, alignment: .center)
                 .accessibilityHidden(true)
 

@@ -37,14 +37,19 @@ struct StationDetailView: View {
 
                     TRSectionCard(title: "Status") {
                         HStack(spacing: TRSpacing.s) {
-                            Circle()
-                                .fill(station.isOpen ? TRColors.success : TRColors.danger)
-                                .frame(width: 12, height: 12)
-                                .overlay {
-                                    Circle()
-                                        .strokeBorder(TRColors.labelPrimary.opacity(0.12), lineWidth: 1)
-                                }
-                                .accessibilityHidden(true)
+                            ZStack {
+                                Circle()
+                                    .fill(station.isOpen ? TRColors.success : TRColors.danger)
+                                    .frame(width: 22, height: 22)
+                                Image(systemName: station.isOpen ? "clock.fill" : "clock.badge.xmark.fill")
+                                    .font(.caption2.weight(.bold))
+                                    .foregroundStyle(.white)
+                            }
+                            .overlay {
+                                Circle()
+                                    .strokeBorder(TRColors.labelPrimary.opacity(0.12), lineWidth: 1)
+                            }
+                            .accessibilityHidden(true)
                             Text(station.isOpen ? "Geöffnet" : "Geschlossen")
                                 .font(TRTypography.callout())
                                 .foregroundStyle(station.isOpen ? TRColors.success : TRColors.danger)
@@ -104,7 +109,7 @@ struct StationDetailView: View {
                 if isPreferred {
                     Image(systemName: "checkmark.circle.fill")
                         .font(TRTypography.caption())
-                        .foregroundStyle(TRColors.accent)
+                        .foregroundStyle(TRColors.accentText)
                         .accessibilityHidden(true)
                 }
             }
@@ -113,7 +118,7 @@ struct StationDetailView: View {
                 if let euros = station.price(for: fuel) {
                     Text(StationDetailFormatting.priceString(euros: euros))
                         .font(TRTypography.bodyBold())
-                        .foregroundStyle(TRColors.accent)
+                        .foregroundStyle(TRColors.accentText)
                         .lineLimit(2)
                         .minimumScaleFactor(0.85)
                 } else {

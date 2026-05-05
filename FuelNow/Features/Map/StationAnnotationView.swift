@@ -7,7 +7,7 @@ struct StationAnnotationView: View {
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
-    @ScaledMetric(relativeTo: .body) private var statusDotDiameter: CGFloat = 12
+    @ScaledMetric(relativeTo: .body) private var statusBadgeDiameter: CGFloat = 18
 
     private var priceText: String {
         StationAnnotationFormatting.priceString(euros: station.price(for: preferredFuel))
@@ -47,15 +47,22 @@ struct StationAnnotationView: View {
         .accessibilityHint("Tippen für Details.")
     }
 
+    /// Status-Badge mit Farbe **und** SF-Symbol (TAN-80, `SC 1.4.1 Use of Color`):
+    /// Geöffnet → grün + `clock.fill`, Geschlossen → rot + `clock.badge.xmark.fill`.
     private var statusBadge: some View {
-        Circle()
-            .fill(station.isOpen ? TRColors.success : TRColors.danger)
-            .frame(width: statusDotDiameter, height: statusDotDiameter)
-            .overlay {
-                Circle()
-                    .strokeBorder(TRColors.background.opacity(0.55), lineWidth: 1)
-            }
-            .accessibilityHidden(true)
+        ZStack {
+            Circle()
+                .fill(station.isOpen ? TRColors.success : TRColors.danger)
+                .frame(width: statusBadgeDiameter, height: statusBadgeDiameter)
+                .overlay {
+                    Circle()
+                        .strokeBorder(TRColors.background.opacity(0.55), lineWidth: 1)
+                }
+            Image(systemName: station.isOpen ? "clock.fill" : "clock.badge.xmark.fill")
+                .font(.system(size: max(8, statusBadgeDiameter * 0.55), weight: .bold))
+                .foregroundStyle(.white)
+        }
+        .accessibilityHidden(true)
     }
 }
 

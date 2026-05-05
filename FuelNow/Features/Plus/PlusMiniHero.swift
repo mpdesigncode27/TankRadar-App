@@ -16,7 +16,7 @@ struct PlusMiniHero: View {
             Text("plus.hero.eyebrow")
                 .font(TRTypography.captionSmall())
                 .textCase(.uppercase)
-                .foregroundStyle(TRColors.accent)
+                .foregroundStyle(TRColors.accentText)
                 .accessibilityAddTraits(.isHeader)
 
             Text("plus.hero.headline")
@@ -121,7 +121,7 @@ private struct PlusMiniBenefitRow: View {
         HStack(alignment: .firstTextBaseline, spacing: TRSpacing.s) {
             Image(systemName: benefit.symbolName)
                 .font(TRTypography.callout())
-                .foregroundStyle(TRColors.accent)
+                .foregroundStyle(TRColors.accentText)
                 .frame(width: 20, alignment: .center)
                 .accessibilityHidden(true)
 

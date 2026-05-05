@@ -49,7 +49,7 @@ private struct FuelTypeCard: View {
         HStack(alignment: .center, spacing: TRSpacing.m) {
             Image(systemName: fuel.settingsCardSymbolName)
                 .font(.title2)
-                .foregroundStyle(isSelected ? TRColors.accent : TRColors.labelSecondary)
+                .foregroundStyle(isSelected ? TRColors.accentText : TRColors.labelSecondary)
                 .frame(width: 36, height: 36, alignment: .center)
                 .accessibilityHidden(true)
 
@@ -67,7 +67,7 @@ private struct FuelTypeCard: View {
             if isSelected {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.title3)
-                    .foregroundStyle(TRColors.accent)
+                    .foregroundStyle(TRColors.accentText)
                     .accessibilityHidden(true)
                     .transition(.opacity.combined(with: .scale))
             }

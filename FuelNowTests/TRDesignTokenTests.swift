@@ -19,17 +19,20 @@ struct TRDesignTokenTests {
         #expect(TRRadius.xl == 24)
     }
 
+    /// Light-Hex-Werte sind die Quelle der Wahrheit für die Asset-Katalog-Farben.
+    /// Bei Token-Anpassungen (z. B. WCAG-AAA-Refresh, TAN-80) muss dieser Test mit aktualisiert werden.
     @Test func paletteHexLightMatchesDesignNotes() {
         #expect(TRPaletteHex.accent == "2EC4B6")
         #expect(TRPaletteHex.accentMuted == "248F85")
+        #expect(TRPaletteHex.accentText == "0F5650")
         #expect(TRPaletteHex.background == "F5F7FA")
         #expect(TRPaletteHex.backgroundSecondary == "FFFFFF")
         #expect(TRPaletteHex.backgroundTertiary == "E8ECF2")
         #expect(TRPaletteHex.labelPrimary == "0B1F33")
-        #expect(TRPaletteHex.labelSecondary == "5C6B7A")
-        #expect(TRPaletteHex.labelTertiary == "8E9AA5")
-        #expect(TRPaletteHex.separator == "D1D9E0")
-        #expect(TRPaletteHex.danger == "D92D20")
-        #expect(TRPaletteHex.success == "1F8A55")
+        #expect(TRPaletteHex.labelSecondary == "3A4350")
+        #expect(TRPaletteHex.labelTertiary == "4A5260")
+        #expect(TRPaletteHex.separator == "7C8993")
+        #expect(TRPaletteHex.danger == "9F2018")
+        #expect(TRPaletteHex.success == "065B30")
     }
 }
