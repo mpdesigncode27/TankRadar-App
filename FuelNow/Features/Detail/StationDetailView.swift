@@ -2,7 +2,7 @@ import CoreLocation
 import MapKit
 import SwiftUI
 
-/// Detail-Sheet für eine Tankstelle: Stammdaten, alle Spritpreise, Status, Entfernung und Start der Apple-Maps-Navigation (Autoroute).
+/// Detail-Sheet für eine Tankstelle: Marke, alle Spritpreise, Status, Entfernung und Start der Apple-Maps-Navigation (Autoroute).
 struct StationDetailView: View {
     let station: Station
     let preferredFuel: FuelType
@@ -20,13 +20,6 @@ struct StationDetailView: View {
                             .accessibilityAddTraits(.isHeader)
                     }
 
-                    TRSectionCard(title: "Adresse") {
-                        Text(station.fullAddress)
-                            .font(TRTypography.body())
-                            .foregroundStyle(TRColors.labelPrimary)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-
                     TRSectionCard(title: "Preise") {
                         VStack(alignment: .leading, spacing: TRSpacing.s) {
                             ForEach(FuelType.allCases) { fuel in
@@ -37,19 +30,14 @@ struct StationDetailView: View {
 
                     TRSectionCard(title: "Status") {
                         HStack(spacing: TRSpacing.s) {
-                            ZStack {
-                                Circle()
-                                    .fill(station.isOpen ? TRColors.success : TRColors.danger)
-                                    .frame(width: 22, height: 22)
-                                Image(systemName: station.isOpen ? "clock.fill" : "clock.badge.xmark.fill")
-                                    .font(.caption2.weight(.bold))
-                                    .foregroundStyle(.white)
-                            }
-                            .overlay {
-                                Circle()
-                                    .strokeBorder(TRColors.labelPrimary.opacity(0.12), lineWidth: 1)
-                            }
-                            .accessibilityHidden(true)
+                            Circle()
+                                .fill(station.isOpen ? TRColors.success : TRColors.danger)
+                                .frame(width: 12, height: 12)
+                                .overlay {
+                                    Circle()
+                                        .strokeBorder(TRColors.labelPrimary.opacity(0.12), lineWidth: 1)
+                                }
+                                .accessibilityHidden(true)
                             Text(station.isOpen ? "Geöffnet" : "Geschlossen")
                                 .font(TRTypography.callout())
                                 .foregroundStyle(station.isOpen ? TRColors.success : TRColors.danger)
