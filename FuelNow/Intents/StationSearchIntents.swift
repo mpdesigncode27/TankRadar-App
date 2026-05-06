@@ -141,4 +141,3 @@ struct FindCheapestStationIntent: AppIntent {
         return "\(num) €/l"
     }
 }
-

@@ -1,6 +1,5 @@
 import StoreKit
 import Testing
-
 @testable import FuelNow
 
 /// Deterministische Checks für den geteilten Purchase-/Restore-State.

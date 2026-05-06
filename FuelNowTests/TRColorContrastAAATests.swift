@@ -12,28 +12,27 @@ import Testing
 /// werden ergänzend gegen ihren bekannten Hex geprüft. Dadurch entfällt die UIKit/SwiftUI-Abhängigkeit
 /// und der Test ist deterministisch (keine UI-Pipeline notwendig).
 struct TRColorContrastAAATests {
-
     // MARK: - Light Mode (Pflicht)
 
     /// `SC 1.4.6 Contrast (Enhanced)` — Text ≥ **7:1** auf den App-Backgrounds.
     @Test func aaaTextContrastLightOnBackground() throws {
         let bg = try sRGB(hex: TRPaletteHex.background)
 
-        try expect(.ratio(at: 7.0), of: TRPaletteHex.labelPrimary,   on: bg, "labelPrimary on background")
+        try expect(.ratio(at: 7.0), of: TRPaletteHex.labelPrimary, on: bg, "labelPrimary on background")
         try expect(.ratio(at: 7.0), of: TRPaletteHex.labelSecondary, on: bg, "labelSecondary on background")
-        try expect(.ratio(at: 7.0), of: TRPaletteHex.labelTertiary,  on: bg, "labelTertiary on background")
-        try expect(.ratio(at: 7.0), of: TRPaletteHex.success,        on: bg, "success on background (text/glyph tint)")
-        try expect(.ratio(at: 7.0), of: TRPaletteHex.danger,         on: bg, "danger on background (text/glyph tint)")
-        try expect(.ratio(at: 7.0), of: TRPaletteHex.accentText,     on: bg, "accentText on background (Accent-Text/Buttons)")
+        try expect(.ratio(at: 7.0), of: TRPaletteHex.labelTertiary, on: bg, "labelTertiary on background")
+        try expect(.ratio(at: 7.0), of: TRPaletteHex.success, on: bg, "success on background (text/glyph tint)")
+        try expect(.ratio(at: 7.0), of: TRPaletteHex.danger, on: bg, "danger on background (text/glyph tint)")
+        try expect(.ratio(at: 7.0), of: TRPaletteHex.accentText, on: bg, "accentText on background (Accent-Text/Buttons)")
     }
 
     /// Auch auf Karten (`backgroundSecondary` = weiß) müssen Text-Tokens AAA halten.
     @Test func aaaTextContrastLightOnCards() throws {
         let card = try sRGB(hex: TRPaletteHex.backgroundSecondary)
-        try expect(.ratio(at: 7.0), of: TRPaletteHex.labelPrimary,   on: card, "labelPrimary on white card")
+        try expect(.ratio(at: 7.0), of: TRPaletteHex.labelPrimary, on: card, "labelPrimary on white card")
         try expect(.ratio(at: 7.0), of: TRPaletteHex.labelSecondary, on: card, "labelSecondary on white card")
-        try expect(.ratio(at: 7.0), of: TRPaletteHex.labelTertiary,  on: card, "labelTertiary on white card")
-        try expect(.ratio(at: 7.0), of: TRPaletteHex.accentText,     on: card, "accentText on white card")
+        try expect(.ratio(at: 7.0), of: TRPaletteHex.labelTertiary, on: card, "labelTertiary on white card")
+        try expect(.ratio(at: 7.0), of: TRPaletteHex.accentText, on: card, "accentText on white card")
     }
 
     /// `SC 1.4.6` für **Buttons mit weißer Schrift**: weiß auf `accentText` ≥ 7:1.
@@ -48,7 +47,7 @@ struct TRColorContrastAAATests {
     @Test func aaNonTextContrastForStatusDots() throws {
         let bg = try sRGB(hex: TRPaletteHex.background)
         try expect(.ratio(at: 3.0), of: TRPaletteHex.success, on: bg, "success dot on background (non-text 3:1)")
-        try expect(.ratio(at: 3.0), of: TRPaletteHex.danger,  on: bg, "danger dot on background (non-text 3:1)")
+        try expect(.ratio(at: 3.0), of: TRPaletteHex.danger, on: bg, "danger dot on background (non-text 3:1)")
     }
 
     /// `SC 1.4.11` — Separator als UI-Komponente.

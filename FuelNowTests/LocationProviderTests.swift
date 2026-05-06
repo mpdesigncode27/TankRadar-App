@@ -1,6 +1,5 @@
 import Foundation
 import Testing
-
 @testable import FuelNow
 
 private enum StubError: Error {

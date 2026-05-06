@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# scripts/git-hooks/pre-commit — FuelNow lint/format gate (TAN-63).
+#
+# Activation (one-time per clone):
+#   git config core.hooksPath scripts/git-hooks
+#
+# Bypass for emergencies (please justify in the PR):
+#   git commit --no-verify
+#
+# Behaviour:
+#   - Skips silently if no .swift files are staged.
+#   - SwiftFormat: lint-checks the staged files (no rewrite — that would change
+#     content the user already added with `git add`).
+#   - SwiftLint: lints the staged files; warnings allowed, errors block.
+#   - Tools missing? Print install hint and let the commit through (so people
+#     without the toolchain aren't blocked by the hook itself).
+
+set -uo pipefail
+
+# Collect staged .swift files inside the watched targets.
+mapfile -t staged < <(
+  git diff --cached --name-only --diff-filter=ACMR \
+    | grep -E '^(FuelNow|FuelNowTests|FuelNowUITests)/.*\.swift$' || true
+)
+
+if [[ ${#staged[@]} -eq 0 ]]; then
+  exit 0
+fi
+
+# Defensive: skip files git lists but that don't exist on disk
+# (e.g. partially staged renames).
+present=()
+for f in "${staged[@]}"; do
+  [[ -f "$f" ]] && present+=("$f")
+done
+
+if [[ ${#present[@]} -eq 0 ]]; then
+  exit 0
+fi
+
+if ! command -v swiftformat >/dev/null 2>&1 \
+    || ! command -v swiftlint >/dev/null 2>&1; then
+  cat >&2 <<'EOF'
+[pre-commit] swiftformat or swiftlint missing — run:
+    brew bundle --file=Brewfile
+Skipping the hook for this commit. Re-enable by installing the tools.
+EOF
+  exit 0
+fi
+
+cache_dir=".build/swiftlint-cache"
+mkdir -p "$cache_dir"
+
+# SwiftFormat lint-only over staged files. Paths must come before flags.
+if ! swiftformat "${present[@]}" --lint --quiet; then
+  cat >&2 <<'EOF'
+[pre-commit] swiftformat lint failed.
+Run `./scripts/format.sh` to auto-fix, then `git add` the result.
+EOF
+  exit 1
+fi
+
+if ! swiftlint lint --quiet --cache-path "$cache_dir" -- "${present[@]}"; then
+  cat >&2 <<'EOF'
+[pre-commit] swiftlint reported errors.
+Run `./scripts/lint.sh --fix` for autocorrectable rules.
+EOF
+  exit 1
+fi
+
+exit 0

@@ -17,7 +17,10 @@ struct AppSettingsTests {
     }
 
     @Test func searchRadiusIsLockedToTankerkoenigApiMaximum() {
-        #expect(AppSettings.SearchRadius.apiMaxKm == 25, "Tankerkönig list.php erlaubt max. rad=25; siehe .cursor/skills/tankerkoenig-api/SKILL.md.")
+        #expect(
+            AppSettings.SearchRadius.apiMaxKm == 25,
+            "Tankerkönig list.php erlaubt max. rad=25; siehe .cursor/skills/tankerkoenig-api/SKILL.md."
+        )
     }
 
     @Test func tankerkoenigAttributionURL() {

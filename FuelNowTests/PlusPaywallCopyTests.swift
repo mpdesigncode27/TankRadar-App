@@ -1,7 +1,6 @@
 import Foundation
 import StoreKit
 import Testing
-
 @testable import FuelNow
 
 /// Reine Copy-/Audience-Logik der FuelNow-Plus-Paywall (TAN-81).
@@ -90,9 +89,11 @@ struct PlusPaywallCopyTests {
     @Test func convenienceOverloadMatchesExplicitFields() {
         let offer = TrialOfferState(periodValue: 3, periodUnit: .day, periodCount: 1, isEligible: true)
         let viaOffer = PlusPaywallCopy.formattedTrialDuration(
-            offer: offer, locale: Locale(identifier: "en_US"))
+            offer: offer, locale: Locale(identifier: "en_US")
+        )
         let viaFields = PlusPaywallCopy.formattedTrialDuration(
-            periodValue: 3, periodUnit: .day, periodCount: 1, locale: Locale(identifier: "en_US"))
+            periodValue: 3, periodUnit: .day, periodCount: 1, locale: Locale(identifier: "en_US")
+        )
         #expect(viaOffer == viaFields)
     }
 

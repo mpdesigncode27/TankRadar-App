@@ -1,5 +1,4 @@
 import Testing
-
 @testable import FuelNow
 
 struct StationVoiceOverCopyTests {
