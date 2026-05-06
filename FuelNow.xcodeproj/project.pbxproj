@@ -93,6 +93,10 @@
 		F66200000000000000000002 /* FuelNowPlus.storekit in Resources */ = {isa = PBXBuildFile; fileRef = F64000000000000000000001 /* FuelNowPlus.storekit */; };
 		F66300000000000000000001 /* PlusPaywallCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66300000000000000000010 /* PlusPaywallCopy.swift */; };
 		F66400000000000000000001 /* PlusPaywallCopyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66400000000000000000010 /* PlusPaywallCopyTests.swift */; };
+		F70010000000000000000002 /* CarPlayRoutingPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70000000000000000000002 /* CarPlayRoutingPolicy.swift */; };
+		F70010000000000000000003 /* CarPlayEntitlementProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70000000000000000000003 /* CarPlayEntitlementProviding.swift */; };
+		F70010000000000000000004 /* FuelNowCarPlaySceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70000000000000000000004 /* FuelNowCarPlaySceneDelegate.swift */; };
+		F70010000000000000000005 /* CarPlayRoutingPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70000000000000000000005 /* CarPlayRoutingPolicyTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -203,6 +207,11 @@
 		F66200000000000000000010 /* EntitlementManagerStoreKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitlementManagerStoreKitTests.swift; sourceTree = "<group>"; };
 		F66300000000000000000010 /* PlusPaywallCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPaywallCopy.swift; sourceTree = "<group>"; };
 		F66400000000000000000010 /* PlusPaywallCopyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusPaywallCopyTests.swift; sourceTree = "<group>"; };
+		F70000000000000000000002 /* CarPlayRoutingPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlayRoutingPolicy.swift; sourceTree = "<group>"; };
+		F70000000000000000000003 /* CarPlayEntitlementProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlayEntitlementProviding.swift; sourceTree = "<group>"; };
+		F70000000000000000000004 /* FuelNowCarPlaySceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuelNowCarPlaySceneDelegate.swift; sourceTree = "<group>"; };
+		F70000000000000000000005 /* CarPlayRoutingPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlayRoutingPolicyTests.swift; sourceTree = "<group>"; };
+		F70000000000000000000006 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +265,7 @@
 			children = (
 				300000000000000000000001 /* FuelNowApp.swift */,
 				F70000000000000000000001 /* FuelNow.entitlements */,
+				F70000000000000000000006 /* Info.plist */,
 				300000000000000000000002 /* ContentView.swift */,
 				300000000000000000000003 /* Assets.xcassets */,
 				F65700000000000000000003 /* Localizable.xcstrings */,
@@ -294,6 +304,7 @@
 				F66400000000000000000010 /* PlusPaywallCopyTests.swift */,
 				F60800000000000000000009 /* FuelTypePresentationTests.swift */,
 				F66200000000000000000010 /* EntitlementManagerStoreKitTests.swift */,
+				F70000000000000000000005 /* CarPlayRoutingPolicyTests.swift */,
 				F51300000000000000000001 /* Fixtures */,
 			);
 			path = FuelNowTests;
@@ -325,8 +336,19 @@
 				F33000000000000000000001 /* Detail */,
 				F34000000000000000000001 /* Settings */,
 				F66000000000000000000001 /* Plus */,
+				F71000000000000000000001 /* CarPlay */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		F71000000000000000000001 /* CarPlay */ = {
+			isa = PBXGroup;
+			children = (
+				F70000000000000000000003 /* CarPlayEntitlementProviding.swift */,
+				F70000000000000000000002 /* CarPlayRoutingPolicy.swift */,
+				F70000000000000000000004 /* FuelNowCarPlaySceneDelegate.swift */,
+			);
+			path = CarPlay;
 			sourceTree = "<group>";
 		};
 		F66000000000000000000001 /* Plus */ = {
@@ -639,6 +661,9 @@
 				F65710000000000000000004 /* OpenMapIntents.swift in Sources */,
 				F65710000000000000000005 /* FuelNowAppShortcuts.swift in Sources */,
 				F65810000000000000000001 /* EntitlementManager.swift in Sources */,
+				F70010000000000000000003 /* CarPlayEntitlementProviding.swift in Sources */,
+				F70010000000000000000002 /* CarPlayRoutingPolicy.swift in Sources */,
+				F70010000000000000000004 /* FuelNowCarPlaySceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,6 +691,7 @@
 				F66400000000000000000001 /* PlusPaywallCopyTests.swift in Sources */,
 				F60810000000000000000009 /* FuelTypePresentationTests.swift in Sources */,
 				F66200000000000000000001 /* EntitlementManagerStoreKitTests.swift in Sources */,
+				F70010000000000000000005 /* CarPlayRoutingPolicyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -821,16 +847,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FNXU97S3QK;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = FuelNow;
-				INFOPLIST_KEY_CFBundleURLTypes = "{\n    CFBundleTypeRole = Editor;\n    CFBundleURLName = \"$(PRODUCT_BUNDLE_IDENTIFIER).deeplink\";\n    CFBundleURLSchemes =     (\n        fuelnow\n    );\n}";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "FuelNow benötigt deinen Standort, um Tankstellen in deiner Nähe anzuzeigen.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = FuelNow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -858,16 +876,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FNXU97S3QK;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = FuelNow;
-				INFOPLIST_KEY_CFBundleURLTypes = "{\n    CFBundleTypeRole = Editor;\n    CFBundleURLName = \"$(PRODUCT_BUNDLE_IDENTIFIER).deeplink\";\n    CFBundleURLSchemes =     (\n        fuelnow\n    );\n}";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "FuelNow benötigt deinen Standort, um Tankstellen in deiner Nähe anzuzeigen.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = FuelNow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
