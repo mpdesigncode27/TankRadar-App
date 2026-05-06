@@ -4,6 +4,15 @@ import Foundation
 ///
 /// Dokumentation: [creativecommons.tankerkoenig.de](https://creativecommons.tankerkoenig.de/?page=info).
 /// Für stabiles `Station`-Decoding wird **`type=all`** verwendet (getrennte Felder `e5`/`e10`/`diesel`).
+///
+/// **Architektur-Entscheidung (TAN-82, `docs/TANKERKOENIG_CACHING.md`):**
+/// FuelNow spiegelt Tankerkönig-Daten **nicht** in eine eigene DB mit
+/// periodischer Aktualisierung. Tankerkönig untersagt das im Free Tier
+/// explizit und sperrt sonst den API-Key. Default bleibt **on-demand** über
+/// diesen Client; Caching-Verbesserungen laufen über `StationStore`
+/// (Region-Bucket-TTL: TAN-83) und einen Stammdaten-Cache (TAN-84).
+/// Wer hier einen periodischen Server-Poller einbauen möchte, muss zuerst
+/// die ADR revidieren.
 actor TankerkoenigClient {
     enum Failure: Swift.Error, LocalizedError, Sendable {
         case missingAPIKey

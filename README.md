@@ -4,6 +4,8 @@
 
 **Code-Stil & Tooling:** [`docs/STYLE.md`](docs/STYLE.md) — SwiftLint, SwiftFormat, Build-Phase-Snippet und Git-Pre-Commit-Hook (`brew bundle --file=Brewfile`, dann `./scripts/lint.sh` / `./scripts/format.sh`).
 
+**Daten-Architektur (kein eigener Tankerkönig-DB-Mirror):** [`docs/TANKERKOENIG_CACHING.md`](docs/TANKERKOENIG_CACHING.md) — Architektur-Entscheidung [TAN-82](https://linear.app/tankradar-app/issue/TAN-82). FuelNow bleibt **On-Demand** gegen die Tankerkönig-API; Verbesserungen laufen über Client-Cache ([TAN-83](https://linear.app/tankradar-app/issue/TAN-83)) und Stammdaten-Cache ([TAN-84](https://linear.app/tankradar-app/issue/TAN-84)).
+
 **Tankerkönig-API-Key:** Beantragung und Eintragung über Linear [**TAN-72**](https://linear.app/tankradar-app/issue/TAN-72).
 
 ### Checkliste TAN-72 (betrieblich)
