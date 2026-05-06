@@ -20,8 +20,12 @@ struct FuelNowAppShortcuts: AppShortcutsProvider {
             phrases: [
                 "Günstigste Tankstelle in \(.applicationName)",
                 "Wo ist die günstigste Tankstelle in \(.applicationName)",
+                "Wo ist die günstigste Tankstelle in meiner Nähe in \(.applicationName)",
+                "Günstigste Tankstelle in meiner Nähe in \(.applicationName)",
                 "Cheapest gas station in \(.applicationName)",
                 "Where is the cheapest gas station in \(.applicationName)",
+                "Where is the cheapest gas station near me in \(.applicationName)",
+                "Cheapest gas station near me in \(.applicationName)",
             ],
             shortTitle: "Günstigste Tankstelle",
             systemImageName: "eurosign.circle.fill"

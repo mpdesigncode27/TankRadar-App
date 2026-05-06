@@ -42,6 +42,7 @@ Pro Sprache mindestens **einen** Satz aus der folgenden Liste (oder nah genug, d
 - „Wo ist die nächste Tankstelle in FuelNow“
 - „Günstigste Tankstelle in FuelNow“
 - „Wo ist die günstigste Tankstelle in FuelNow“
+- „Wo ist die günstigste Tankstelle in meiner Nähe in FuelNow“ / „Günstigste Tankstelle in meiner Nähe in FuelNow“
 - „Öffne FuelNow“ / „Zeig mir FuelNow“
 - „Tankstelle in FuelNow öffnen“ (ggf. mit Nachfrage zur Auswahl)
 
@@ -51,6 +52,7 @@ Pro Sprache mindestens **einen** Satz aus der folgenden Liste (oder nah genug, d
 - „Where is the nearest gas station in FuelNow“
 - „Cheapest gas station in FuelNow“
 - „Where is the cheapest gas station in FuelNow“
+- „Where is the cheapest gas station near me in FuelNow“ / „Cheapest gas station near me in FuelNow“
 - „Open FuelNow“ / „Show FuelNow“
 - „Open station in FuelNow“
 
