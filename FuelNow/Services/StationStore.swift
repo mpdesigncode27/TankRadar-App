@@ -52,6 +52,11 @@ final class StationStore {
         self.init(fetcher: TankerkoenigStationFetcher(client: tankerkoenigClient))
     }
 
+    /// Mittelpunkt des letzten abgeschlossenen `list.php`-Abrufs (Erfolg oder Fehler). `nil`, bis ein erster Versuch beendet ist.
+    var lastFetchCenter: CLLocationCoordinate2D? {
+        lastFetchReference?.coordinate
+    }
+
     deinit {
         fetchTask?.cancel()
     }

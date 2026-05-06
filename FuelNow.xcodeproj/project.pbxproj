@@ -37,6 +37,7 @@
 		F80100000000000000000001 /* TRColorContrastAAATests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F80000000000000000000001 /* TRColorContrastAAATests.swift */; };
 		F51900000000000000000001 /* TankerkoenigClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51800000000000000000001 /* TankerkoenigClientTests.swift */; };
 		F52100000000000000000001 /* StationStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52000000000000000000001 /* StationStoreTests.swift */; };
+		F52510000000000000000001 /* StationMapClusteringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52500000000000000000001 /* StationMapClusteringTests.swift */; };
 		F52310000000000000000001 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52300000000000000000001 /* AppSettings.swift */; };
 		F52330000000000000000001 /* StationVoiceOverCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52300000000000000000002 /* StationVoiceOverCopy.swift */; };
 		F52410000000000000000001 /* AppSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52400000000000000000001 /* AppSettingsTests.swift */; };
@@ -52,6 +53,7 @@
 		F60810000000000000000004 /* StationAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000004 /* StationAnnotationView.swift */; };
 		F60810000000000000000005 /* LocateMeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000005 /* LocateMeButton.swift */; };
 		F60810000000000000000006 /* LocationDeniedCallout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000006 /* LocationDeniedCallout.swift */; };
+		F60810000000000000000011 /* StationMapClustering.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60800000000000000000011 /* StationMapClustering.swift */; };
 		F62A10000000000000000001 /* mock-stations.json in Resources */ = {isa = PBXBuildFile; fileRef = F62A00000000000000000001 /* mock-stations.json */; };
 		F62B10000000000000000001 /* BundledMockStationFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62B00000000000000000001 /* BundledMockStationFetcher.swift */; };
 		F62C10000000000000000001 /* StationStoreFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62C00000000000000000001 /* StationStoreFactory.swift */; };
@@ -151,6 +153,7 @@
 		F80000000000000000000001 /* TRColorContrastAAATests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRColorContrastAAATests.swift; sourceTree = "<group>"; };
 		F51800000000000000000001 /* TankerkoenigClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TankerkoenigClientTests.swift; sourceTree = "<group>"; };
 		F52000000000000000000001 /* StationStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationStoreTests.swift; sourceTree = "<group>"; };
+		F52500000000000000000001 /* StationMapClusteringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationMapClusteringTests.swift; sourceTree = "<group>"; };
 		F52300000000000000000001 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		F52300000000000000000002 /* StationVoiceOverCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationVoiceOverCopy.swift; sourceTree = "<group>"; };
 		F52400000000000000000001 /* AppSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsTests.swift; sourceTree = "<group>"; };
@@ -165,6 +168,7 @@
 		F60800000000000000000004 /* StationAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationAnnotationView.swift; sourceTree = "<group>"; };
 		F60800000000000000000005 /* LocateMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocateMeButton.swift; sourceTree = "<group>"; };
 		F60800000000000000000006 /* LocationDeniedCallout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDeniedCallout.swift; sourceTree = "<group>"; };
+		F60800000000000000000011 /* StationMapClustering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationMapClustering.swift; sourceTree = "<group>"; };
 		F61100000000000000000001 /* LocationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServiceTests.swift; sourceTree = "<group>"; };
 		F62A00000000000000000001 /* mock-stations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mock-stations.json"; sourceTree = "<group>"; };
 		F62B00000000000000000001 /* BundledMockStationFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundledMockStationFetcher.swift; sourceTree = "<group>"; };
@@ -292,6 +296,7 @@
 				F80000000000000000000001 /* TRColorContrastAAATests.swift */,
 				F51800000000000000000001 /* TankerkoenigClientTests.swift */,
 				F52000000000000000000001 /* StationStoreTests.swift */,
+				F52500000000000000000001 /* StationMapClusteringTests.swift */,
 				F65400000000000000000002 /* QueryServiceTests.swift */,
 				F52400000000000000000001 /* AppSettingsTests.swift */,
 				F52400000000000000000002 /* StationVoiceOverCopyTests.swift */,
@@ -369,6 +374,7 @@
 				F60800000000000000000004 /* StationAnnotationView.swift */,
 				F60800000000000000000005 /* LocateMeButton.swift */,
 				F60800000000000000000006 /* LocationDeniedCallout.swift */,
+				F60800000000000000000011 /* StationMapClustering.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -628,6 +634,7 @@
 				F60810000000000000000004 /* StationAnnotationView.swift in Sources */,
 				F60810000000000000000005 /* LocateMeButton.swift in Sources */,
 				F60810000000000000000006 /* LocationDeniedCallout.swift in Sources */,
+				F60810000000000000000011 /* StationMapClustering.swift in Sources */,
 				F60810000000000000000002 /* StationDetailView.swift in Sources */,
 				F60810000000000000000003 /* SettingsView.swift in Sources */,
 				F66010000000000000000002 /* PlusPurchaseController.swift in Sources */,
@@ -679,6 +686,7 @@
 				F80100000000000000000001 /* TRColorContrastAAATests.swift in Sources */,
 				F51900000000000000000001 /* TankerkoenigClientTests.swift in Sources */,
 				F52100000000000000000001 /* StationStoreTests.swift in Sources */,
+				F52510000000000000000001 /* StationMapClusteringTests.swift in Sources */,
 				F65410000000000000000002 /* QueryServiceTests.swift in Sources */,
 				F52410000000000000000001 /* AppSettingsTests.swift in Sources */,
 				F52430000000000000000001 /* StationVoiceOverCopyTests.swift in Sources */,

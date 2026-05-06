@@ -71,10 +71,11 @@ struct PlusUpgradeView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .imageScale(.large)
+                        Image(systemName: "xmark")
+                            .font(.title3.weight(.medium))
                             .foregroundStyle(TRColors.labelSecondary)
                     }
+                    .buttonStyle(.plain)
                     .accessibilityLabel("plus.sheet.close")
                     .accessibilityHint("Schließt das FuelNow-Plus-Fenster.")
                 }

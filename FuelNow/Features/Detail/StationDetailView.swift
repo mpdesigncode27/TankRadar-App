@@ -2,84 +2,111 @@ import CoreLocation
 import MapKit
 import SwiftUI
 
-/// Detail-Sheet für eine Tankstelle: Marke, alle Spritpreise, Status, Entfernung und Start der Apple-Maps-Navigation (Autoroute).
+/// Detail-Sheet für eine Tankstelle: Marke in der Navigationsleiste, Status/Entfernung, Spritpreise und Apple-Maps-Navigation (Autoroute).
 struct StationDetailView: View {
     let station: Station
     let preferredFuel: FuelType
 
     @Environment(\.dismiss) private var dismiss
 
+    /// Marke in der Toolbar; wenn leer, voller Stationsname.
+    private var navigationBarBrandTitle: String {
+        let trimmed = station.brand.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? station.name : trimmed
+    }
+
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: TRSpacing.m) {
-                    if !station.brand.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        Text(station.brand)
-                            .font(TRTypography.title2())
-                            .foregroundStyle(TRColors.labelSecondary)
-                            .accessibilityAddTraits(.isHeader)
-                    }
+            VStack(alignment: .leading, spacing: 0) {
+                statusAndDistanceRow
+                    .padding(.horizontal, TRSpacing.m)
+                    .padding(.top, TRSpacing.s)
+                    .padding(.bottom, TRSpacing.m)
 
-                    TRSectionCard(title: "Preise") {
-                        VStack(alignment: .leading, spacing: TRSpacing.s) {
-                            ForEach(FuelType.allCases) { fuel in
-                                priceRow(fuel: fuel, isPreferred: fuel == preferredFuel)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: TRSpacing.m) {
+                        TRSectionCard(title: "Preise") {
+                            VStack(alignment: .leading, spacing: TRSpacing.s) {
+                                ForEach(FuelType.allCases) { fuel in
+                                    priceRow(fuel: fuel, isPreferred: fuel == preferredFuel)
+                                }
                             }
                         }
                     }
-
-                    TRSectionCard(title: "Status") {
-                        HStack(spacing: TRSpacing.s) {
-                            Circle()
-                                .fill(station.isOpen ? TRColors.success : TRColors.danger)
-                                .frame(width: 12, height: 12)
-                                .overlay {
-                                    Circle()
-                                        .strokeBorder(TRColors.labelPrimary.opacity(0.12), lineWidth: 1)
-                                }
-                                .accessibilityHidden(true)
-                            Text(station.isOpen ? "Geöffnet" : "Geschlossen")
-                                .font(TRTypography.callout())
-                                .foregroundStyle(station.isOpen ? TRColors.success : TRColors.danger)
-                        }
-                        .accessibilityElement(children: .combine)
-                        .accessibilityLabel(station.isOpen ? "Geöffnet" : "Geschlossen")
-                    }
-
-                    TRSectionCard(title: "Entfernung") {
-                        Text(distanceLabel)
-                            .font(TRTypography.body())
-                            .foregroundStyle(TRColors.labelPrimary)
-                    }
-
-                    Button(action: startAppleMapsDrivingNavigation) {
-                        Label("Navigation in Apple Maps", systemImage: "location.north.line.fill")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.trPrimaryGlass)
-                    .accessibilityLabel("Navigation in Apple Maps")
-                    .accessibilityHint("Startet die Autoroute von deinem Standort zur Tankstelle in Apple Maps.")
+                    .padding(.horizontal, TRSpacing.m)
+                    .padding(.bottom, TRSpacing.m)
                 }
-                .padding(TRSpacing.m)
-                .padding(.bottom, TRSpacing.l)
+
+                appleMapsNavigationButton
+                    .padding(.horizontal, TRSpacing.m)
+                    .padding(.top, TRSpacing.s)
+                    .padding(.bottom, TRSpacing.m)
             }
-            .navigationTitle(station.name)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(navigationBarBrandTitle)
+                        .font(.headline)
+                        .foregroundStyle(TRColors.labelPrimary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.75)
+                        .accessibilityLabel(station.name)
+                }
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
                         dismiss()
                     } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.title3)
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle(TRColors.labelSecondary, TRColors.labelTertiary.opacity(0.35))
+                        Image(systemName: "xmark")
+                            .font(.title3.weight(.medium))
+                            .foregroundStyle(TRColors.labelSecondary)
                     }
+                    .buttonStyle(.plain)
                     .accessibilityLabel("Schließen")
                     .accessibilityHint("Schließt die Tankstellendetails.")
                 }
             }
         }
+    }
+
+    /// Status und Entfernung unter der Toolbar (fix, ohne Scrollen).
+    @ViewBuilder
+    private var statusAndDistanceRow: some View {
+        HStack(alignment: .firstTextBaseline, spacing: TRSpacing.m) {
+            HStack(spacing: TRSpacing.s) {
+                Circle()
+                    .fill(station.isOpen ? TRColors.success : TRColors.danger)
+                    .frame(width: 12, height: 12)
+                    .overlay {
+                        Circle()
+                            .strokeBorder(TRColors.labelPrimary.opacity(0.12), lineWidth: 1)
+                    }
+                    .accessibilityHidden(true)
+                Text(station.isOpen ? "Geöffnet" : "Geschlossen")
+                    .font(TRTypography.callout())
+                    .fontWeight(.semibold)
+                    .foregroundStyle(station.isOpen ? TRColors.success : TRColors.danger)
+            }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(station.isOpen ? "Geöffnet" : "Geschlossen")
+
+            Spacer(minLength: TRSpacing.s)
+
+            Text(distanceLabel)
+                .font(TRTypography.callout())
+                .foregroundStyle(TRColors.labelSecondary)
+                .multilineTextAlignment(.trailing)
+                .accessibilityLabel("Entfernung, \(distanceLabel)")
+        }
+    }
+
+    private var appleMapsNavigationButton: some View {
+        Button(action: startAppleMapsDrivingNavigation) {
+            Label("Navigation in Apple Maps", systemImage: "location.north.line.fill")
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.trPrimaryGlass)
+        .accessibilityLabel("Navigation in Apple Maps")
+        .accessibilityHint("Startet die Autoroute von deinem Standort zur Tankstelle in Apple Maps.")
     }
 
     private var distanceLabel: String {

@@ -75,10 +75,11 @@ struct SettingsView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .imageScale(.large)
+                        Image(systemName: "xmark")
+                            .font(.title3.weight(.medium))
                             .foregroundStyle(TRColors.labelSecondary)
                     }
+                    .buttonStyle(.plain)
                     .accessibilityLabel(Text("settings.done.close"))
                     .accessibilityHint("Schließt die Einstellungen.")
                 }

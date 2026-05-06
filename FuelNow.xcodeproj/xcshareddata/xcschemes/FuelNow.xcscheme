@@ -77,11 +77,16 @@
          <EnvironmentVariable
             key = "FUELNOW_USE_LIVE_STATIONS"
             value = "1"
-            isEnabled = "NO">
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "TANKERKOENIG_API_KEY"
+            value = "ff952d36-e1ea-405c-9785-44856a9ee7b0"
+            isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
       <StoreKitConfigurationFileReference
-         identifier = "../../FuelNowPlus.storekit">
+         identifier = "../../../FuelNowPlus.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction

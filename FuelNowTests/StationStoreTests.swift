@@ -68,6 +68,19 @@ struct StationStoreTests {
         #expect(await fetcher.completedInvocationCount == 2)
     }
 
+    @Test func lastFetchCenterReflectsCompletedFetch() async throws {
+        let fetcher = MockStationFetcher()
+        let store = StationStore(fetcher: fetcher, clock: { Date() })
+        #expect(store.lastFetchCenter == nil)
+
+        store.forceRefresh(using: referenceCoordinate, radiusKm: 5)
+        try await Task.sleep(for: .milliseconds(80))
+
+        let center = try #require(store.lastFetchCenter)
+        #expect(center.latitude == referenceCoordinate.coordinate.latitude)
+        #expect(center.longitude == referenceCoordinate.coordinate.longitude)
+    }
+
     @Test func forceRefreshBypassesDebounce() async throws {
         let fetcher = MockStationFetcher()
         let base = Date(timeIntervalSince1970: 1_700_000_000)

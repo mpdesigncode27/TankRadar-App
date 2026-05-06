@@ -3,6 +3,18 @@ import MapKit
 import SwiftUI
 import UIKit
 
+private enum MapScreenDefaults {
+    static let initialRegion = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 52.52, longitude: 13.405),
+        span: MKCoordinateSpan(latitudeDelta: 0.12, longitudeDelta: 0.12)
+    )
+}
+
+/// Abstand Kartenmitte → letztes Abrufzentrum, ab dem „In diesem Gebiet suchen“ erscheint (Meter).
+private enum MapRegionSearchOffer {
+    static let panThresholdMeters: CLLocationDistance = 800
+}
+
 /// Hauptkarte: Standort, Tankstellen-Pins und Verkabelung zu `LocationService` / `StationStore`.
 struct MapScreen: View {
     @Environment(LocationService.self) private var locationService
@@ -13,12 +25,10 @@ struct MapScreen: View {
 
     @AppStorage(AppSettings.UserDefaultsKey.preferredFuelType) private var preferredFuelRaw = FuelType.e10.rawValue
 
-    @State private var cameraPosition: MapCameraPosition = .region(
-        MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 52.52, longitude: 13.405),
-            span: MKCoordinateSpan(latitudeDelta: 0.12, longitudeDelta: 0.12)
-        )
-    )
+    /// Sichtbarer Ausschnitt für Grid-Clustering und „Gebiet suchen“. Nur bei **beendeter** Kamerabewegung aktualisiert — verhindert Flackern beim Schieben (`continuous` würde jedes Frame neu clustern).
+    @State private var mapVisibleRegion = MapScreenDefaults.initialRegion
+
+    @State private var cameraPosition: MapCameraPosition = .region(MapScreenDefaults.initialRegion)
     @State private var selectedStation: Station?
     @State private var showSettings = false
     @State private var didApplyInitialCamera = false
@@ -46,17 +56,42 @@ struct MapScreen: View {
         return stationStore.stations.isEmpty
     }
 
+    /// Nutzer hat die Karte vom letzten `list.php`-Zentrum weggeschoben — expliziter Abruf um die Kartenmitte.
+    private var shouldOfferSearchInVisibleRegion: Bool {
+        guard stationStore.loadState != .loading else { return false }
+        guard let anchor = stationStore.lastFetchCenter else { return false }
+        let mapLoc = CLLocation(latitude: mapVisibleRegion.center.latitude, longitude: mapVisibleRegion.center.longitude)
+        let anchorLoc = CLLocation(latitude: anchor.latitude, longitude: anchor.longitude)
+        return mapLoc.distance(from: anchorLoc) >= MapRegionSearchOffer.panThresholdMeters
+    }
+
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
+        ZStack(alignment: .bottom) {
             Map(position: $cameraPosition) {
-                ForEach(stationStore.stations) { station in
-                    Annotation(station.name, coordinate: station.coordinate) {
-                        Button {
-                            selectedStation = station
-                        } label: {
-                            StationAnnotationView(station: station, preferredFuel: preferredFuel)
+                ForEach(StationMapClustering.annotationItems(for: stationStore.stations, region: mapVisibleRegion)) { item in
+                    Group {
+                        switch item {
+                        case .single(let station):
+                            Annotation(station.name, coordinate: station.coordinate) {
+                                Button {
+                                    selectedStation = station
+                                } label: {
+                                    StationAnnotationView(station: station, preferredFuel: preferredFuel)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        case let .cluster(stations, coordinate):
+                            Annotation("", coordinate: coordinate) {
+                                Button {
+                                    zoomIntoCluster(stations)
+                                } label: {
+                                    StationClusterAnnotationView(count: stations.count)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                            .annotationTitles(.hidden)
+                            .annotationSubtitles(.hidden)
                         }
-                        .buttonStyle(.plain)
                     }
                 }
                 // Explizit aus LocationService — zuverlässiger als UserAnnotation() bei gebundenem MapCamera & vielen Pins.
@@ -69,16 +104,40 @@ struct MapScreen: View {
                 }
             }
             .mapStyle(.standard)
+            .onMapCameraChange(frequency: .onEnd) { context in
+                var transaction = Transaction()
+                transaction.disablesAnimations = true
+                withTransaction(transaction) {
+                    mapVisibleRegion = context.region
+                }
+            }
             .refreshable {
                 await refreshStations()
             }
 
-            LocateMeButton {
-                centerMapOnUser()
+            VStack(spacing: TRSpacing.m) {
+                if shouldOfferSearchInVisibleRegion {
+                    Button(action: searchStationsForVisibleMapCenter) {
+                        Label(String(localized: "map.searchThisArea"), systemImage: "magnifyingglass")
+                    }
+                    .buttonStyle(TRSoftButtonStyle())
+                    .labelStyle(.titleAndIcon)
+                    .accessibilityHint(String(localized: "map.searchThisArea.hint"))
+                    .frame(maxWidth: .infinity)
+                    .transition(reduceMotion ? .opacity : .move(edge: .bottom).combined(with: .opacity))
+                }
+
+                HStack {
+                    Spacer()
+                    LocateMeButton {
+                        centerMapOnUser()
+                    }
+                    .disabled(locationService.currentLocation == nil)
+                    .opacity(locationService.currentLocation == nil ? 0.45 : 1)
+                    .padding(.trailing, TRSpacing.m)
+                }
             }
-            .disabled(locationService.currentLocation == nil)
-            .opacity(locationService.currentLocation == nil ? 0.45 : 1)
-            .padding(TRSpacing.m)
+            .padding(.bottom, TRSpacing.m)
         }
         .navigationTitle("FuelNow")
         .navigationBarTitleDisplayMode(.inline)
@@ -130,6 +189,7 @@ struct MapScreen: View {
         }
         .animation(reduceMotion ? nil : .default, value: isLocationAccessDenied)
         .animation(reduceMotion ? nil : .default, value: showEmptyStationsState)
+        .animation(reduceMotion ? nil : .default, value: shouldOfferSearchInVisibleRegion)
         .alert(
             "Tankstellen konnten nicht geladen werden",
             isPresented: Binding(
@@ -177,13 +237,33 @@ struct MapScreen: View {
             stationStore.handleLocationUpdate(location, radiusKm: AppSettings.SearchRadius.apiMaxKm)
             if !didApplyInitialCamera {
                 didApplyInitialCamera = true
-                cameraPosition = .region(
-                    MKCoordinateRegion(
-                        center: location.coordinate,
-                        latitudinalMeters: 12_000,
-                        longitudinalMeters: 12_000
-                    )
+                let region = MKCoordinateRegion(
+                    center: location.coordinate,
+                    latitudinalMeters: 12_000,
+                    longitudinalMeters: 12_000
                 )
+                mapVisibleRegion = region
+                cameraPosition = .region(region)
+            }
+        }
+    }
+
+    /// Tankerkönig-Umkreissuche um die **aktuelle Kartenmitte** (25 km). Umgeht Debounce — nur nach Nutzeraktion.
+    private func searchStationsForVisibleMapCenter() {
+        let center = mapVisibleRegion.center
+        let location = CLLocation(latitude: center.latitude, longitude: center.longitude)
+        stationStore.forceRefresh(using: location, radiusKm: AppSettings.SearchRadius.apiMaxKm)
+    }
+
+    /// Cluster antippen: näher zoomen, bis sich Gitter-Zellen aufteilen (Einzelpins).
+    private func zoomIntoCluster(_ stations: [Station]) {
+        let region = StationMapClustering.regionToExpandCluster(stations, currentRegion: mapVisibleRegion)
+        mapVisibleRegion = region
+        if reduceMotion {
+            cameraPosition = .region(region)
+        } else {
+            withAnimation(.easeInOut(duration: 0.35)) {
+                cameraPosition = .region(region)
             }
         }
     }
@@ -219,6 +299,7 @@ struct MapScreen: View {
             latitudinalMeters: 1_500,
             longitudinalMeters: 1_500
         )
+        mapVisibleRegion = region
         if reduceMotion {
             cameraPosition = .region(region)
         } else {
@@ -245,13 +326,13 @@ struct MapScreen: View {
         guard let id = deepLinks.pendingStationFocusID else { return }
         guard let station = stationStore.stations.first(where: { $0.id == id }) else { return }
         selectedStation = station
-        cameraPosition = .region(
-            MKCoordinateRegion(
-                center: station.coordinate,
-                latitudinalMeters: 3_500,
-                longitudinalMeters: 3_500
-            )
+        let region = MKCoordinateRegion(
+            center: station.coordinate,
+            latitudinalMeters: 3_500,
+            longitudinalMeters: 3_500
         )
+        mapVisibleRegion = region
+        cameraPosition = .region(region)
         deepLinks.clearPendingStationFocus()
     }
 }
