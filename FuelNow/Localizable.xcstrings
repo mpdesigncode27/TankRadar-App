@@ -239,13 +239,13 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neue Plus-Features (z. B. Favoriten, Verlauf) erreichen dich automatisch — kein erneutes Bezahlen."
+            "value" : "Kommende Plus-Features erreichen dich automatisch — kein erneutes Bezahlen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "New Plus features (e.g. favorites, history) reach you automatically — no further payment."
+            "value" : "Upcoming Plus features reach you automatically — no further payment."
           }
         }
       }

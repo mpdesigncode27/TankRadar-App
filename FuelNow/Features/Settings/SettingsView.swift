@@ -3,7 +3,7 @@ import SwiftUI
 
 /// Einstellungen als nutzerzentrierte `Form` mit Sections — Liquid Glass nur auf primären Aktionen.
 ///
-/// Reihenfolge (TAN-78, angepasst durch TAN-79, TAN-86 und TAN-88):
+/// Reihenfolge (TAN-78, angepasst durch TAN-79, TAN-86, TAN-88 und TAN-89):
 /// 1. **Kraftstoff** – große Karten-Auswahl (E5 / E10 / Diesel) mit aktiver Glas-Karte als visuellem Anker.
 ///    Seit TAN-86 ohne 1-Zeilen-Untertitel — nur Glyph + Sortenname; Untertitel bleibt VoiceOver-only.
 ///    Seit TAN-88 ohne Beschreibungs-Footer — die Karten sind selbsterklärend.
@@ -13,11 +13,14 @@ import SwiftUI
 /// 3. **FuelNow Plus** – Mini-Hero mit Eyebrow / Headline / 1–2 Benefits / Preis prominent / einem
 ///    Glas-CTA, der das volle `PlusUpgradeView`-Sheet (TAN-45) öffnet. Bei aktivem Abo erscheint stattdessen
 ///    eine schlichte Status-Sektion mit Verwaltungs- und Restore-Aktionen.
-/// 4. **Stammtankstellen-Platzhalter** – inaktive Vorbereitung für Phase 9 (Appwrite-Sync, kein Datenmodell).
-/// 5. **Datenquellen-Footer** – unauffälliger Tankerkönig/MTS-K-Hinweis (CC BY 4.0).
+/// 4. **Datenquellen-Footer** – unauffälliger Tankerkönig/MTS-K-Hinweis (CC BY 4.0).
 ///
 /// Der frühere „Suchradius"-Slider ist mit TAN-79 entfernt; die App nutzt fest das
 /// Tankerkönig-API-Maximum von 25 km (`AppSettings.SearchRadius.apiMaxKm`).
+/// Der frühere Stammtankstellen-Platzhalter (Phase 9 / Appwrite-Sync) ist mit TAN-89 entfernt;
+/// die zugehörigen `settings.section.favorites.placeholder.*`-Strings bleiben im Catalog
+/// erhalten (vom Build automatisch als `extractionState: stale` markiert) und können bei
+/// Wiederaufnahme reaktiviert werden.
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
@@ -53,7 +56,6 @@ struct SettingsView: View {
                 fuelSection
                 appearanceSection
                 plusSection
-                favoritesPlaceholderSection
                 dataSourceFooterSection
             }
             .navigationTitle(Text("settings.title"))
@@ -195,30 +197,6 @@ struct SettingsView: View {
             Text("settings.section.plus")
         } footer: {
             Text("settings.plus.footer")
-        }
-    }
-
-    /// Sichtbare, aber inaktive Vorschau auf Stammtankstellen (Phase 9 / Appwrite-Sync — TAN-37).
-    /// Liefert keinerlei Daten oder Persistenz; rein UI-Anker, damit der Platzhalter erwartbar bleibt.
-    private var favoritesPlaceholderSection: some View {
-        Section {
-            Label {
-                VStack(alignment: .leading, spacing: TRSpacing.xxs) {
-                    Text("settings.section.favorites.placeholder.title")
-                        .font(TRTypography.body())
-                        .foregroundStyle(TRColors.labelSecondary)
-                    Text("settings.section.favorites.placeholder.subtitle")
-                        .font(TRTypography.caption())
-                        .foregroundStyle(TRColors.labelTertiary)
-                }
-            } icon: {
-                Image(systemName: "star.slash")
-                    .foregroundStyle(TRColors.labelTertiary)
-            }
-            .accessibilityElement(children: .combine)
-            .accessibilityHint(Text("settings.section.favorites.placeholder.a11yHint"))
-        } header: {
-            Text("settings.section.favorites.placeholder.header")
         }
     }
 
