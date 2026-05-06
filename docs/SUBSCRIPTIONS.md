@@ -4,6 +4,23 @@ This document describes how FuelNow Plus is wired through StoreKit 2,
 including the **3-day Free Trial Introductory Offer** introduced with
 [Linear TAN-81](https://linear.app/tankradar-app/issue/TAN-81/plus-3-tage-kostenloser-probezeitraum-free-trial-introductory-offer).
 
+## Upgrade UI placement ([TAN-45](https://linear.app/tankradar-app/issue/TAN-45))
+
+**Product decision:** FuelNow ships **one** optional upgrade surface — `PlusUpgradeView`
+as a **large sheet** (`presentationDetents: [.large]`), opened **only** from **Settings**
+via `PlusMiniHero` (“FuelNow Plus ansehen” / gleicher Bereich). There is **no** automatic
+launch paywall, **no** map nag banner, and **no** separate web checkout outside StoreKit.
+
+**Pipeline parity:** Settings and the sheet both use:
+
+- `@Environment(EntitlementManager.self)` for catalog load and entitlement state
+- `PlusPurchaseController` for purchase, restore, trial-offer refresh (`refreshTrialOffer(for:)`), and alerts
+- `PlusPaywallCopy` + `Product.SubscriptionInfo.isEligibleForIntroOffer` so **trial copy appears only when Apple reports eligibility** ([TAN-81](https://linear.app/tankradar-app/issue/TAN-81))
+
+**ASC / review alignment:** Pricing strings prefer `Product.displayPrice`; trial duration is never hardcoded (see *Eligibility check* below). CarPlay-specific upgrade copy stays in Phase 7 tickets ([TAN-57](https://linear.app/tankradar-app/issue/TAN-57)), not in this sheet.
+
+**Tests:** `PlusPaywallCopyTests`, `PlusPurchaseControllerTests` (deterministic, no `SKTestSession` required).
+
 ## Product configuration
 
 - Subscription Group: **FuelNow Plus** (`B17E94D2`)

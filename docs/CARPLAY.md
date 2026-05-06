@@ -1,13 +1,13 @@
 # CarPlay — Capability, Entitlement & Apple-Antrag
 
-Gehört zu **Linear-Ticket TAN-54** (Phase 7) und bereitet die CarPlay-Folge-Tickets
-[TAN-55](https://linear.app/tankradar-app/issue/TAN-55) (POI/Liste/Detail mit Plus)
+Gehört zu **Linear-Ticket TAN-54** (Phase 7), ergänzt durch **[TAN-56](https://linear.app/tankradar-app/issue/TAN-56)** (Plus-Gating im Scene Delegate),
+und bereitet die CarPlay-Folge-Tickets [TAN-55](https://linear.app/tankradar-app/issue/TAN-55) (POI/Liste/Detail mit Plus)
 und [TAN-57](https://linear.app/tankradar-app/issue/TAN-57) (Limited UX ohne Plus) vor.
 
 > **Kategorie:** CarPlay Fueling (`com.apple.developer.carplay-fueling`, iOS 16+).
 > **Template-Tiefe:** max. 3 Templates (Fueling-Limit laut HIG).
-> **Plus-Gating:** Volle POI-Erfahrung nur für FuelNow-Plus-Abonnent\:innen
-> (TAN-44 / TAN-45). Free-Nutzer\:innen erhalten Plan B (siehe unten).
+> **Plus-Gating:** Volle POI-Erfahrung nur für FuelNow-Plus-Abonnentinnen
+> ([TAN-44](https://linear.app/tankradar-app/issue/TAN-44), Coordinator [TAN-56](https://linear.app/tankradar-app/issue/TAN-56)). Free-Nutzerinnen erhalten Plan B (siehe unten).
 
 ---
 
@@ -15,7 +15,7 @@ und [TAN-57](https://linear.app/tankradar-app/issue/TAN-57) (Limited UX ohne Plu
 
 ### 1.1 Antrag stellen
 
-URL: <https://developer.apple.com/contact/carplay/>
+URL: [https://developer.apple.com/contact/carplay/](https://developer.apple.com/contact/carplay/)
 
 Ausfüllen mit dem unten stehenden Antragsdraft. Apple antwortet typisch in 1–2
 Wochen mit einer Tracking-ID. Diese **im Linear-Ticket TAN-54 als Kommentar
@@ -33,7 +33,7 @@ hinterlegen** (idealerweise mit Screenshot/Mail).
 > **Funktion:** FuelNow ist ein Tankstellenpreis-Finder für Deutschland. Die
 > iPhone-App zeigt umliegende Tankstellen (Datenquelle: Tankerkönig / MTS-K,
 > CC BY 4.0) inklusive aktueller Preise pro Sorte und Öffnungsstatus auf
-> einer Karte. Nutzer\:innen wählen ihre bevorzugte Kraftstoffsorte (E5, E10,
+> einer Karte. Nutzerinnen wählen ihre bevorzugte Kraftstoffsorte (E5, E10,
 > Diesel); die App zeigt immer alle Tankstellen im maximal von Tankerkönig
 > erlaubten 25-km-Umkreis (TAN-79) und ermöglicht von dort eine
 > Tankstellen-Routenführung in Apple Maps.
@@ -48,7 +48,7 @@ hinterlegen** (idealerweise mit Screenshot/Mail).
 >
 > **Monetarisierung:** Die volle CarPlay-Funktionalität ist Teil des
 > kostenpflichtigen Jahresabos „FuelNow Plus“ (StoreKit 2, 6 €/Jahr). Free-
-> Nutzer\:innen erhalten in CarPlay einen ehrlichen Hinweis-Screen
+> Nutzerinnen erhalten in CarPlay einen ehrlichen Hinweis-Screen
 > (`CPInformationTemplate` „FuelNow Plus aktivieren auf dem iPhone…“),
 > **ohne** Pseudo-POI-Daten oder Dark Patterns.
 >
@@ -72,10 +72,10 @@ hinterlegen** (idealerweise mit Screenshot/Mail).
 
 Sobald der Antrag raus ist, im Linear-Ticket TAN-54 ergänzen:
 
-* **Datum / Uhrzeit** des Submits
-* **Tracking-ID** aus Apples Bestätigungsmail
-* **Screenshot** der eingereichten Felder (oder Bestätigungs-Mail)
-* **Apple-Status** (Pending/Approved/Rejected) plus Update sobald Antwort kommt
+- **Datum / Uhrzeit** des Submits
+- **Tracking-ID** aus Apples Bestätigungsmail
+- **Screenshot** der eingereichten Felder (oder Bestätigungs-Mail)
+- **Apple-Status** (Pending/Approved/Rejected) plus Update sobald Antwort kommt
 
 ---
 
@@ -92,81 +92,70 @@ verlinkt. Inhalt:
 <true/>
 ```
 
-* **Simulator-Builds** (z. B. `./scripts/build-and-run-simulator.sh`):
-  funktionieren weiterhin, weil der Simulator das Entitlement nicht gegen
-  ein Provisioning-Profil prüft.
-* **Device-Builds** (TestFlight/Release): scheitern in der Code-Signing-Phase,
-  bis Apple das Entitlement im Provisioning-Profil freigegeben hat
-  (`com.apple.developer.carplay-fueling`). Vor dem Apple-Approval also
-  weiterhin nur Simulator-Build. Nach Approval: kein Code-Change nötig — das
-  Provisioning-Profil zieht das Flag automatisch.
+- **Simulator-Builds** (z. B. `./scripts/build-and-run-simulator.sh`):
+funktionieren weiterhin, weil der Simulator das Entitlement nicht gegen
+ein Provisioning-Profil prüft.
+- **Device-Builds** (TestFlight/Release): scheitern in der Code-Signing-Phase,
+bis Apple das Entitlement im Provisioning-Profil freigegeben hat
+(`com.apple.developer.carplay-fueling`). Vor dem Apple-Approval also
+weiterhin nur Simulator-Build. Nach Approval: kein Code-Change nötig — das
+Provisioning-Profil zieht das Flag automatisch.
 
 > Die Entitlements-Datei ist absichtlich **jetzt schon committed**, damit nach
 > dem Approval kein Branch-Race entsteht. Bis dahin ist sie inert.
 
-### 2.2 Scene-Manifest (für TAN-55 vorgesehen)
+### 2.2 Scene-Manifest & Template-Scene ([TAN-54](https://linear.app/tankradar-app/issue/TAN-54), [TAN-56](https://linear.app/tankradar-app/issue/TAN-56))
 
-Aktuell nutzt FuelNow die SwiftUI-`@main App`-Scene (`UIWindowSceneSessionRoleApplication`)
-ohne explizites Scene-Manifest (`INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES`).
-Damit CarPlay zusätzlich zur iPhone-Scene aktiv wird, muss in **TAN-55** das
-Manifest expandiert werden auf etwa:
+`FuelNow/Info.plist` enthält `UIApplicationSceneManifest` mit
+`UIApplicationSupportsMultipleScenes = true`, einer Default-`UIWindowScene` für
+die SwiftUI-App **und** einer `CPTemplateApplicationSceneSessionRoleApplication`
+Konfiguration **„FuelNow CarPlay Scene“**, die auf
+`$(PRODUCT_MODULE_NAME).FuelNowCarPlaySceneDelegate` zeigt.
 
-```xml
-<key>UIApplicationSceneManifest</key>
-<dict>
-    <key>UIApplicationSupportsMultipleScenes</key>
-    <true/>
-    <key>UISceneConfigurations</key>
-    <dict>
-        <!-- iPhone-Scene bleibt SwiftUI-WindowGroup -->
-        <key>UIWindowSceneSessionRoleApplication</key>
-        <array>
-            <dict>
-                <key>UISceneConfigurationName</key>
-                <string>Default Configuration</string>
-                <key>UISceneClassName</key>
-                <string>UIWindowScene</string>
-            </dict>
-        </array>
-        <!-- CarPlay-Scene neu, an Stub-Klasse angekoppelt (TAN-55) -->
-        <key>CPTemplateApplicationSceneSessionRoleApplication</key>
-        <array>
-            <dict>
-                <key>UISceneConfigurationName</key>
-                <string>FuelNow CarPlay Scene</string>
-                <key>UISceneClassName</key>
-                <string>CPTemplateApplicationScene</string>
-                <key>UISceneDelegateClassName</key>
-                <string>$(PRODUCT_MODULE_NAME).FuelNowCarPlaySceneDelegate</string>
-            </dict>
-        </array>
-    </dict>
-</dict>
-```
+Der Delegate (`FuelNow/Features/CarPlay/FuelNowCarPlaySceneDelegate.swift`) ist
+die einzige Stelle, die `CPInterfaceController.setRootTemplate` aufruft.
 
-> **Bewusst nicht jetzt aktivieren**, weil der `FuelNowCarPlaySceneDelegate`
-> noch nicht existiert. Würde das Manifest jetzt expanded und gleichzeitig der
-> Delegate fehlen, würde iOS bei einer CarPlay-Verbindung crashen — was bis
-> zum Apple-Approval ohnehin nicht passieren kann, aber sauberer ist es,
-> Delegate und Manifest gemeinsam in TAN-55 einzuziehen.
+### 2.3 Plus-Gating & Routing ([TAN-56](https://linear.app/tankradar-app/issue/TAN-56))
 
-### 2.3 Asset-Compliance
+Vor dem ersten `setRootTemplate` lädt die Scene **asynchron**
+`CarPlayEntitlementProviding.start()` (Default: eigene `EntitlementManager`-
+Instanz pro CarPlay-Scene). Danach liest `applyCurrentRoute(animated:)`
+`isCarPlayUnlocked` und wählt über `CarPlayRoutingPolicy` den Pfad:
 
-* **App-Icon:** Aktuell ein `1024×1024`-Universal-Asset
-  (`FuelNow/Assets.xcassets/AppIcon.appiconset`). Für CarPlay (iOS 26+) reicht
-  das, da Apple das App-Icon-Set vereinheitlicht und CarPlay daraus die
-  passende Variante zieht. Kein zusätzliches `CarPlay`-AppIcon-Set nötig.
-* **POI-Pin / List-Item-Glyphen:** SF-Symbols sind die offizielle Empfehlung
-  laut CarPlay HIG (44×44 pt). Konkrete Symbole (`fuelpump.fill`, `leaf.fill`,
-  `fuelpump.circle.fill`) liegen bereits in `FuelType.settingsCardSymbolName`
-  (siehe `FuelTypePresentation.swift` aus TAN-78) und sind 1:1 für CarPlay
-  wiederverwendbar.
-* **Tab-Bar-Icons:** Werden in TAN-55 ergänzt, falls eine `CPTabBarTemplate`
-  zum Einsatz kommt — sonst brauchen wir keine.
 
-### 2.4 Plan B — CPInformationTemplate ohne Plus / ohne Approval
+| Plus (CarPlay unlocked) | Template-Stubs                                                                                                                            |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Ja                      | `CPListTemplate` — Platzhalter bis [TAN-55](https://linear.app/tankradar-app/issue/TAN-55) (`CPPointOfInterestTemplate` + Daten)          |
+| Nein                    | `CPInformationTemplate` mit `carplay.locked.`* — ehrlicher Hinweis bis [TAN-57](https://linear.app/tankradar-app/issue/TAN-57) verfeinert |
 
-Falls Apple das Entitlement verweigert oder Nutzer\:innen kein Plus-Abo haben,
+
+**Single Source of Truth:** `EntitlementManager.isCarPlayUnlocked` spiegelt
+`Transaction.currentEntitlements` (StoreKit 2, [TAN-44](https://linear.app/tankradar-app/issue/TAN-44)) — identisch zur iPhone-UI.
+
+**Entitlement-Flip:** `withObservationTracking` auf `isCarPlayUnlocked` ruft bei
+Änderung erneut `setRootTemplate` auf (Basis für [TAN-58](https://linear.app/tankradar-app/issue/TAN-58)). Es werden **keine** Keys,
+Tokens oder Kauf-IDs geloggt.
+
+**Tests:** `CarPlayRoutingPolicyTests` (reine Routing-Logik ohne CarPlay-
+Framework). End-to-End CarPlay-QA: [TAN-59](https://linear.app/tankradar-app/issue/TAN-59).
+
+### 2.4 Asset-Compliance
+
+- **App-Icon:** Aktuell ein `1024×1024`-Universal-Asset
+(`FuelNow/Assets.xcassets/AppIcon.appiconset`). Für CarPlay (iOS 26+) reicht
+das, da Apple das App-Icon-Set vereinheitlicht und CarPlay daraus die
+passende Variante zieht. Kein zusätzliches `CarPlay`-AppIcon-Set nötig.
+- **POI-Pin / List-Item-Glyphen:** SF-Symbols sind die offizielle Empfehlung
+laut CarPlay HIG (44×44 pt). Konkrete Symbole (`fuelpump.fill`, `leaf.fill`,
+`fuelpump.circle.fill`) liegen bereits in `FuelType.settingsCardSymbolName`
+(siehe `FuelTypePresentation.swift` aus TAN-78) und sind 1:1 für CarPlay
+wiederverwendbar.
+- **Tab-Bar-Icons:** Werden in TAN-55 ergänzt, falls eine `CPTabBarTemplate`
+zum Einsatz kommt — sonst brauchen wir keine.
+
+### 2.5 Plan B — CPInformationTemplate ohne Plus / ohne Approval
+
+Falls Apple das Entitlement verweigert oder Nutzerinnen kein Plus-Abo haben,
 zeigen wir in CarPlay einen ehrlichen Hinweis statt Pseudo-POIs. Pseudocode-Skizze
 für TAN-57:
 
@@ -186,19 +175,18 @@ let infoTemplate = CPInformationTemplate(
 interfaceController.setRootTemplate(infoTemplate, animated: false)
 ```
 
-* **Copy-Idee:** „Öffne FuelNow auf dem iPhone, um CarPlay zu nutzen.“ /
-  „Open FuelNow on iPhone to use CarPlay.“
-* **Keine** Marketing-Animationen, kein Subscribe-CTA in CarPlay
-  (Driver-Distraction-Vorgabe).
+- **Copy-Idee:** „Öffne FuelNow auf dem iPhone, um CarPlay zu nutzen.“ /
+„Open FuelNow on iPhone to use CarPlay.“
+- **Keine** Marketing-Animationen, kein Subscribe-CTA in CarPlay
+(Driver-Distraction-Vorgabe).
 
 ---
 
 ## 3. Testing-Notiz
 
-* **CarPlay-Simulator** in Xcode öffnen via *Simulator → I/O → External Displays
-  → CarPlay* (Standard-Workflow). Vor dem Apple-Approval kann FuelNow dort
-  **nicht** als Fueling-App erscheinen, weil das Entitlement im
-  Provisioning-Profil fehlt — geplante Verifikation also erst in TAN-55 nach
-  Approval (oder gegen ein Wildcard-Profile, falls verfügbar).
-* **Unit-Tests** sind aktuell nicht betroffen (keine CarPlay-Code-Pfade in
-  diesem Ticket).
+- **CarPlay-Simulator** in Xcode öffnen via *Simulator → I/O → External Displays
+→ CarPlay* (Standard-Workflow). Device-Builds benötigen das freigegebene
+Fueling-Entitlement im Profil; Simulator-Builds laufen ohne Profil-Check.
+- **Unit:** `CarPlayRoutingPolicyTests` deckt die TAN-56-Routing-Entscheidung ab.
+- **Manuell / Sandbox:** Plus vs. Limited Templates — [TAN-59](https://linear.app/tankradar-app/issue/TAN-59).
+
