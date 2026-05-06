@@ -36,8 +36,10 @@ enum SiriStationLookupTests {
         #expect(StationIntentLookup.radiusKm(defaults: defaults) == AppSettings.SearchRadius.apiMaxKm)
 
         defaults.set(12, forKey: AppSettings.UserDefaultsKey.searchRadiusKm)
-        #expect(StationIntentLookup.radiusKm(defaults: defaults) == AppSettings.SearchRadius.apiMaxKm,
-                "Migrations-Werte aus alten App-Versionen dürfen den festen 25-km-Radius nicht mehr beeinflussen.")
+        #expect(
+            StationIntentLookup.radiusKm(defaults: defaults) == AppSettings.SearchRadius.apiMaxKm,
+            "Migrations-Werte aus alten App-Versionen dürfen den festen 25-km-Radius nicht mehr beeinflussen."
+        )
     }
 
     @Test static func resolvedFuelUsesExplicitOverDefaults() throws {

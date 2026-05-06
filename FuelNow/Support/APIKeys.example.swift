@@ -9,8 +9,8 @@ enum APIKeys {
     /// Tankerkönig-UUID. **Nie** echten Key committen.
     ///
     /// **Lokal testen (bleibt bei Git nicht „weg“):**
-    /// 1. **Simulator (empfohlen):** Auf dem Mac `mkdir -p ~/.fuelnow` und eine Zeile Key in  
-    ///    `~/.fuelnow/tankerkoenig-api-key` speichern. Im Simulator wird über  
+    /// 1. **Simulator (empfohlen):** Auf dem Mac `mkdir -p ~/.fuelnow` und eine Zeile Key in
+    ///    `~/.fuelnow/tankerkoenig-api-key` speichern. Im Simulator wird über
     ///    `SIMULATOR_HOST_HOME` automatisch diese Datei gelesen.
     /// 2. **Umgebungsvariable** `TANKERKOENIG_API_KEY` (Xcode Scheme → Run → Environment Variables).
     /// 3. **Dateipfad** `TANKERKOENIG_API_KEY_FILE` = absoluter Pfad zu einer Textdatei (eine Zeile Key).

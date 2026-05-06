@@ -2,7 +2,6 @@ import Foundation
 import StoreKit
 import StoreKitTest
 import Testing
-
 @testable import FuelNow
 
 /// Deterministische StoreKit-2-Tests für `EntitlementManager`. Nutzt `SKTestSession` mit der
@@ -43,8 +42,10 @@ struct EntitlementManagerStoreKitTests {
         try await manager.purchase(product)
 
         #expect(manager.isPlusSubscriber == true)
-        #expect(manager.isCarPlayUnlocked == true,
-                "isCarPlayUnlocked muss als Alias auf isPlusSubscriber zeigen — sonst wäre das CarPlay-Gate falsch.")
+        #expect(
+            manager.isCarPlayUnlocked == true,
+            "isCarPlayUnlocked muss als Alias auf isPlusSubscriber zeigen — sonst wäre das CarPlay-Gate falsch."
+        )
     }
 
     @Test func gateClosesAfterTransactionsCleared() async throws {
@@ -87,8 +88,10 @@ struct EntitlementManagerStoreKitTests {
         let manager = EntitlementManager()
         await manager.loadProducts()
 
-        #expect(manager.products.contains(where: { $0.id == SubscriptionConstants.plusYearlyProductID }),
-                "Test-Storefront muss das in FuelNowPlus.storekit konfigurierte Jahres-Abo liefern.")
+        #expect(
+            manager.products.contains(where: { $0.id == SubscriptionConstants.plusYearlyProductID }),
+            "Test-Storefront muss das in FuelNowPlus.storekit konfigurierte Jahres-Abo liefern."
+        )
     }
 
     private func makeFreshSession() throws -> SKTestSession {

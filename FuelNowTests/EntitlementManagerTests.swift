@@ -1,5 +1,4 @@
 import Testing
-
 @testable import FuelNow
 
 /// Deterministic checks only — StoreKit session tests belong in TAN-62.

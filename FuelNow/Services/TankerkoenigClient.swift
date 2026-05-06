@@ -34,7 +34,7 @@ actor TankerkoenigClient {
         }
     }
 
-    private nonisolated struct ListResponse: Decodable {
+    nonisolated private struct ListResponse: Decodable {
         let ok: Bool
         let stations: [Station]?
         let message: String?
@@ -124,12 +124,12 @@ actor TankerkoenigClient {
         return decoded.stations ?? []
     }
 
-    private nonisolated func formatCoordinate(_ value: Double) -> String {
+    nonisolated private func formatCoordinate(_ value: Double) -> String {
         String(format: "%.6f", value)
     }
 
     /// Tankerkönig liefert u. a. deutschsprachige Key-Fehler; für Siri/Kurzbefehle klarere Hinweise.
-    private nonisolated static func userFacingTankerkoenigApiMessage(_ message: String) -> String {
+    nonisolated private static func userFacingTankerkoenigApiMessage(_ message: String) -> String {
         let lower = message.lowercased()
         if lower.contains("key existiert nicht"), lower.contains("deaktiviert") {
             return "Der Tankerkönig-API-Key wird von der API abgelehnt (ungültig oder deaktiviert). Bitte einen gültigen Key hinterlegen — README und Linear TAN-72."
