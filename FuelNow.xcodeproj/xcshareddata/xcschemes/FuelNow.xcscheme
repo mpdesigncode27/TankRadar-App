@@ -81,7 +81,7 @@
          </EnvironmentVariable>
       </EnvironmentVariables>
       <StoreKitConfigurationFileReference
-         identifier = "../../../FuelNowPlus.storekit">
+         identifier = "../../FuelNowPlus.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction

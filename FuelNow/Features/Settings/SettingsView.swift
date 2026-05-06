@@ -3,7 +3,7 @@ import SwiftUI
 
 /// Einstellungen als nutzerzentrierte `Form` mit Sections — Liquid Glass nur auf primären Aktionen.
 ///
-/// Reihenfolge (TAN-78, angepasst durch TAN-79, TAN-86, TAN-88 und TAN-89):
+/// Reihenfolge (TAN-78, angepasst durch TAN-79, TAN-86, TAN-88, TAN-89 und TAN-90):
 /// 1. **Kraftstoff** – große Karten-Auswahl (E5 / E10 / Diesel) mit aktiver Glas-Karte als visuellem Anker.
 ///    Seit TAN-86 ohne 1-Zeilen-Untertitel — nur Glyph + Sortenname; Untertitel bleibt VoiceOver-only.
 ///    Seit TAN-88 ohne Beschreibungs-Footer — die Karten sind selbsterklärend.
@@ -14,6 +14,9 @@ import SwiftUI
 ///    Glas-CTA, der das volle `PlusUpgradeView`-Sheet (TAN-45) öffnet. Bei aktivem Abo erscheint stattdessen
 ///    eine schlichte Status-Sektion mit Verwaltungs- und Restore-Aktionen.
 /// 4. **Datenquellen-Footer** – unauffälliger Tankerkönig/MTS-K-Hinweis (CC BY 4.0).
+/// 5. **DEBUG (#if DEBUG-only)** – Toggle „Demo-Modus: FuelNow Plus aktiv" (TAN-90), schaltet
+///    `EntitlementManager.isPlusSubscriber` lokal ohne echten Kauf — für Simulator-/CarPlay-Tests
+///    ohne Sandbox-Apple-ID. Im Release-Build vollständig ausgeblendet.
 ///
 /// Der frühere „Suchradius"-Slider ist mit TAN-79 entfernt; die App nutzt fest das
 /// Tankerkönig-API-Maximum von 25 km (`AppSettings.SearchRadius.apiMaxKm`).
@@ -28,6 +31,10 @@ struct SettingsView: View {
 
     @AppStorage(AppSettings.UserDefaultsKey.preferredFuelType) private var preferredFuelRaw = FuelType.e10.rawValue
     @AppStorage(AppSettings.UserDefaultsKey.appearancePreference) private var appearanceRaw = AppSettings.AppearancePreference.system.rawValue
+
+    #if DEBUG
+    @AppStorage(EntitlementManager.debugUnlockStorageKey) private var debugForcePlusUnlocked = false
+    #endif
 
     private var appearanceBinding: Binding<AppSettings.AppearancePreference> {
         Binding(
@@ -57,6 +64,9 @@ struct SettingsView: View {
                 appearanceSection
                 plusSection
                 dataSourceFooterSection
+                #if DEBUG
+                debugSection
+                #endif
             }
             .navigationTitle(Text("settings.title"))
             .navigationBarTitleDisplayMode(.inline)
@@ -199,6 +209,38 @@ struct SettingsView: View {
             Text("settings.plus.footer")
         }
     }
+
+    #if DEBUG
+    /// DEBUG-only Demo-Toggle (TAN-90): schaltet `EntitlementManager.isPlusSubscriber`
+    /// lokal auf `true`, ohne echten Kauf — nützlich für Simulator-/CarPlay-Smoke-Tests
+    /// ohne Sandbox-Apple-ID. Die Section wird per `#if DEBUG` ausschließlich in
+    /// Debug-Builds eingehängt; im Release-Binär ist weder Code noch UI vorhanden.
+    private var debugSection: some View {
+        Section {
+            Toggle(isOn: debugPlusUnlockBinding) {
+                Label("settings.debug.plusUnlock.title", systemImage: "wrench.and.screwdriver")
+            }
+            .tint(TRColors.accent)
+            .accessibilityHint(Text("settings.debug.plusUnlock.a11yHint"))
+        } header: {
+            Text("settings.debug.section.header")
+        } footer: {
+            Text("settings.debug.plusUnlock.footer")
+                .font(TRTypography.caption())
+                .foregroundStyle(TRColors.labelSecondary)
+        }
+    }
+
+    private var debugPlusUnlockBinding: Binding<Bool> {
+        Binding(
+            get: { debugForcePlusUnlocked },
+            set: { newValue in
+                debugForcePlusUnlocked = newValue
+                entitlementManager.setDebugForcedPlusUnlock(newValue)
+            }
+        )
+    }
+    #endif
 
     /// Datenquellen-Hinweis am Listenende — bewusst klein und ohne eigene Glas-Karte.
     private var dataSourceFooterSection: some View {

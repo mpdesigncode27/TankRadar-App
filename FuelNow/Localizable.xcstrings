@@ -698,6 +698,74 @@
         }
       }
     },
+    "settings.debug.section.header" : {
+      "comment" : "DEBUG-only Settings-Sektion (TAN-90) — sichtbar ausschließlich in DEBUG-Builds.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEBUG"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "DEBUG"
+          }
+        }
+      }
+    },
+    "settings.debug.plusUnlock.title" : {
+      "comment" : "Toggle-Label im DEBUG-Settings-Block (TAN-90), schaltet einen lokalen Plus-Demo-Modus.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demo-Modus: FuelNow Plus aktiv"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demo mode: FuelNow Plus active"
+          }
+        }
+      }
+    },
+    "settings.debug.plusUnlock.footer" : {
+      "comment" : "Erklärt den DEBUG-Plus-Demo-Toggle (TAN-90) — macht klar, dass Production unverändert bleibt.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schaltet Plus-Funktionen lokal frei (kein echter Kauf, kein Apple-Abrechnungseintrag). Nur in Debug-Builds verfügbar."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locally enables Plus features (no real purchase, no Apple billing). Only available in debug builds."
+          }
+        }
+      }
+    },
+    "settings.debug.plusUnlock.a11yHint" : {
+      "comment" : "VoiceOver-Hint für den DEBUG-Plus-Demo-Toggle (TAN-90).",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktiviert oder deaktiviert den lokalen Demo-Modus für FuelNow Plus."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enables or disables the local demo mode for FuelNow Plus."
+          }
+        }
+      }
+    },
     "settings.done.close" : {
       "localizations" : {
         "de" : {
@@ -1137,6 +1205,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Loading price…"
+          }
+        }
+      }
+    },
+    "settings.plus.priceUnavailable" : {
+      "comment" : "Loading-Fallback wenn StoreKit nach Timeout (TAN-90) immer noch keine Plus-Produkte geliefert hat — z. B. weil die App ohne Sandbox-Apple-ID per simctl gestartet wurde.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preis derzeit nicht verfügbar."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Price currently unavailable."
+          }
+        }
+      }
+    },
+    "settings.plus.priceUnavailable.hint" : {
+      "comment" : "Erklärender Hinweis unter dem Preis-Fallback (TAN-90) — informiert ohne den User zu beschuldigen.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitte später erneut versuchen oder mit deiner Apple-ID anmelden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please try again later or sign in with your Apple Account."
           }
         }
       }
