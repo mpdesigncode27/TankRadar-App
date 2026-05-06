@@ -1,5 +1,5 @@
 ---
-description: Ticket work uses a dedicated Git branch from main and PR; on completion attach a screenshot or short video to the Linear issue; never push ticket implementation directly to main.
+description: Ticket work uses a dedicated Git branch from main and a PR; never push ticket implementation directly to main. Visual evidence at the Linear ticket is no longer required — local screenshots/videos are optional and can be shared via PR/chat when useful.
 alwaysApply: true
 ---
 
@@ -10,24 +10,25 @@ alwaysApply: true
 - **Branch-Name:** **`feature/TAN-XX-kurz-slug`** (Ticket-ID + kurzer Slug). Kein GitHub-/Linear-Nutzerpräfix wie `mpdesigncode27/…` — das ist ein Remote-Benutzername, keine Branch-Basis. Linears „Copy git branch name“ oft mit Benutzerpräfix ignorieren und stattdessen das Schema oben verwenden (Branch ↔ Ticket bleibt über `TAN-XX` eindeutig).
 - **Merge:** Änderungen über **Pull Request** in `main` (oder den Integrations-Branch des Teams) bringen; im PR Link zum Ticket und Checkliste aus der Issue-Description, wenn vorhanden.
 - **Nach dem Merge:** Den **Ticket-Branch löschen** — lokal (`git branch -d …`) und auf dem Remote (`git push origin --delete …`), sobald der PR in `main` ist und nichts Offenes auf dem Branch hängt.
-- **Vor „Done“ / beim Abschluss:** Am Linear-Ticket mindestens ein **visueller Nachweis** anhängen — **Screenshot** oder **kurzes Video** der Umsetzung (Simulator oder Gerät), damit die Review-Nachvollziehbarkeit gegeben ist. Upload z. B. über Linear-Anhänge (MCP: `create_attachment` mit Base64) oder vergleichbaren Upload; kurz im Abschlusskommentar beschreiben, was zu sehen ist. **Ausnahme:** Rein nicht-visuelle Arbeit (z. B. nur Modelle ohne UI) — dann z. B. Screenshot eines relevanten Testlaufs im Xcode-Report oder kurzer Clip der abgedeckten Flows; wenn selbst das nicht passt, im Ticket kommentieren und Alternativnachweis vereinbaren.
+- **Vor „Done“ / beim Abschluss:** Im Linear-Ticket einen **kurzen Abschlusskommentar** hinterlassen, der erklärt, was umgesetzt und wo das verifiziert wurde (PR-Link, Test-Status, ggf. lokaler Screenshot-Pfad oder Stichwort). **Visuelle Nachweise als Linear-Attachment sind nicht mehr Pflicht** — wenn ein Screenshot oder kurzes Video die Review erleichtert, lokal in `.linear-evidence/` ablegen und bei Bedarf im PR oder Chat verlinken/teilen statt am Linear-Ticket anzuhängen.
 
 ### Checkliste vor Linear „Done“ (UI-relevant)
 
 1. **`FuelNowTests`** (oder passende Ziel-Tests) **grün**.
-2. **Simulator:** App gebaut/gestartet; Änderung **sichtbar** im Flow, den du dokumentierst.
-3. **Nachweis erzeugen:** z. B. `./scripts/capture-linear-evidence.sh TAN-XX-kurz` oder bei Settings-UI `./scripts/capture-linear-evidence.sh TAN-XX-kurz --settings-sheet` — Ausgabe unter `.linear-evidence/` (nicht committen).
-4. **Linear:** Screenshot/Video **anhängen**, im Abschlusskommentar **in einem Satz** beschreiben, was zu sehen ist.
+2. **Simulator:** App gebaut/gestartet; Änderung **sichtbar** im Flow, den du beschreibst.
+3. **Optional:** Lokales Beweisbild via `./scripts/capture-linear-evidence.sh TAN-XX-kurz` (oder `--settings-sheet`) → Ausgabe unter `.linear-evidence/` (nicht committen). Bei Bedarf im PR-Kommentar inline einbinden oder im Chat zeigen.
+4. **Linear:** Abschlusskommentar mit **PR-Link** und kurzer Beschreibung, was sich verhält.
 
 - **Ausnahme:** Nur ausdrücklich besprochene Hotfixes dürfen von dieser Regel abweichen.
 
-## Visueller Nachweis — konkret (FuelNow)
+## Lokale Beweisbilder — optional (FuelNow)
+
+Bleiben weiterhin sinnvoll für eigene Verifikation, Review-Vorbereitung und PR-Kommentare — sind aber **nicht** mehr Pflicht am Linear-Ticket.
 
 1. **Ablage:** Screenshots/Videos **nie** ins Git committen. **Empfohlen:** Projektordner **`.linear-evidence/`** (steht in `.gitignore`); sonst Desktop/Downloads/`/tmp` ist möglich.
-2. **Dateiname (empfohlen):** Schema **`TAN-XX-kurz-slug`** + Kontext, z. B. `TAN-16-mapscreen-simulator.png`, `TAN-13-tests-passing.png`, kurzes `.mov` vom Simulator.
-3. **Was aufnehmen:**
-   - **Mit UI:** Simulator oder Gerät — Screen(s), auf denen die Ticket-Änderung **erkennbar** ist (Annotation, Text, Flow-Ende).
-   - **Ohne / wenig UI:** Xcode **Test**- oder **Report**-Ansicht mit **grünen** Tests für dieses Feature; oder App einmal gestartet im Simulator + ein Satz im Kommentar („noch kein Map-Screen — nur Service wiring“).
-4. **An Linear anhängen:** Linear-UI (**Issue → Add attachment**) oder MCP **`create_attachment`** mit `base64Content` der Datei (macOS z. B. `base64 -i /Pfad/zum/Screenshot.png`).
-5. **AXe (Simulator, reproduzierbar):** `./scripts/capture-linear-evidence.sh TAN-XX-kurz` (oder `--settings-sheet`) **oder** `./scripts/build-run-and-axe.sh` mit `AXE_SCREENSHOT_PATH=".linear-evidence/TAN-XX-kurz-slug.png"`. Vor manuellen `axe`-Kommandos das Agent-Skill **`~/.agents/skills/axe/SKILL.md`** lesen (u. a. `--udid`, Batch-Workflow, Verifikation). Details und Trigger: **`AGENTS.md`** unter „AXe-Skill & Workflow“.
-6. **Beispiel TAN-13 (LocationService):** Kurzes Video „Simulator läuft, App geöffnet“ **oder** Screenshot Xcode mit **`LocationServiceTests`** grün — im Kommentar kurz beschreiben.
+2. **Dateiname (empfohlen):** Schema **`TAN-XX-kurz-slug`** + Kontext, z. B. `TAN-16-mapscreen-simulator.png`, `TAN-13-tests-passing.png`, kurzes `.mov` vom Simulator.
+3. **Was aufnehmen, wenn du etwas erstellst:**
+    - **Mit UI:** Simulator oder Gerät — Screen(s), auf denen die Ticket-Änderung **erkennbar** ist (Annotation, Text, Flow-Ende).
+    - **Ohne / wenig UI:** Xcode **Test**- oder **Report**-Ansicht mit **grünen** Tests für dieses Feature; oder App einmal gestartet im Simulator + ein Satz im Kommentar („noch kein Map-Screen — nur Service wiring“).
+4. **AXe (Simulator, reproduzierbar):** `./scripts/capture-linear-evidence.sh TAN-XX-kurz` (oder `--settings-sheet`) **oder** `./scripts/build-run-and-axe.sh` mit `AXE_SCREENSHOT_PATH=".linear-evidence/TAN-XX-kurz-slug.png"`. Vor manuellen `axe`-Kommandos das Agent-Skill **`~/.agents/skills/axe/SKILL.md`** lesen (u. a. `--udid`, Batch-Workflow, Verifikation). Details und Trigger: **`AGENTS.md`** unter „AXe-Skill & Workflow“.
+5. **Wenn doch ans Linear-Ticket angehängt wird** (selten, nur wenn ausdrücklich gewünscht): Bild vorher klein rechnen (z. B. `sips -Z 800 -s format jpeg -s formatOptions 65 in.png --out out-mini.jpg`), Linear-UI **Issue → Add attachment** oder MCP `create_attachment` mit `base64Content` — kein Standardweg mehr.

@@ -1,22 +1,22 @@
 ---
-description: After finishing ticket work and after merging to main, update the linked Linear issue and close it when merged.
+description: After finishing ticket work and after merging to main, update the linked Linear issue and close it when merged. Linear screenshot/video attachments are no longer required.
 alwaysApply: true
 ---
 
 # Linear-Issue: Abschluss der Arbeit und Merge nach `main`
 
-Gilt für FuelNow-Arbeit, die einem **Linear-Ticket** (z. B. `TAN-XX`) zugeordnet ist — Tooling: Linear MCP (`save_issue`, `save_comment`, ggf. `create_attachment`).
+Gilt für FuelNow-Arbeit, die einem **Linear-Ticket** (z. B. `TAN-XX`) zugeordnet ist — Tooling: Linear MCP (`save_issue`, `save_comment`).
 
 ## Nach fertiger Umsetzung (vor oder mit PR)
 
-- Das **Issue aktualisieren**: Beschreibung wo sinnvoll (Akzeptanzkriterien / DoD-Checkboxen), **Kommentar** mit Kurzfassung (was umgesetzt, welche Dateien/Tests, Branch-Name).
-- **Visueller Nachweis** wie in der Branch-/Ticket-Workflow-Regel (Anhang am Linear-Issue) — nicht nur „Code fertig“, sondern Ticket nachvollziehbar halten.
+- Das **Issue aktualisieren**: Beschreibung wo sinnvoll (Akzeptanzkriterien / DoD-Checkboxen), **Kommentar** mit Kurzfassung (was umgesetzt, welche Dateien/Tests, Branch-Name, PR-Link sobald offen).
+- **Kein Pflicht-Attachment am Linear-Ticket** mehr. Falls ein Screenshot oder Clip die Review nachweislich erleichtert, lokal in `.linear-evidence/` ablegen (siehe `.cursor/rules/ticket-branch-workflow.mdc`) und im PR oder Chat teilen statt am Linear-Issue anzuhängen.
 
 ## Sobald der Code in `main` ist
 
 - Das zugehörige Issue **`save_issue`** mit **`state`: `Done`** setzen, wenn es noch nicht abgeschlossen ist (Linear-Status „Done“ / completed).
 - **Abschlusskommentar** mit PR-Link und/oder Merge-Commit-Referenz.
-- **Checkboxen** in der Issue-Beschreibung an den Realzustand anpassen (z. B. „Gemerged auf `main`“, Dokumentation/PR).
+- **Checkboxen** in der Issue-Beschreibung an den Realzustand anpassen (z. B. „Gemerged auf `main`“, Dokumentation/PR).
 
 ## Zuordnung Branch ↔ Ticket
 
@@ -24,4 +24,4 @@ Gilt für FuelNow-Arbeit, die einem **Linear-Ticket** (z. B. `TAN-XX`) zugeord
 
 ## Pflichtgrad
 
-- **Kein Merge ohne Ticket-Nachziehen**, wenn explizit ein Ticket kontextualisiert war — Ausnahme nur nach **ausdrücklicher** Nutzeranweisung (z. B. „Linear erst später“).
+- **Kein Merge ohne Ticket-Nachziehen**, wenn explizit ein Ticket kontextualisiert war — Ausnahme nur nach **ausdrücklicher** Nutzeranweisung (z. B. „Linear erst später“).
