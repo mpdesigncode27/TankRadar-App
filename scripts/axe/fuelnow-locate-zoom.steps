@@ -1,0 +1,12 @@
+# FuelNow — AXe batch: tap Locate-Button to demonstrate close zoom (TAN-87).
+# Ausführen via: ./scripts/build-run-and-axe.sh (mit AXE_STEPS_FILE auf diese Datei)
+#
+# Hinweis: kein screenshot im Batch — PNG kommt automatisch via run-axe-batch.sh.
+# Abschluss-Screenshot: Karte zentriert + auf ~1,5 km Radius gezoomt.
+
+sleep 3
+
+# Locate-Button (LocateMeButton, Accessibility-Label aus FuelNow/Features/Map/LocateMeButton.swift)
+tap --label "Karte auf Standort zentrieren" --wait-timeout 25
+# Warte bis die Zoom-Animation (~0,45 s) durchgelaufen ist und die Map nachgerendert hat.
+sleep 2

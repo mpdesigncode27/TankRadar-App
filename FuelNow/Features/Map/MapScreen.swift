@@ -202,15 +202,30 @@ struct MapScreen: View {
         }
     }
 
+    /// Zentriert die Karte auf den aktuellen User-Standort.
+    ///
+    /// TAN-87: Apple-Maps-ähnliches Tracking-Niveau (~1,5 km Radius) statt vorheriger 8 km
+    /// Übersicht — beim Tap auf den Locate-Button erwarten Nutzer:innen Straßen-/Block-Klarheit,
+    /// nicht nur eine grobe Stadtansicht. Der Initial-Zoom (12 km direkt nach Permission-Grant
+    /// in `onChange(of: locationService.currentLocation)`) bleibt absichtlich unberührt — das
+    /// ist der „Hier ist deine Region"-Moment, nicht der Tracking-Use-Case.
+    ///
+    /// Animation respektiert `accessibilityReduceMotion`: ohne Bewegungs-Empfindlichkeit ein
+    /// sanfter `.easeInOut`-Übergang, mit Reduce Motion ein sofortiger Snap (kein Zoom-Flow).
     private func centerMapOnUser() {
         guard let location = locationService.currentLocation else { return }
-        cameraPosition = .region(
-            MKCoordinateRegion(
-                center: location.coordinate,
-                latitudinalMeters: 8_000,
-                longitudinalMeters: 8_000
-            )
+        let region = MKCoordinateRegion(
+            center: location.coordinate,
+            latitudinalMeters: 1_500,
+            longitudinalMeters: 1_500
         )
+        if reduceMotion {
+            cameraPosition = .region(region)
+        } else {
+            withAnimation(.easeInOut(duration: 0.45)) {
+                cameraPosition = .region(region)
+            }
+        }
     }
 
     private func refreshStations() async {
