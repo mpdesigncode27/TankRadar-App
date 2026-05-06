@@ -83,6 +83,7 @@ Project rule: `.cursor/rules/tankerkoenig-ticket-precheck.mdc`.
 - Domain models: `FuelNow/Models/FuelType.swift`, `FuelNow/Models/Station.swift`.
 - `Station` decoding treats `prices.php`-style `false` fuel prices as absent (`nil`).
 - **`list.php` with a single `type`:** responses use **`price`**, not separate `e5`/`e10`/`diesel` keys — align clients and tickets if they assume only the multi-key shape.
+- **Caching strategy is fixed by ADR — no own DB mirror.** Architecture decision: [`docs/TANKERKOENIG_CACHING.md`](../../../docs/TANKERKOENIG_CACHING.md) ([TAN-82](https://linear.app/tankradar-app/issue/TAN-82)). Default stays **on-demand**; Tankerkönig forbids scheduled mass-mirroring on the free tier and will block the API key. Improvements go through client-cache ([TAN-83](https://linear.app/tankradar-app/issue/TAN-83)) and static base-data cache ([TAN-84](https://linear.app/tankradar-app/issue/TAN-84)); a server-side on-demand edge cache is a backlog spike ([TAN-85](https://linear.app/tankradar-app/issue/TAN-85)). Any ticket proposing a periodic backend poller must first revise that ADR.
 
 ## Further reading
 
