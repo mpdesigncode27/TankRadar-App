@@ -1,0 +1,127 @@
+# SwiftFormat configuration for FuelNow (TAN-63).
+#
+# Run locally:           ./scripts/format.sh
+# Run as lint-only check: ./scripts/format.sh --lint
+#
+# Style guide: docs/STYLE.md
+# Tested with SwiftFormat 0.61.1 (Brewfile pin via brew bundle).
+#
+# Philosophy: "safe" rules only — pure formatting (whitespace, line wrapping, imports,
+# blank-line hygiene). No member reorganization, no acronym renaming, no test refactors.
+# Aggressive rules can be opted into later via separate tickets once the team agrees.
+
+--swift-version 6.0
+
+# Where SwiftFormat should look. Keep in sync with .swiftlint.yml `included:`.
+--exclude .build
+--exclude .derived-data-ios
+--exclude .derived-data-ios-check
+--exclude .linear-evidence
+--exclude .cursor
+--exclude .agents
+--exclude build
+--exclude vendor
+--exclude fastlane
+--exclude scripts
+--exclude docs
+--exclude FuelNow/Assets.xcassets
+--exclude FuelNow/Design/TRDesignAssets.xcassets
+
+# Layout
+--indent 4
+--indent-strings false
+--max-width 140
+--linebreaks lf
+--ranges no-space
+--operator-func spaced
+--closing-paren balanced
+--wrap-arguments before-first
+--wrap-parameters before-first
+--wrap-collections before-first
+--wrap-conditions preserve
+--wrap-return-type preserve
+--wrap-ternary default
+
+# Imports — sort within group, keep test imports at the bottom.
+--import-grouping testable-last
+
+# Headers, braces, control flow.
+--header strip
+--empty-braces no-space
+--self init-only
+--ifdef no-indent
+--xcode-indentation enabled
+--short-optionals always
+--guard-else same-line
+
+# --- Disabled rules ---------------------------------------------------------
+# Refactoring or semantic-impact rules — out of scope for the initial format
+# pass. Reactivate selectively in follow-up tickets once the team agrees.
+
+--disable wrapMultilineStatementBraces
+--disable redundantSelf
+--disable hoistAwait
+--disable hoistTry
+--disable organizeDeclarations
+--disable markTypes
+--disable extensionAccessControl
+--disable acronyms
+--disable preferKeyPath
+--disable noForceUnwrapInTests
+--disable noGuardInTests
+--disable redundantThrows
+--disable redundantAsync
+--disable redundantInternal
+--disable wrap
+
+# Aggressive defaults that touch semantics or established style. Off until
+# we open a follow-up ticket and discuss the trade-offs.
+--disable redundantReturn               # explicit `return` in switch arms is intentional
+--disable redundantSendable             # keep explicit Sendable on non-public types
+--disable wrapPropertyBodies            # keep `var x: Type { … }` on a single line where short
+--disable numberFormatting              # do not insert `_` separators retroactively
+--disable wrapSingleLineComments        # SwiftLint owns line-length enforcement
+--disable andOperator                   # `&&` over comma in conditions stays readable
+--disable braces                        # K&R/Allman switch is too noisy for a first pass
+--disable elseOnSameLine                # mixed `} else {` / next-line styles allowed for now
+--disable unusedArguments               # do not auto-add `_` in protocol-driven signatures
+--disable modifierOrder                 # SwiftLint's modifier_order rule already warns
+--disable conditionalAssignment         # rewriting if/switch into expressions is semantic
+--disable wrapMultilineConditionalAssignment  # paired with conditionalAssignment — leave off
+--disable initCoderUnavailable          # legacy NSCoder inits stay as-authored
+--disable wrapFunctionBodies            # short single-line bodies stay one line
+--disable hoistPatternLet               # `case .foo(let x)` reads fine where authored
+
+# --- Enabled rules ----------------------------------------------------------
+# Pure formatting cleanups: blank lines, imports, whitespace, trailing commas.
+# Anything that could rewrite logic or change public API stays in the disabled
+# block above.
+
+--enable blankLinesBetweenImports
+--enable blankLinesAtStartOfScope
+--enable blankLinesAtEndOfScope
+--enable trailingSpace
+--enable trailingCommas
+--enable consecutiveBlankLines
+--enable consecutiveSpaces
+--enable redundantParens
+--enable spaceAroundBraces
+--enable spaceAroundBrackets
+--enable spaceAroundComments
+--enable spaceAroundGenerics
+--enable spaceAroundOperators
+--enable spaceAroundParens
+--enable spaceInsideBraces
+--enable spaceInsideBrackets
+--enable spaceInsideComments
+--enable spaceInsideGenerics
+--enable spaceInsideParens
+--enable indent
+--enable linebreaks
+--enable linebreakAtEndOfFile
+--enable sortImports
+--enable redundantOptionalBinding
+--enable redundantClosure
+--enable isEmpty
+--enable docComments
+--enable blockComments

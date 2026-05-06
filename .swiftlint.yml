@@ -1,0 +1,113 @@
+# SwiftLint configuration for FuelNow (TAN-63).
+#
+# Run locally:  ./scripts/lint.sh
+# Format check: ./scripts/format.sh --lint
+#
+# Style guide: docs/STYLE.md
+
+included:
+  - FuelNow
+  - FuelNowTests
+  - FuelNowUITests
+
+excluded:
+  - .build
+  - .derived-data-ios
+  - .derived-data-ios-check
+  - .linear-evidence
+  - .cursor
+  - .agents
+  - build
+  - vendor
+  - fastlane
+  - scripts
+  - docs
+  - "**/Generated"
+  - "**/*.xcassets"
+
+# Stricter analysis runs in opt-in lints; flip on as the codebase tolerates them.
+opt_in_rules:
+  - empty_count
+  - empty_string
+  - explicit_init
+  - first_where
+  - last_where
+  - sorted_first_last
+  - redundant_nil_coalescing
+  - operator_usage_whitespace
+  - closure_end_indentation
+  - closure_spacing
+  - contains_over_first_not_nil
+  - convenience_type
+  - discouraged_object_literal
+  - implicit_return
+  - joined_default_parameter
+  - literal_expression_end_indentation
+  - modifier_order
+  - overridden_super_call
+  - prohibited_super_call
+  - redundant_type_annotation
+  # NOTE: import sorting is owned by SwiftFormat (`--import-grouping testable-last`)
+  # — keeping it in SwiftLint as well caused autofix loops on test files.
+  - toggle_bool
+  - unavailable_function
+  - unneeded_parentheses_in_closure_argument
+  - vertical_parameter_alignment_on_call
+  - yoda_condition
+
+# Disable rules that would create busywork without raising real bug risk.
+disabled_rules:
+  - todo                        # We use Linear; TODO/FIXME are fine in code.
+  - trailing_comma              # SwiftFormat handles trailing commas.
+  - opening_brace               # SwiftFormat handles brace layout.
+  - identifier_name             # Allow short SwiftUI/closure names like `id`, `r`.
+  - nesting                     # SwiftUI views nest deeply by design.
+
+# Tuned thresholds.
+# `error` is intentionally generous so the initial roll-out doesn't fail on
+# long JSON test fixtures or example payloads. Tighten in a follow-up ticket.
+line_length:
+  warning: 140
+  error: 500
+  ignores_urls: true
+  ignores_function_declarations: true
+  ignores_comments: true
+
+file_length:
+  warning: 600
+  error: 1200
+
+type_body_length:
+  warning: 400
+  error: 800
+
+function_body_length:
+  warning: 80
+  error: 160
+
+cyclomatic_complexity:
+  warning: 15
+  error: 25
+
+large_tuple:
+  warning: 4
+  error: 6
+
+# Prefer `Color.trAccent` & friends over inline hex strings.
+# Hex literals are only allowed inside the design-system layer (FuelNow/Design/).
+custom_rules:
+  tr_no_inline_hex_outside_design_system:
+    name: "TR: No inline hex outside Design/"
+    regex: "Color\\(hex:|UIColor\\(hex:|#[0-9A-Fa-f]{6}\\b"
+    match_kinds:
+      - argument
+      - identifier
+      - string
+    excluded:
+      - "FuelNow/Design/.*"
+      - "FuelNowTests/.*"            # Tests assert on hex regression
+      - "FuelNow/Support/.*"          # Palette test fixtures
+    message: "Use a TRColors token (FuelNow/Design/TRColors.swift) instead of an inline hex literal."
+    severity: warning
+
+reporter: "xcode"
