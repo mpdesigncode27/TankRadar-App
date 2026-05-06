@@ -72,6 +72,221 @@
         }
       }
     },
+    "carplay.plus.map.title" : {
+      "comment" : "CarPlay Plus tab — POI map template title (TAN-55).",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tankstellen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stations"
+          }
+        }
+      }
+    },
+    "carplay.plus.list.title" : {
+      "comment" : "CarPlay Plus tab — sorted list of nearby stations (TAN-55).",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In der Nähe"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nearby"
+          }
+        }
+      }
+    },
+    "carplay.poi.navigateMaps" : {
+      "comment" : "Primary action on CarPlay POI detail card — opens Apple Maps driving directions.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navigation in Apple Maps"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Directions in Apple Maps"
+          }
+        }
+      }
+    },
+    "carplay.plus.loading.title" : {
+      "comment" : "CarPlay Plus empty-state while StationStore is loading.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tankstellen werden geladen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading stations"
+          }
+        }
+      }
+    },
+    "carplay.plus.loading.body" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitte einen Moment warten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please wait a moment."
+          }
+        }
+      }
+    },
+    "carplay.plus.idle.title" : {
+      "comment" : "CarPlay Plus — no stations yet and store idle.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch keine Tankstellen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No stations yet"
+          }
+        }
+      }
+    },
+    "carplay.plus.idle.body" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne FuelNow auf dem iPhone und erlaube Standort — dann erscheinen Tankstellen hier."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open FuelNow on iPhone and allow location — stations will appear here."
+          }
+        }
+      }
+    },
+    "carplay.plus.empty.title" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Tankstellen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No stations"
+          }
+        }
+      }
+    },
+    "carplay.plus.empty.body" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Im Umkreis wurden keine Tankstellen gefunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No stations were found nearby."
+          }
+        }
+      }
+    },
+    "carplay.plus.error.title" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tankstellen konnten nicht geladen werden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not load stations"
+          }
+        }
+      }
+    },
+    "carplay.locked.detail" : {
+      "comment" : "Secondary copy on Limited CarPlay screen — no subscribe CTA (TAN-57).",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abo und Freischaltung erfolgen nur auf dem iPhone — hier gibt es keine Kauf-Buttons."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscriptions are managed on iPhone only — there is no purchase UI here."
+          }
+        }
+      }
+    },
+    "station.status.open" : {
+      "comment" : "Short open/closed label shared by station detail and CarPlay.",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geöffnet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open"
+          }
+        }
+      }
+    },
+    "station.status.closed" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geschlossen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Closed"
+          }
+        }
+      }
+    },
     "Diesel" : {
       "comment" : "Display representation for the `Diesel` fuel type.",
       "isCommentAutoGenerated" : true

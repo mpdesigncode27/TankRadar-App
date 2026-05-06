@@ -19,6 +19,10 @@ struct FuelNowApp: App {
                 .environment(stationStore)
                 .environment(entitlementManager)
                 .environment(MapDeepLinkStore.shared)
+                .onAppear {
+                    FuelNowRuntimeRegistry.stationStore = stationStore
+                    FuelNowRuntimeRegistry.locationService = locationService
+                }
                 .onOpenURL { url in
                     Task { @MainActor in
                         guard let link = FuelNowDeepLink.parse(url) else { return }

@@ -4,10 +4,9 @@ import Foundation
 /// (TAN-56) konsumiert und in das jeweilige `CPTemplate` übersetzt.
 ///
 /// Folge-Tickets:
-/// * **TAN-55** ersetzt den `.plus`-Pfad-Stub durch `CPPointOfInterestTemplate`
-///   mit Stationen aus `StationStore` / `POIAdapter`.
-/// * **TAN-57** ersetzt den `.limited`-Pfad-Stub durch `CPInformationTemplate`
-///   mit den `carplay.locked.*`-Strings + finalem Copy.
+/// * **TAN-55** — `.plus`: `CPTabBarTemplate` mit `CPPointOfInterestTemplate` + Liste,
+///   Daten aus ``StationStore`` / ``StationCarPlayPOIMapper``.
+/// * **TAN-57** — `.limited`: `CPInformationTemplate` mit `carplay.locked.*` + ergänzendem Hinweis.
 /// * **TAN-58** baut auf der Flip-Beobachtung auf, die der Delegate bereits
 ///   einrichtet (Aboablauf während aktiver Session).
 enum CarPlayRoute: Equatable, Sendable {

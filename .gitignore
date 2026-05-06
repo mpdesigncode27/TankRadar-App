@@ -33,3 +33,4 @@ fastlane/screenshots
 
 # AXe CLI smoke output (scripts/build-run-and-axe.sh, run-axe-batch.sh)
 scripts/axe/output/
+.derived-data-ios-test
