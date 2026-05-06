@@ -252,7 +252,11 @@ struct MapScreen: View {
     private func searchStationsForVisibleMapCenter() {
         let center = mapVisibleRegion.center
         let location = CLLocation(latitude: center.latitude, longitude: center.longitude)
-        stationStore.forceRefresh(using: location, radiusKm: AppSettings.SearchRadius.apiMaxKm)
+        stationStore.forceRefresh(
+            using: location,
+            radiusKm: AppSettings.SearchRadius.apiMaxKm,
+            trigger: .forcedMapRegion
+        )
     }
 
     /// Cluster antippen: näher zoomen, bis sich Gitter-Zellen aufteilen (Einzelpins).

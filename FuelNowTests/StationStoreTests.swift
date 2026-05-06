@@ -81,6 +81,33 @@ struct StationStoreTests {
         #expect(center.longitude == referenceCoordinate.coordinate.longitude)
     }
 
+    @Test func mapRegionForceRefreshDoesNotResetLocationDebounce() async throws {
+        let fetcher = MockStationFetcher()
+        let base = Date(timeIntervalSince1970: 1_700_000_000)
+        var now = base
+        let store = StationStore(fetcher: fetcher, clock: { now })
+        let userLoc = CLLocation(latitude: 52.5, longitude: 13.4)
+        let mapCenterFar = CLLocation(latitude: 53.5, longitude: 13.4)
+
+        store.handleLocationUpdate(userLoc, radiusKm: 5)
+        try await Task.sleep(for: .milliseconds(80))
+        #expect(await fetcher.completedInvocationCount == 1)
+
+        store.forceRefresh(using: mapCenterFar, radiusKm: 5, trigger: .forcedMapRegion)
+        try await Task.sleep(for: .milliseconds(80))
+        #expect(await fetcher.completedInvocationCount == 2)
+
+        let tinyJitter = CLLocation(latitude: 52.50001, longitude: 13.4)
+        store.handleLocationUpdate(tinyJitter, radiusKm: 5)
+        try await Task.sleep(for: .milliseconds(80))
+        #expect(await fetcher.completedInvocationCount == 2)
+
+        now = base.addingTimeInterval(31)
+        store.handleLocationUpdate(tinyJitter, radiusKm: 5)
+        try await Task.sleep(for: .milliseconds(80))
+        #expect(await fetcher.completedInvocationCount == 3)
+    }
+
     @Test func forceRefreshBypassesDebounce() async throws {
         let fetcher = MockStationFetcher()
         let base = Date(timeIntervalSince1970: 1_700_000_000)
