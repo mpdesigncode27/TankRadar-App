@@ -3,14 +3,23 @@ import SwiftUI
 
 /// Mini-Hero für FuelNow Plus in den Einstellungen (TAN-78).
 ///
-/// Honest-Conversion-Surface: **kein** „kostenlos testen“-Claim, **kein** Auto-Sheet, kein Nag.
+/// Honest-Conversion-Surface: **kein** „kostenlos testen"-Claim, **kein** Auto-Sheet, kein Nag.
 /// Discovery → Decision-Trennung: ein primärer Glas-CTA öffnet das bestehende `PlusUpgradeView`-Sheet (TAN-45).
 /// Eine einzelne Glas-Fläche umschließt Inhalt + CTA via `GlassEffectContainer` (kein Glass-on-Glass).
+///
+/// Loading-Fallback (TAN-90): Wenn nach `loadingTimeout` Sekunden noch kein `product` vorliegt,
+/// wechselt der Preis-Block vom `ProgressView` auf einen Fallback-Text — keine endlosen Spinner mehr,
+/// wenn StoreKit (z. B. wegen fehlender Sandbox-Apple-ID oder `simctl launch`-Start) leer bleibt.
 struct PlusMiniHero: View {
     let product: Product?
     let isLoading: Bool
     let trialOffer: PlusPurchaseController.TrialOfferState?
     let openPlusSheet: () -> Void
+
+    /// Maximalzeit, die ein leerer `ProgressView` aktiv bleiben darf — danach Fallback-Text (TAN-90).
+    private static let loadingTimeoutSeconds: UInt64 = 8
+
+    @State private var loadingTimedOut = false
 
     init(
         product: Product?,
@@ -115,13 +124,31 @@ struct PlusMiniHero: View {
                         .accessibilityHidden(true)
                 }
             }
-        } else if isLoading {
+        } else if isLoading, !loadingTimedOut {
             HStack(spacing: TRSpacing.xs) {
                 ProgressView()
                 Text("settings.plus.priceLoading")
                     .font(TRTypography.callout())
                     .foregroundStyle(TRColors.labelSecondary)
             }
+            .task(id: isLoading) {
+                guard isLoading else { return }
+                try? await Task.sleep(nanoseconds: Self.loadingTimeoutSeconds * 1_000_000_000)
+                if !Task.isCancelled, product == nil {
+                    loadingTimedOut = true
+                }
+            }
+        } else {
+            VStack(alignment: .leading, spacing: TRSpacing.xxs) {
+                Text("settings.plus.priceUnavailable")
+                    .font(TRTypography.callout())
+                    .foregroundStyle(TRColors.labelSecondary)
+                Text("settings.plus.priceUnavailable.hint")
+                    .font(TRTypography.caption())
+                    .foregroundStyle(TRColors.labelTertiary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .accessibilityElement(children: .combine)
         }
     }
 

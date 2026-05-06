@@ -14,6 +14,12 @@ struct PlusUpgradeView: View {
 
     @State private var purchase = PlusPurchaseController()
 
+    /// Loading-Fallback (TAN-90): Wenn nach `loadingTimeoutSeconds` immer noch kein Produkt geladen ist
+    /// (z. B. fehlende Sandbox-Apple-ID), zeigt die Sheet einen lesbaren Fallback-Text statt
+    /// eines endlosen Spinners. Restore- und Manage-Buttons bleiben unabhängig benutzbar.
+    @State private var loadingTimedOut = false
+    private static let loadingTimeoutSeconds: UInt64 = 8
+
     private var plusYearlyProduct: Product? {
         entitlementManager.products.first { $0.id == SubscriptionConstants.plusYearlyProductID }
     }
@@ -246,21 +252,42 @@ struct PlusUpgradeView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             } else {
-                HStack(spacing: TRSpacing.s) {
-                    ProgressView()
-                    Text("settings.plus.priceLoading")
-                        .foregroundStyle(TRColors.labelSecondary)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                priceLoadingOrFallback
             }
             #else
+            priceLoadingOrFallback
+            #endif
+        }
+    }
+
+    /// Spinner mit `loadingTimeoutSeconds`-Timeout → Fallback-Text (TAN-90).
+    @ViewBuilder
+    private var priceLoadingOrFallback: some View {
+        if loadingTimedOut {
+            VStack(alignment: .leading, spacing: TRSpacing.xs) {
+                Text("settings.plus.priceUnavailable")
+                    .font(TRTypography.bodyBold())
+                    .foregroundStyle(TRColors.labelPrimary)
+                Text("settings.plus.priceUnavailable.hint")
+                    .font(TRTypography.caption())
+                    .foregroundStyle(TRColors.labelSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityElement(children: .combine)
+        } else {
             HStack(spacing: TRSpacing.s) {
                 ProgressView()
                 Text("settings.plus.priceLoading")
                     .foregroundStyle(TRColors.labelSecondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            #endif
+            .task {
+                try? await Task.sleep(nanoseconds: Self.loadingTimeoutSeconds * 1_000_000_000)
+                if !Task.isCancelled, plusYearlyProduct == nil {
+                    loadingTimedOut = true
+                }
+            }
         }
     }
 

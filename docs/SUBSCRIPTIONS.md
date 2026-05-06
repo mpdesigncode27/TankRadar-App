@@ -110,6 +110,56 @@ audiences:
   *Settings → FuelNow Plus* and the *„FuelNow Plus ansehen"* sheet to see
   the trial badge / headline.
 
+## Local testing & demo mode (TAN-90)
+
+Three layered failure modes can leave the Settings price spinner running
+forever — TAN-90 hardens each one:
+
+1. **Scheme `.storekit` reference path.** The shared scheme file
+   references `FuelNowPlus.storekit` relative to the implicit
+   `.xcworkspace` bundle, i.e. `../../FuelNowPlus.storekit` from
+   `FuelNow.xcodeproj/project.xcworkspace/`. If that path is broken,
+   even Xcode `Cmd+R` will skip StoreKit Local Testing and
+   `Product.products(for:)` returns `[]`.
+2. **`xcrun simctl launch` ignores StoreKit Local Testing.** Our
+   `./scripts/build-and-run-simulator.sh` and the AXe smoke pipeline
+   both go through `simctl`, so they always hit the empty-products path
+   unless the simulator is signed into a Sandbox Apple ID.
+3. **No loading timeout.** `PlusMiniHero` and `PlusUpgradeView` now
+   replace the spinner with a *Price currently unavailable* fallback
+   after **8 s** of empty product state. Restore and Manage actions stay
+   reachable.
+
+### Debug demo toggle
+
+`EntitlementManager.applyDebugUnlockIfRequested()` honors two inputs in
+DEBUG builds (the entire mechanism is excluded from Release via
+`#if DEBUG`):
+
+- Launch argument `--mock-plus-subscriber` — convenient for scripted
+  smoke flows that go through `xcrun simctl launch`.
+- `UserDefaults` key `__debug__forcePlusUnlocked` — toggled via the new
+  *Settings → DEBUG → "Demo-Modus: FuelNow Plus aktiv"* switch. The
+  toggle calls `EntitlementManager.setDebugForcedPlusUnlock(_:)` so the
+  UI flips synchronously (Plus-Active section, CarPlay routing).
+
+To launch the simulator with Plus pre-unlocked:
+
+```bash
+xcrun simctl launch "$UDID" com.vibecoding.fuelnow --mock-plus-subscriber
+```
+
+Production safety:
+
+- Apple Review forbids paid-feature gating bypasses in shipping builds;
+  the toggle, the launch-arg branch, and `EntitlementManager.setDebugForcedPlusUnlock(_:)`
+  are all wrapped in `#if DEBUG` and therefore stripped from Release
+  binaries.
+- Sandbox testers (App Store Connect) remain the source of truth for the
+  full StoreKit purchase / restore loop and live in
+  [TAN-46](https://linear.app/tankradar-app/issue/TAN-46) /
+  [TAN-59](https://linear.app/tankradar-app/issue/TAN-59).
+
 ## Sources
 
 - Apple — [Set up introductory offers for auto-renewable subscriptions](https://developer.apple.com/help/app-store-connect/manage-subscriptions/set-up-introductory-offers-for-auto-renewable-subscriptions)

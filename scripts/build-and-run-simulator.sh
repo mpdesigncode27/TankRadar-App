@@ -56,6 +56,15 @@ if [[ ! -d "${APP}" ]]; then
 fi
 
 xcrun simctl install "${UDID}" "${APP}"
-xcrun simctl launch "${UDID}" "${BUNDLE_ID}"
+
+# TAN-90: Mit FUELNOW_DEMO_PLUS=1 startet die App im DEBUG-Build mit aktivem Plus
+# (kein echter Kauf nötig). Wirkt nur in Debug-Builds; Release ignoriert das Argument.
+LAUNCH_ARGS=()
+if [[ "${FUELNOW_DEMO_PLUS:-0}" == "1" ]]; then
+  LAUNCH_ARGS+=("--mock-plus-subscriber")
+  echo "FuelNow: Demo-Plus aktiv (--mock-plus-subscriber)."
+fi
+
+xcrun simctl launch "${UDID}" "${BUNDLE_ID}" "${LAUNCH_ARGS[@]}"
 
 echo "FuelNow: Installiert und gestartet."

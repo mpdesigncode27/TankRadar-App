@@ -31,12 +31,23 @@ final class EntitlementManager {
 
     @ObservationIgnored private let transactionUpdates = TransactionUpdatesSubscription()
 
+    #if DEBUG
+    /// Lokales Debug-Override: wenn `true`, gilt der User als Plus-Abonnent ohne echten Kauf
+    /// (siehe `applyDebugUnlockIfRequested()`). Niemals im Release aktiv.
+    @ObservationIgnored private var debugForcedPlusUnlock = false
+    #endif
+
     init() {}
 
     /// Loads products, refreshes entitlements, then observes `Transaction.updates` for the app lifetime.
+    /// Im DEBUG-Build wird zusätzlich `applyDebugUnlockIfRequested()` aufgerufen, damit Launch-Args
+    /// und der Settings-Demo-Toggle (TAN-90) den Plus-Status ohne Sandbox-Apple-ID setzen können.
     func start() async {
         await loadProducts()
         await refreshEntitlements()
+        #if DEBUG
+        applyDebugUnlockIfRequested()
+        #endif
         guard ProcessInfo.processInfo.environment["UITESTING"] != "1" else { return }
         observeTransactionUpdates()
     }
@@ -82,8 +93,48 @@ final class EntitlementManager {
                 break
             }
         }
+        #if DEBUG
+        if debugForcedPlusUnlock { plus = true }
+        #endif
         isPlusSubscriber = plus
     }
+
+    #if DEBUG
+    /// Liest Launch-Arg `--mock-plus-subscriber` und das `@AppStorage`-Flag `__debug__forcePlusUnlocked`.
+    /// Wenn eines aktiv ist, wird `isPlusSubscriber = true` ohne echten Kauf gesetzt — nützlich für
+    /// Smoke-Tests via `xcrun simctl launch` (kein StoreKit-Local-Testing) und für UI-/CarPlay-Demos
+    /// im Simulator (TAN-90). Im Release-Build vollständig ausgeschlossen via `#if DEBUG`.
+    @discardableResult
+    func applyDebugUnlockIfRequested(
+        arguments: [String] = ProcessInfo.processInfo.arguments,
+        storedFlag: Bool? = nil
+    ) -> Bool
+    {
+        let launchArgUnlock = arguments.contains(EntitlementManager.debugUnlockLaunchArg)
+        let storage = storedFlag ?? UserDefaults.standard.bool(forKey: EntitlementManager.debugUnlockStorageKey)
+        let unlock = launchArgUnlock || storage
+        debugForcedPlusUnlock = unlock
+        if unlock {
+            isPlusSubscriber = true
+        }
+        return unlock
+    }
+
+    /// Setzt das Debug-Override zur Laufzeit (vom Settings-Demo-Toggle aufgerufen). Persistiert in
+    /// `UserDefaults` und passt `isPlusSubscriber` sofort an, damit die UI ohne App-Restart umschaltet.
+    func setDebugForcedPlusUnlock(_ unlock: Bool) {
+        debugForcedPlusUnlock = unlock
+        UserDefaults.standard.set(unlock, forKey: EntitlementManager.debugUnlockStorageKey)
+        if unlock {
+            isPlusSubscriber = true
+        } else {
+            Task { await refreshEntitlements() }
+        }
+    }
+
+    static let debugUnlockLaunchArg = "--mock-plus-subscriber"
+    static let debugUnlockStorageKey = "__debug__forcePlusUnlocked"
+    #endif
 
     private func observeTransactionUpdates() {
         transactionUpdates.replace(with: Task { [weak self] in
