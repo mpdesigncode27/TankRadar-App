@@ -73,7 +73,7 @@ struct PlusMiniHero: View {
                 .fixedSize(horizontal: false, vertical: true)
 
             VStack(alignment: .leading, spacing: TRSpacing.xs) {
-                ForEach(Self.miniBenefits) { benefit in
+                ForEach(Self.visibleMiniBenefits) { benefit in
                     PlusMiniBenefitRow(benefit: benefit)
                 }
             }
@@ -174,10 +174,16 @@ private extension PlusMiniHero {
         let title: LocalizedStringResource
     }
 
-    static let miniBenefits: [MiniBenefit] = [
+    private static let miniBenefitsAll: [MiniBenefit] = [
         MiniBenefit(id: "carplay", symbolName: "car.fill", title: "plus.benefit.carplay.title"),
         MiniBenefit(id: "future", symbolName: "sparkles", title: "plus.benefit.future.title"),
     ]
+
+    static var visibleMiniBenefits: [MiniBenefit] {
+        miniBenefitsAll.filter { benefit in
+            benefit.id != "carplay" || FuelNowFeatureFlags.isCarPlayCapabilityEnabled
+        }
+    }
 }
 
 private struct PlusMiniBenefitRow: View {

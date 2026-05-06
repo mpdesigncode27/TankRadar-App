@@ -3,16 +3,13 @@
 <plist version="1.0">
 <dict>
 	<!--
-		CarPlay Fueling-Kategorie.
+		CarPlay Fueling (`com.apple.developer.carplay-fueling`) ist absichtlich
+		entfernt, solange Apple noch nicht genehmigt hat — sonst scheitern
+		Device-Signing / Archive an fehlendem Profil-Flag.
 
-		Nach Apple-Approval per https://developer.apple.com/contact/carplay aktiv.
-		Bis zur Genehmigung lehnt das Provisioning das Flag für Device-Builds ab —
-		Simulator-Builds sind davon nicht betroffen. Siehe `docs/CARPLAY.md`.
-
-		Der Wert MUSS Boolean YES bleiben (siehe Apple Developer Documentation:
-		`com.apple.developer.carplay-fueling`).
+		Nach Freigabe: Key wieder eintragen (Boolean YES), `FuelNowFeatureFlags
+		.isCarPlayCapabilityEnabled = true`, CarPlay-Scene in Info.plist — siehe
+		`docs/CARPLAY.md`.
 	-->
-	<key>com.apple.developer.carplay-fueling</key>
-	<true/>
 </dict>
 </plist>

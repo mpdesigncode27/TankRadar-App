@@ -105,6 +105,7 @@
 		F70110000000000000000003 /* AppSettings+PreferredFuel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70100000000000000000003 /* AppSettings+PreferredFuel.swift */; };
 		F70110000000000000000004 /* CarPlayDrivingNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70100000000000000000004 /* CarPlayDrivingNavigation.swift */; };
 		F70110000000000000000005 /* StationCarPlayPOIMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70100000000000000000005 /* StationCarPlayPOIMapper.swift */; };
+		F70110000000000000000006 /* FuelNowFeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70100000000000000000006 /* FuelNowFeatureFlags.swift */; };
 		F70610000000000000000001 /* StationCarPlayPOIMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70600000000000000000001 /* StationCarPlayPOIMapperTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -229,6 +230,7 @@
 		F70100000000000000000003 /* AppSettings+PreferredFuel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppSettings+PreferredFuel.swift"; sourceTree = "<group>"; };
 		F70100000000000000000004 /* CarPlayDrivingNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlayDrivingNavigation.swift; sourceTree = "<group>"; };
 		F70100000000000000000005 /* StationCarPlayPOIMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationCarPlayPOIMapper.swift; sourceTree = "<group>"; };
+		F70100000000000000000006 /* FuelNowFeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuelNowFeatureFlags.swift; sourceTree = "<group>"; };
 		F70600000000000000000001 /* StationCarPlayPOIMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationCarPlayPOIMapperTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -343,6 +345,7 @@
 			children = (
 				F10000000000000000000001 /* APIKeys.example.swift */,
 				F52300000000000000000001 /* AppSettings.swift */,
+				F70100000000000000000006 /* FuelNowFeatureFlags.swift */,
 				F70100000000000000000003 /* AppSettings+PreferredFuel.swift */,
 				F70100000000000000000002 /* FuelNowRuntimeRegistry.swift */,
 				F70100000000000000000001 /* StationDisplayFormatting.swift */,
@@ -696,6 +699,7 @@
 				F70110000000000000000001 /* StationDisplayFormatting.swift in Sources */,
 				F70110000000000000000002 /* FuelNowRuntimeRegistry.swift in Sources */,
 				F70110000000000000000003 /* AppSettings+PreferredFuel.swift in Sources */,
+				F70110000000000000000006 /* FuelNowFeatureFlags.swift in Sources */,
 				F70110000000000000000004 /* CarPlayDrivingNavigation.swift in Sources */,
 				F70110000000000000000005 /* StationCarPlayPOIMapper.swift in Sources */,
 			);

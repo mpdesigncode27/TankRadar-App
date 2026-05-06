@@ -3,16 +3,15 @@
 <plist version="1.0">
 <dict>
 	<!--
-		FuelNow Info.plist (TAN-56).
+		FuelNow Info.plist — manuelles Scene-Manifest (SwiftUI Window).
 
-		Migration weg von `INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES`,
-		weil das auto-generierte Manifest nur die SwiftUI-Window-Scene kennt; CarPlay
-		braucht eine zweite Scene (`CPTemplateApplicationSceneSessionRoleApplication`)
-		mit einem dedizierten Delegate.
+		CarPlay-Scene (`CPTemplateApplicationSceneSessionRoleApplication`) ist
+		entfernt, solange `FuelNowFeatureFlags.isCarPlayCapabilityEnabled == false`
+		(kein Fueling-Entitlement vor Apple-Approval). Nach Freigabe wieder ergänzen,
+		siehe `docs/CARPLAY.md`.
 
-		Alle vorher in `INFOPLIST_KEY_*`-Build-Settings stehenden Werte (CFBundleDisplayName,
-		CFBundleURLTypes, NSLocationWhenInUseUsageDescription etc.) wurden 1:1 hierher
-		übernommen, damit das App-Verhalten gegenüber `main` identisch bleibt.
+		Vorherige INFOPLIST_KEY_*-Werte (CFBundleDisplayName, CFBundleURLTypes,
+		NSLocationWhenInUseUsageDescription etc.) liegen hier gebündelt.
 	-->
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
@@ -54,7 +53,7 @@
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
-		<true/>
+		<false/>
 		<key>UISceneConfigurations</key>
 		<dict>
 			<key>UIWindowSceneSessionRoleApplication</key>
@@ -64,17 +63,6 @@
 					<string>Default Configuration</string>
 					<key>UISceneClassName</key>
 					<string>UIWindowScene</string>
-				</dict>
-			</array>
-			<key>CPTemplateApplicationSceneSessionRoleApplication</key>
-			<array>
-				<dict>
-					<key>UISceneConfigurationName</key>
-					<string>FuelNow CarPlay Scene</string>
-					<key>UISceneClassName</key>
-					<string>CPTemplateApplicationScene</string>
-					<key>UISceneDelegateClassName</key>
-					<string>$(PRODUCT_MODULE_NAME).FuelNowCarPlaySceneDelegate</string>
 				</dict>
 			</array>
 		</dict>

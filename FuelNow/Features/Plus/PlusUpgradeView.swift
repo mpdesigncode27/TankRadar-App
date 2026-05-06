@@ -171,7 +171,7 @@ struct PlusUpgradeView: View {
 
     private var benefitsSection: some View {
         VStack(alignment: .leading, spacing: TRSpacing.m) {
-            ForEach(Self.benefits) { benefit in
+            ForEach(Self.paywallBenefits) { benefit in
                 BenefitRow(benefit: benefit)
             }
         }
@@ -386,6 +386,13 @@ private extension PlusUpgradeView {
             description: "plus.benefit.future.description"
         ),
     ]
+
+    /// Ohne Apple-CarPlay-Freigabe kein Marketing für eine noch nicht auslieferbare Funktion.
+    static var paywallBenefits: [Benefit] {
+        benefits.filter { benefit in
+            benefit.id != "carplay" || FuelNowFeatureFlags.isCarPlayCapabilityEnabled
+        }
+    }
 
     /// Apple-zentrale Abonnementübersicht (Review-konform für „Manage").
     static let manageSubscriptionsURL = URL(string: "https://apps.apple.com/account/subscriptions")!

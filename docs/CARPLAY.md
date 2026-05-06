@@ -81,32 +81,38 @@ Sobald der Antrag raus ist, im Linear-Ticket TAN-54 ergänzen:
 
 ## 2. Technische Vorbereitung im Code (dieses Ticket)
 
+### 2.0 Ship-Toggle vor Apple-Approval
+
+Solange CarPlay Fueling **noch nicht** von Apple freigegeben ist, bleibt die App
+ohne Fueling-Capability signierbar (Archive/TestFlight/Device):
+
+1. `FuelNow/Support/FuelNowFeatureFlags.swift` — `isCarPlayCapabilityEnabled = false`
+   (Plus-Paywall blendet den CarPlay-Vorteil aus).
+2. `FuelNow/FuelNow.entitlements` — **kein** `com.apple.developer.carplay-fueling`.
+3. `FuelNow/Info.plist` — **keine** `CPTemplateApplicationSceneSessionRoleApplication`-Scene.
+
+**Nach Approval:** Flag auf `true` setzen, Entitlement-Key wieder einfügen (Boolean
+`YES`), CarPlay-Scene wie unten beschreiben ins Manifest legen, App-ID/Capability
+in Apple Developer wie gewohnt aktivieren.
+
 ### 2.1 Entitlements-Datei
 
-`FuelNow/FuelNow.entitlements` ist neu angelegt und im Build-Setting
+`FuelNow/FuelNow.entitlements` ist im Build-Setting
 `CODE_SIGN_ENTITLEMENTS = FuelNow/FuelNow.entitlements` (Debug + Release)
-verlinkt. Inhalt:
+verlinkt. **Mit Freigabe** enthält sie:
 
 ```xml
 <key>com.apple.developer.carplay-fueling</key>
 <true/>
 ```
 
-- **Simulator-Builds** (z. B. `./scripts/build-and-run-simulator.sh`):
-funktionieren weiterhin, weil der Simulator das Entitlement nicht gegen
-ein Provisioning-Profil prüft.
-- **Device-Builds** (TestFlight/Release): scheitern in der Code-Signing-Phase,
-bis Apple das Entitlement im Provisioning-Profil freigegeben hat
-(`com.apple.developer.carplay-fueling`). Vor dem Apple-Approval also
-weiterhin nur Simulator-Build. Nach Approval: kein Code-Change nötig — das
-Provisioning-Profil zieht das Flag automatisch.
-
-> Die Entitlements-Datei ist absichtlich **jetzt schon committed**, damit nach
-> dem Approval kein Branch-Race entsteht. Bis dahin ist sie inert.
+Ohne diesen Key verlangt kein Profil das Fueling-Flag — **Device- und Simulator-Builds**
+laufen normal; CarPlay-UI startet im Fahrzeug erst wieder, wenn Entitlement + Scene
+gesetzt sind.
 
 ### 2.2 Scene-Manifest & Template-Scene ([TAN-54](https://linear.app/tankradar-app/issue/TAN-54), [TAN-56](https://linear.app/tankradar-app/issue/TAN-56))
 
-`FuelNow/Info.plist` enthält `UIApplicationSceneManifest` mit
+**Mit aktivem CarPlay:** `FuelNow/Info.plist` — `UIApplicationSceneManifest` mit
 `UIApplicationSupportsMultipleScenes = true`, einer Default-`UIWindowScene` für
 die SwiftUI-App **und** einer `CPTemplateApplicationSceneSessionRoleApplication`
 Konfiguration **„FuelNow CarPlay Scene“**, die auf
@@ -185,8 +191,9 @@ interfaceController.setRootTemplate(infoTemplate, animated: false)
 ## 3. Testing-Notiz
 
 - **CarPlay-Simulator** in Xcode öffnen via *Simulator → I/O → External Displays
-→ CarPlay* (Standard-Workflow). Device-Builds benötigen das freigegebene
-Fueling-Entitlement im Profil; Simulator-Builds laufen ohne Profil-Check.
+→ CarPlay* (Standard-Workflow) — **nur sinnvoll**, wenn Entitlement + Scene wieder
+aktiv sind (`FuelNowFeatureFlags.isCarPlayCapabilityEnabled`).
+- **Device-Builds** mit CarPlay: freigegebenes Fueling-Entitlement im Profil.
 - **Unit:** `CarPlayRoutingPolicyTests` deckt die TAN-56-Routing-Entscheidung ab.
 - **Manuell / Sandbox:** Plus vs. Limited Templates — [TAN-59](https://linear.app/tankradar-app/issue/TAN-59).
 
