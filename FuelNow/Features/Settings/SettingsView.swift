@@ -3,11 +3,13 @@ import SwiftUI
 
 /// Einstellungen als nutzerzentrierte `Form` mit Sections — Liquid Glass nur auf primären Aktionen.
 ///
-/// Reihenfolge (TAN-78, angepasst durch TAN-79 und TAN-86):
+/// Reihenfolge (TAN-78, angepasst durch TAN-79, TAN-86 und TAN-88):
 /// 1. **Kraftstoff** – große Karten-Auswahl (E5 / E10 / Diesel) mit aktiver Glas-Karte als visuellem Anker.
 ///    Seit TAN-86 ohne 1-Zeilen-Untertitel — nur Glyph + Sortenname; Untertitel bleibt VoiceOver-only.
+///    Seit TAN-88 ohne Beschreibungs-Footer — die Karten sind selbsterklärend.
 /// 2. **Erscheinungsbild** – Drei-Segmente-Icon-Picker (Auto / Hell / Dunkel) mit Akzent-Glas-Pille
-///    auf dem aktiven Segment (TAN-86, ersetzt den zuvor genutzten `Picker(.menu)`).
+///    auf dem aktiven Segment (TAN-86, ersetzt den zuvor genutzten `Picker(.menu)`). Seit TAN-88
+///    ohne Beschreibungs-Footer — der Icon-Picker ist visuell selbsterklärend.
 /// 3. **FuelNow Plus** – Mini-Hero mit Eyebrow / Headline / 1–2 Benefits / Preis prominent / einem
 ///    Glas-CTA, der das volle `PlusUpgradeView`-Sheet (TAN-45) öffnet. Bei aktivem Abo erscheint stattdessen
 ///    eine schlichte Status-Sektion mit Verwaltungs- und Restore-Aktionen.
@@ -113,8 +115,6 @@ struct SettingsView: View {
                 .listRowSeparator(.hidden)
         } header: {
             Text("settings.section.fuelType")
-        } footer: {
-            Text("settings.fuel.cards.footer")
         }
     }
 
@@ -126,8 +126,6 @@ struct SettingsView: View {
                 .listRowSeparator(.hidden)
         } header: {
             Text("settings.section.appearance")
-        } footer: {
-            Text("settings.appearance.footer")
         }
     }
 

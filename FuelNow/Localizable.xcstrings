@@ -600,22 +600,6 @@
         }
       }
     },
-    "settings.appearance.footer" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mit „Automatisch“ folgt FuelNow der iOS-Einstellung für Hell oder Dunkel."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "With “Automatic”, FuelNow follows your iOS light or dark setting."
-          }
-        }
-      }
-    },
     "settings.appearance.header" : {
       "localizations" : {
         "de" : {
@@ -858,22 +842,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Up to 10 % ethanol blend"
-          }
-        }
-      }
-    },
-    "settings.fuel.cards.footer" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diese Sorte wird auf der Karte und in den Anzeigen verwendet."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This grade is used on the map and in price displays."
           }
         }
       }
