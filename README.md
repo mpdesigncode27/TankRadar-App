@@ -14,9 +14,9 @@
 2. Key **nicht** ins Repo: nur lokal — siehe `FuelNow/Support/APIKeys.example.swift` und unten „Simulator“.
 3. Team-Secret-Store (z. B. 1Password): Eintrag „FuelNow Tankerkönig API Key“ mit UUID und Hinweis auf Lizenz/CC BY.
 4. Repo-Check: `./scripts/verify-api-keys-not-committed.sh` (stellt sicher, dass `APIKeys.swift` nicht getrackt ist). Optional: gezielt `git log -p -S '<kurzes Token aus dem Key>'` — sollte **keine** Treffer liefern.
-5. Smoke: App im Simulator oder auf dem Gerät mit gültigem Key starten — Karte lädt echte Stationen (Screenshot oder Logzeile „ok“ im Ticket TAN-72 kommentieren).
+5. Smoke (Live-Daten): Auf dem **Gerät** mit gültigem Key (Release/Debug mit Key) oder im **Simulator** mit Key **und** Scheme-Env **`FUELNOW_USE_LIVE_STATIONS=1`** — sonst zeigt die App absichtlich **Mock-Tankstellen** (`StationStoreFactory`). Kurzer Hinweis im [TAN-72](https://linear.app/tankradar-app/issue/TAN-72)-Kommentar reicht (Screenshot optional).
 
-**Lokal im Simulator testen (ohne dass der Key bei Git verloren geht):** Auf dem Mac eine Datei **`~/.fuelnow/tankerkoenig-api-key`** mit einer Zeile (UUID) anlegen — die App liest sie im Simulator automatisch (`SIMULATOR_HOST_HOME`). Alternativ Xcode-Scheme: Umgebungsvariable **`TANKERKOENIG_API_KEY`** oder **`TANKERKOENIG_API_KEY_FILE`** mit absolutem Pfad (siehe Kommentar in `APIKeys.example.swift`).
+**Lokal im Simulator testen (ohne dass der Key bei Git verloren geht):** Auf dem Mac eine Datei **`~/.fuelnow/tankerkoenig-api-key`** mit einer Zeile (UUID) anlegen — die App liest sie im Simulator automatisch (`SIMULATOR_HOST_HOME`). Alternativ Xcode-Scheme: Umgebungsvariable **`TANKERKOENIG_API_KEY`** (exakter Name; andere Namen werden nicht gelesen) oder **`TANKERKOENIG_API_KEY_FILE`** mit absolutem Pfad (siehe Kommentar in `APIKeys.example.swift`). **Live-API im Simulator:** zusätzlich **`FUELNOW_USE_LIVE_STATIONS=1`** setzen.
 
 **Datenlizenz:** Tankerkönig / MTS-K — Metadaten in API-Antworten unter **CC BY 4.0**; Details und Attribution: [creativecommons.tankerkoenig.de](https://creativecommons.tankerkoenig.de/?page=info).
 
