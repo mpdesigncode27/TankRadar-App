@@ -13,6 +13,7 @@ playground.xcworkspace
 # Lokaler DerivedData-Pfad für scripts/build-and-run-simulator.sh
 .derived-data-ios/
 .derived-data-ios-check/
+.derived-data-ios-verify/
 
 # Bundler — Gems lokal (bundle install); Konfiguration in .bundle/config ist committed
 vendor/bundle/

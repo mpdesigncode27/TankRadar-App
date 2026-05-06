@@ -16,7 +16,9 @@ struct StationCarPlayPOIMapperTests {
     func pickerTitleUsesBrandOrName() throws {
         let withBrand = try decodeStation(
             """
-            {"id":"11111111-1111-1111-1111-111111111111","name":"TOTAL BERLIN","brand":"TOTAL","street":"X","place":"BERLIN","lat":52.5,"lng":13.4,"dist":1.0,"diesel":1.5,"e5":1.6,"e10":1.55,"isOpen":true,"houseNumber":"1","postCode":10407}
+            {"id":"11111111-1111-1111-1111-111111111111","name":"TOTAL BERLIN","brand":"TOTAL",
+            "street":"X","place":"BERLIN","lat":52.5,"lng":13.4,"dist":1.0,"diesel":1.5,"e5":1.6,
+            "e10":1.55,"isOpen":true,"houseNumber":"1","postCode":10407}
             """
         )
         let rowBrand = StationCarPlayPOIMapper.makeRow(station: withBrand, preferredFuel: .diesel)
@@ -24,7 +26,9 @@ struct StationCarPlayPOIMapperTests {
 
         let noBrand = try decodeStation(
             """
-            {"id":"22222222-2222-2222-2222-222222222222","name":"Freie Tankstelle","brand":"   ","street":"Y","place":"BERLIN","lat":52.5,"lng":13.4,"dist":2.0,"diesel":1.4,"e5":null,"e10":null,"isOpen":false,"houseNumber":"","postCode":10407}
+            {"id":"22222222-2222-2222-2222-222222222222","name":"Freie Tankstelle","brand":"   ",
+            "street":"Y","place":"BERLIN","lat":52.5,"lng":13.4,"dist":2.0,"diesel":1.4,
+            "e5":null,"e10":null,"isOpen":false,"houseNumber":"","postCode":10407}
             """
         )
         let rowName = StationCarPlayPOIMapper.makeRow(station: noBrand, preferredFuel: .e10)
@@ -35,7 +39,9 @@ struct StationCarPlayPOIMapperTests {
     func detailSummaryIncludesAddressAndFuels() throws {
         let station = try decodeStation(
             """
-            {"id":"33333333-3333-3333-3333-333333333333","name":"Shell Example","brand":"Shell","street":"Musterstr.","place":"Berlin","lat":52.51,"lng":13.39,"dist":0.5,"diesel":1.799,"e5":1.899,"e10":1.849,"isOpen":true,"houseNumber":"10","postCode":10115}
+            {"id":"33333333-3333-3333-3333-333333333333","name":"Shell Example","brand":"Shell",
+            "street":"Musterstr.","place":"Berlin","lat":52.51,"lng":13.39,"dist":0.5,
+            "diesel":1.799,"e5":1.899,"e10":1.849,"isOpen":true,"houseNumber":"10","postCode":10115}
             """
         )
         let row = StationCarPlayPOIMapper.makeRow(station: station, preferredFuel: .e10)
@@ -52,10 +58,12 @@ struct StationCarPlayPOIMapperTests {
 
     private func decodeManyStationLines(count: Int) throws -> [Station] {
         var result: [Station] = []
-        for index in 0 ..< count {
+        for index in 0..<count {
             let id = UUID()
             let json = """
-            {"id":"\(id.uuidString)","name":"Station \(index)","brand":"Brand\(index)","street":"S","place":"P","lat":52.5,"lng":13.4,"dist":\(Double(index)),"diesel":1.5,"e5":1.6,"e10":1.55,"isOpen":true,"houseNumber":"1","postCode":10407}
+            {"id":"\(id.uuidString)","name":"Station \(index)","brand":"Brand\(index)",
+            "street":"S","place":"P","lat":52.5,"lng":13.4,"dist":\(Double(index)),"diesel":1.5,
+            "e5":1.6,"e10":1.55,"isOpen":true,"houseNumber":"1","postCode":10407}
             """
             result.append(try decodeStation(json))
         }

@@ -29,7 +29,11 @@ actor TankerkoenigClient {
         var errorDescription: String? {
             switch self {
             case .missingAPIKey:
-                "Tankerkönig API-Key fehlt oder ist noch der Platzhalter — TAN-72 / APIKeys, oder einen Proxy setzen (TankerkoenigProxyBaseURL / TANKERKOENIG_PROXY_BASE_URL)."
+                """
+                Tankerkönig API-Key fehlt oder ist noch der Platzhalter — TAN-72 / APIKeys, \
+                oder einen Proxy setzen (TankerkoenigProxyBaseURL / TANKERKOENIG_PROXY_BASE_URL).
+                """
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
             case .invalidURL:
                 "Ungültige Anfrage-URL für Tankerkönig list.php."
             case let .network(err):
@@ -82,7 +86,13 @@ actor TankerkoenigClient {
             guard APIKeys.isConfiguredTankerkoenigKey(trimmedKey) else {
                 throw Failure.missingAPIKey
             }
-            url = try Self.makeListURL(host: "creativecommons.tankerkoenig.de", apiKey: trimmedKey, latitude: latitude, longitude: longitude, radKm: rad)
+            url = try Self.makeListURL(
+                host: "creativecommons.tankerkoenig.de",
+                apiKey: trimmedKey,
+                latitude: latitude,
+                longitude: longitude,
+                radKm: rad
+            )
         case .proxy(let baseURL):
             let pathURL = baseURL.appendingPathComponent("json").appendingPathComponent("list.php")
             url = try Self.makeListURL(hostFromAbsoluteURL: pathURL, apiKey: nil, latitude: latitude, longitude: longitude, radKm: rad)
@@ -200,7 +210,11 @@ actor TankerkoenigClient {
     nonisolated private static func userFacingTankerkoenigApiMessage(_ message: String) -> String {
         let lower = message.lowercased()
         if lower.contains("key existiert nicht"), lower.contains("deaktiviert") {
-            return "Der Tankerkönig-API-Key wird von der API abgelehnt (ungültig oder deaktiviert). Bitte einen gültigen Key hinterlegen — README und Linear TAN-72."
+            return """
+            Der Tankerkönig-API-Key wird von der API abgelehnt (ungültig oder deaktiviert). \
+            Bitte einen gültigen Key hinterlegen — README und Linear TAN-72.
+            """
+                .trimmingCharacters(in: .whitespacesAndNewlines)
         }
         return message
     }

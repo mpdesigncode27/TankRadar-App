@@ -32,12 +32,18 @@ struct QueryServiceTests {
     }
 
     @Test func sortByDistanceFallsBackWhenDistMissing() throws {
-        let data = """
-        {"ok":true,"stations":[
-          {"id":"00000000-0000-0000-0000-000000000003","name":"South","brand":"A","street":"S","place":"P","lat":52.49,"lng":13.4,"diesel":1.5,"e5":1.6,"e10":1.55,"isOpen":true,"houseNumber":"1","postCode":10115},
-          {"id":"00000000-0000-0000-0000-000000000004","name":"North","brand":"B","street":"T","place":"Q","lat":52.53,"lng":13.4,"diesel":1.5,"e5":1.6,"e10":1.55,"isOpen":true,"houseNumber":"2","postCode":10115}
-        ]}
-        """.data(using: .utf8)!
+        let data = Data(
+            """
+            {"ok":true,"stations":[
+              {"id":"00000000-0000-0000-0000-000000000003","name":"South","brand":"A",
+               "street":"S","place":"P","lat":52.49,"lng":13.4,"diesel":1.5,"e5":1.6,
+               "e10":1.55,"isOpen":true,"houseNumber":"1","postCode":10115},
+              {"id":"00000000-0000-0000-0000-000000000004","name":"North","brand":"B",
+               "street":"T","place":"Q","lat":52.53,"lng":13.4,"diesel":1.5,"e5":1.6,
+               "e10":1.55,"isOpen":true,"houseNumber":"2","postCode":10115}
+            ]}
+            """.utf8
+        )
         let stations = try JSONDecoder().decode(ListEnvelope.self, from: data).stations
         let sorted = QueryService.sortByDistance(stations: stations, originLatitude: 52.5, originLongitude: 13.4)
         #expect(sorted.first?.name == "South")
@@ -52,23 +58,33 @@ struct QueryServiceTests {
     }
 
     @Test func cheapestTieBreaksByDistance() throws {
-        let data = """
-        {"ok":true,"stations":[
-          {"id":"00000000-0000-0000-0000-000000000005","name":"A","brand":"X","street":"S","place":"P","lat":52.51,"lng":13.4,"dist":0.5,"diesel":1.40,"e5":1.6,"e10":1.55,"isOpen":true,"houseNumber":"1","postCode":10115},
-          {"id":"00000000-0000-0000-0000-000000000006","name":"B","brand":"Y","street":"T","place":"Q","lat":52.6,"lng":13.5,"dist":2.0,"diesel":1.40,"e5":1.6,"e10":1.55,"isOpen":true,"houseNumber":"2","postCode":10115}
-        ]}
-        """.data(using: .utf8)!
+        let data = Data(
+            """
+            {"ok":true,"stations":[
+              {"id":"00000000-0000-0000-0000-000000000005","name":"A","brand":"X",
+               "street":"S","place":"P","lat":52.51,"lng":13.4,"dist":0.5,"diesel":1.40,
+               "e5":1.6,"e10":1.55,"isOpen":true,"houseNumber":"1","postCode":10115},
+              {"id":"00000000-0000-0000-0000-000000000006","name":"B","brand":"Y",
+               "street":"T","place":"Q","lat":52.6,"lng":13.5,"dist":2.0,"diesel":1.40,
+               "e5":1.6,"e10":1.55,"isOpen":true,"houseNumber":"2","postCode":10115}
+            ]}
+            """.utf8
+        )
         let stations = try JSONDecoder().decode(ListEnvelope.self, from: data).stations
         let best = QueryService.cheapest(in: stations, fuel: .diesel, originLatitude: 52.5, originLongitude: 13.4)
         #expect(best?.name == "A")
     }
 
     @Test func cheapestReturnsNilWhenNoStationOffersFuel() throws {
-        let data = """
-        {"ok":true,"stations":[
-          {"id":"00000000-0000-0000-0000-000000000007","name":"OnlyDiesel","brand":"X","street":"S","place":"P","lat":52.51,"lng":13.4,"dist":1,"diesel":1.5,"isOpen":true,"houseNumber":"1","postCode":10115}
-        ]}
-        """.data(using: .utf8)!
+        let data = Data(
+            """
+            {"ok":true,"stations":[
+              {"id":"00000000-0000-0000-0000-000000000007","name":"OnlyDiesel","brand":"X",
+               "street":"S","place":"P","lat":52.51,"lng":13.4,"dist":1,"diesel":1.5,
+               "isOpen":true,"houseNumber":"1","postCode":10115}
+            ]}
+            """.utf8
+        )
         let stations = try JSONDecoder().decode(ListEnvelope.self, from: data).stations
         let best = QueryService.cheapest(in: stations, fuel: .e5, originLatitude: 52.5, originLongitude: 13.4)
         #expect(best == nil)
@@ -100,12 +116,18 @@ struct QueryServiceTests {
     }
 
     private func decodeTwoStationFixture() throws -> ListEnvelope {
-        let data = """
-        {"ok":true,"stations":[
-          {"id":"00000000-0000-0000-0000-000000000001","name":"Near","brand":"A","street":"S","place":"P","lat":52.51,"lng":13.4,"dist":0.5,"diesel":1.5,"e5":1.6,"e10":1.55,"isOpen":true,"houseNumber":"1","postCode":10115},
-          {"id":"00000000-0000-0000-0000-000000000002","name":"Far","brand":"B","street":"T","place":"Q","lat":52.6,"lng":13.5,"dist":2.0,"diesel":1.4,"e5":1.5,"e10":1.45,"isOpen":true,"houseNumber":"2","postCode":10115}
-        ]}
-        """.data(using: .utf8)!
+        let data = Data(
+            """
+            {"ok":true,"stations":[
+              {"id":"00000000-0000-0000-0000-000000000001","name":"Near","brand":"A",
+               "street":"S","place":"P","lat":52.51,"lng":13.4,"dist":0.5,"diesel":1.5,
+               "e5":1.6,"e10":1.55,"isOpen":true,"houseNumber":"1","postCode":10115},
+              {"id":"00000000-0000-0000-0000-000000000002","name":"Far","brand":"B",
+               "street":"T","place":"Q","lat":52.6,"lng":13.5,"dist":2.0,"diesel":1.4,
+               "e5":1.5,"e10":1.45,"isOpen":true,"houseNumber":"2","postCode":10115}
+            ]}
+            """.utf8
+        )
         return try JSONDecoder().decode(ListEnvelope.self, from: data)
     }
 }

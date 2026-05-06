@@ -89,7 +89,10 @@ enum APIKeys {
     static func warnIfPlaceholderActive() {
         guard !TankerkoenigAPIConfiguration.isLiveAccessConfigured else { return }
         print(
-            "⚠️ FuelNow: Kein Tankerkönig-API-Key und kein Proxy — im DEBUG-Build werden Mock-Tankstellen aus dem Bundle genutzt. Für Live-Daten: Key wie in diesem File beschrieben setzen, Proxy konfigurieren, oder `FUELNOW_USE_LIVE_STATIONS=1` zum Testen der Fehler-UI. Linear TAN-72."
+            "⚠️ FuelNow: Kein Tankerkönig-API-Key und kein Proxy — im DEBUG-Build werden "
+                + "Mock-Tankstellen aus dem Bundle genutzt. Für Live-Daten: Key wie in diesem "
+                + "File beschrieben setzen, Proxy konfigurieren, oder `FUELNOW_USE_LIVE_STATIONS=1` "
+                + "zum Testen der Fehler-UI. Linear TAN-72."
         )
     }
     #endif

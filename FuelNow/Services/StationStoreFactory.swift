@@ -26,25 +26,26 @@ enum StationStoreFactory {
         #if targetEnvironment(simulator)
         logMock(reason: "Simulator — Standard-Mock (Live erzwingen: FUELNOW_USE_LIVE_STATIONS=1)")
         return StationStore(fetcher: BundledMockStationFetcher())
-        #endif
+        #else
 
         #if DEBUG
         if !isConfiguredTankerkoenigKey {
             logMock(reason: "DEBUG ohne gültigen Tankerkönig-Key (siehe APIKeys.example.swift)")
             return StationStore(fetcher: BundledMockStationFetcher())
         }
-        #endif
-
-        #if !DEBUG && !targetEnvironment(simulator)
+        #else
         if !isConfiguredTankerkoenigKey {
             print(
-                "FuelNow: Mock-Tankstellen aktiv — Release auf Gerät ohne gültigen Tankerkönig-Key (Platzhalter oder leer). Daten: MockData/mock-stations.json — siehe TAN-72."
+                "FuelNow: Mock-Tankstellen aktiv — Release auf Gerät ohne gültigen "
+                    + "Tankerkönig-Key (Platzhalter oder leer). Daten: MockData/mock-stations.json "
+                    + "— siehe TAN-72."
             )
             return StationStore(fetcher: BundledMockStationFetcher())
         }
         #endif
 
         return StationStore()
+        #endif
     }
 
     private static var isConfiguredTankerkoenigKey: Bool {

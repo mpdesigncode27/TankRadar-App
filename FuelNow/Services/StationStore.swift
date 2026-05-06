@@ -33,7 +33,8 @@ final class StationStore {
 
     private var lastFetchReference: CLLocation?
     private var lastFetchFinishedAt: Date?
-    /// Abbruch aus `deinit` — nur von MainActor-Mutationen gesetzt; Zugriff aus `deinit` ist daher `nonisolated(unsafe)`.
+    /// Abbruch aus `deinit`; nicht vom Observation-Macro tracken lassen.
+    @ObservationIgnored
     nonisolated(unsafe) private var fetchTask: Task<Void, Never>?
 
     init(

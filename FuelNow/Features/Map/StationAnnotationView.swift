@@ -100,8 +100,12 @@ private func previewStationRow(dynamicType: DynamicTypeSize) -> some View {
     let json = Data(
         """
         {"stations":[
-          {"id":"474e5046-deaf-4f9b-9a32-9797b778f047","name":"TOTAL BERLIN","brand":"TOTAL","street":"X","place":"BERLIN","lat":52.53,"lng":13.44,"dist":1.1,"diesel":1.109,"e5":1.339,"e10":1.319,"isOpen":true,"houseNumber":"2","postCode":10407},
-          {"id":"474e5046-deaf-4f9b-9a32-9797b778f048","name":"CLOSED SAMPLE","brand":"SHELL","street":"Y","place":"BERLIN","lat":52.54,"lng":13.45,"dist":2,"diesel":null,"e5":1.499,"e10":null,"isOpen":false,"houseNumber":"1","postCode":10115}
+          {"id":"474e5046-deaf-4f9b-9a32-9797b778f047","name":"TOTAL BERLIN","brand":"TOTAL",
+           "street":"X","place":"BERLIN","lat":52.53,"lng":13.44,"dist":1.1,
+           "diesel":1.109,"e5":1.339,"e10":1.319,"isOpen":true,"houseNumber":"2","postCode":10407},
+          {"id":"474e5046-deaf-4f9b-9a32-9797b778f048","name":"CLOSED SAMPLE","brand":"SHELL",
+           "street":"Y","place":"BERLIN","lat":52.54,"lng":13.45,"dist":2,"diesel":null,
+           "e5":1.499,"e10":null,"isOpen":false,"houseNumber":"1","postCode":10115}
         ]}
         """.utf8
     )

@@ -1,0 +1,25 @@
+---
+description: FuelNow — Merge-Gate ohne Xcode-Compiler-Warnings (App-Build); CI-Lint-Pipeline und Grenzen (StoreKitTest).
+alwaysApply: false
+---
+
+# Xcode: keine Compiler-Warnings im App-Target
+
+## Pflicht vor PR-Abschluss / bei CI-relevanten Änderungen
+
+1. **`./scripts/lint.sh --ci`** ausführen (Repo-Root). Das umfasst:
+   - SwiftLint **strict** (Projektweit),
+   - SwiftFormat **`--lint`**,
+   - **`scripts/verify-ios-build.sh`**: `xcodebuild build` für Scheme **FuelNow** mit  
+     **`SWIFT_TREAT_WARNINGS_AS_ERRORS=YES`** und **`GCC_TREAT_WARNINGS_AS_ERRORS=YES`**.
+
+2. **Alle gemeldeten Swift-/Clang-Warnings und -Errors im App-Code beheben** — nicht unterdrücken, außer mit kurzer Begründung und Ticket.
+
+3. **`build-for-testing` oder `test` nicht** mit denselben globalen Flags als „null Warning“-Nachweis für das ganze SDK verwenden: **StoreKitTest** (Tests) zieht System-Header mit Deprecation-Warnings nach sich, die nicht im FuelNow-Code gefixt werden können.
+
+## Nach relevanten Swift-Änderungen
+
+- Schnellcheck nur Xcode: `./scripts/verify-ios-build.sh`
+- Nur SwiftLint strict: `./scripts/lint.sh --strict`
+
+Details und Xcode-Run-Script-Hinweise: **`docs/STYLE.md`**.

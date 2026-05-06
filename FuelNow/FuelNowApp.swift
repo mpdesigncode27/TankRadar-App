@@ -5,7 +5,8 @@ struct FuelNowApp: App {
     @State private var locationService = LocationService(snapshotStore: UserDefaultsLocationSnapshotStore())
     @State private var stationStore = StationStoreFactory.makeDefault()
     @State private var entitlementManager = EntitlementManager()
-    @AppStorage(AppSettings.UserDefaultsKey.appearancePreference) private var appearanceRaw = AppSettings.AppearancePreference.system.rawValue
+    @AppStorage(AppSettings.UserDefaultsKey.appearancePreference)
+    private var appearanceRaw = AppSettings.AppearancePreference.system.rawValue
 
     private var appearancePreference: AppSettings.AppearancePreference {
         AppSettings.AppearancePreference.resolved(storedRaw: appearanceRaw)

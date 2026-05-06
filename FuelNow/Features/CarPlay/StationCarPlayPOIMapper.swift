@@ -23,8 +23,8 @@ struct StationCarPlayPOIRow {
     let detailSummary: String
 
     func makeMapItem() -> MKMapItem {
-        let placemark = MKPlacemark(coordinate: coordinate)
-        let item = MKMapItem(placemark: placemark)
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let item = MKMapItem(location: location, address: nil)
         item.name = detailTitle
         return item
     }

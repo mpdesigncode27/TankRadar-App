@@ -10,9 +10,12 @@ Import-Reihenfolge.
 ```bash
 brew bundle --file=Brewfile      # einmalig, installiert swiftlint + swiftformat
 ./scripts/format.sh              # rewrites in place
-./scripts/lint.sh                # warnings only — keine Errors mehr auf main
+./scripts/lint.sh                # SwiftLint (Standard: Errors blockieren; Warnings je Regel)
+./scripts/lint.sh --strict       # SwiftLint: alle Warnings wie Errors
+./scripts/lint.sh --ci           # Merge-Gate: SwiftLint strict + SwiftFormat --lint + Xcode build ohne Compiler-Warnings
 ./scripts/lint.sh --fix          # autofix + Re-Check
 ./scripts/format.sh --lint       # CI-Check ohne Schreibvorgang
+./scripts/verify-ios-build.sh    # nur Xcode „build“ mit SWIFT_TREAT_WARNINGS_AS_ERRORS (App-Target)
 ```
 
 | Werkzeug | Pin | Konfig | Wofür zuständig |
@@ -116,21 +119,33 @@ Notfall: `git commit --no-verify` (sparsam einsetzen, im PR begründen).
 
 ## CI / Merge-Gate
 
-`./scripts/lint.sh --strict` und `./scripts/format.sh --lint` eignen sich
-direkt als CI-Checks. Auf `main` läuft heute kein Block — sobald ein dedizierter
-GitHub-Action-Workflow lebt, kann er beide Skripte im selben Job aufrufen.
+**Empfohlen vor PR / auf CI:** `./scripts/lint.sh --ci`
 
-## Bekannte Warnings (für Folge-Tickets)
+Das führt aus:
 
-Stand des Roll-outs ([siehe TAN-63 Abschlusskommentar](https://linear.app/tankradar-app/issue/TAN-63)):
+1. **SwiftLint** mit `--strict` (Projektweit).
+2. **SwiftFormat** `--lint` (Projektweit).
+3. **`xcodebuild build`** für das Scheme **FuelNow** mit  
+   `SWIFT_TREAT_WARNINGS_AS_ERRORS=YES` und `GCC_TREAT_WARNINGS_AS_ERRORS=YES`  
+   (`scripts/verify-ios-build.sh`). Ziel: **keine** Swift-/Clang-Warnings im App-Target.
 
-- `non_optional_string_data_conversion` × 4 in `QueryServiceTests.swift` — Test-Helper
-  auf den Non-Optional-Initializer umstellen.
-- `static_over_final_class` × 2 in `TankerkoenigClientTests.swift` —
-  `class func` durch `static func` ersetzen.
-- `line_length` (Warning) in einigen langen Test-Fixtures, Header-Kommentaren
-  und einer Map-Region-Definition; gezielt umbrechen oder mit `// swiftlint:disable:next line_length`
-  versehen, sobald die Stelle ohnehin angefasst wird.
+**Hinweis:** Kein `build-for-testing` unter diesen Flags — Apples **StoreKitTest**-SDK
+liefert in älteren Headern Deprecation-Warnings, die sich nicht im App-Code beheben lassen.
+Unit-Tests weiter mit `xcodebuild test` (ohne globale „warnings as errors“ für das gesamte SDK)
+oder wie in `AGENTS.md` beschrieben.
 
-Diese Warnings sind absichtlich nicht stumm geschaltet — sie sollen in PRs
-auffallen, die ohnehin in den betroffenen Dateien arbeiten.
+Umgebungsvariablen für das Verify-Skript (optional): `VERIFY_IOS_SCHEME`,
+`VERIFY_IOS_DESTINATION`, `VERIFY_IOS_DERIVED_DATA`.
+
+Einzelchecks: `./scripts/lint.sh --strict`, `./scripts/format.sh --lint`,
+`./scripts/verify-ios-build.sh`.
+
+## SwiftLint strict & Zeilenlänge
+
+Das Merge-Gate `./scripts/lint.sh --ci` nutzt SwiftLint **`--strict`** (Warnings zählen wie Errors).
+Lange JSON-Fixtures: bevorzugt **physische Zeilenumbrüche innerhalb des JSON** (Whitespace ist in JSON erlaubt)
+oder **`Data("""...""".utf8)`** statt `""".data(using: .utf8)!`. Wo ein **Compile-Zwang** der Testing-Bibliothek
+eine einzeilige Suite-Trait-Zeichenkette verlangt (z. B. `@Suite(…, .disabled(…))`), kurz **`// swiftlint:disable line_length`**
+umschließen und wieder aktivieren.
+
+Ausnahmen dokumentieren — nicht pauschal Regeln global abschalten.

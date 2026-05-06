@@ -97,10 +97,14 @@ enum SiriStationLookupTests {
     private static func twoStationJSON() throws -> Data {
         let json = """
         {"ok":true,"stations":[
-          {"id":"00000000-0000-0000-0000-000000000001","name":"Near","brand":"A","street":"S","place":"P","lat":52.51,"lng":13.4,"dist":0.5,"diesel":1.55,"e5":1.7,"e10":1.45,"isOpen":true,"houseNumber":"1","postCode":10115},
-          {"id":"00000000-0000-0000-0000-000000000002","name":"Far","brand":"B","street":"T","place":"Q","lat":52.6,"lng":13.5,"dist":2.0,"diesel":1.40,"e5":1.5,"e10":1.60,"isOpen":true,"houseNumber":"2","postCode":10115}
+          {"id":"00000000-0000-0000-0000-000000000001","name":"Near","brand":"A",
+           "street":"S","place":"P","lat":52.51,"lng":13.4,"dist":0.5,"diesel":1.55,
+           "e5":1.7,"e10":1.45,"isOpen":true,"houseNumber":"1","postCode":10115},
+          {"id":"00000000-0000-0000-0000-000000000002","name":"Far","brand":"B",
+           "street":"T","place":"Q","lat":52.6,"lng":13.5,"dist":2.0,"diesel":1.40,
+           "e5":1.5,"e10":1.60,"isOpen":true,"houseNumber":"2","postCode":10115}
         ]}
         """
-        return try #require(json.data(using: .utf8))
+        return Data(json.utf8)
     }
 }

@@ -18,6 +18,7 @@ import Testing
 /// Test-Logik **vorbereitet**, scharf auf iOS 26.5+ und in `EntitlementManagerErrorTests`
 /// flankiert (siehe TAN-62 PR-Notiz).
 @MainActor
+// swiftlint:disable line_length
 @Suite(
     "EntitlementManager / StoreKit",
     .serialized,
@@ -26,6 +27,7 @@ import Testing
         "Apple-Bug iOS 26.3/26.4: SKTestSession ignoriert die Konfiguration in Unit-Tests; behoben in iOS 26.5 RC. Tests aktivieren sich automatisch ab iOS 26.5+."
     )
 )
+// swiftlint:enable line_length
 struct EntitlementManagerStoreKitTests {
     @Test func gateOpensAfterPurchase() async throws {
         let session = try makeFreshSession()

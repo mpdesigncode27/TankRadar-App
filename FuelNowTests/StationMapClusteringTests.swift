@@ -44,10 +44,18 @@ struct StationMapClusteringTests {
         let json = Data(
             """
             {"stations":[
-              {"id":"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEE0001","name":"S1","brand":"T","street":"a","place":"B","lat":52.53000,"lng":13.44000,"dist":1,"diesel":1.1,"e5":1.2,"e10":1.15,"isOpen":true,"houseNumber":"1","postCode":10115},
-              {"id":"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEE0002","name":"S2","brand":"T","street":"a","place":"B","lat":52.53003,"lng":13.44000,"dist":1,"diesel":1.1,"e5":1.2,"e10":1.15,"isOpen":true,"houseNumber":"1","postCode":10115},
-              {"id":"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEE0003","name":"S3","brand":"T","street":"a","place":"B","lat":52.53000,"lng":13.44003,"dist":1,"diesel":1.1,"e5":1.2,"e10":1.15,"isOpen":true,"houseNumber":"1","postCode":10115},
-              {"id":"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEE0004","name":"S4","brand":"T","street":"a","place":"B","lat":52.53003,"lng":13.44003,"dist":1,"diesel":1.1,"e5":1.2,"e10":1.15,"isOpen":true,"houseNumber":"1","postCode":10115}
+              {"id":"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEE0001","name":"S1","brand":"T",
+               "street":"a","place":"B","lat":52.53000,"lng":13.44000,"dist":1,"diesel":1.1,
+               "e5":1.2,"e10":1.15,"isOpen":true,"houseNumber":"1","postCode":10115},
+              {"id":"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEE0002","name":"S2","brand":"T",
+               "street":"a","place":"B","lat":52.53003,"lng":13.44000,"dist":1,"diesel":1.1,
+               "e5":1.2,"e10":1.15,"isOpen":true,"houseNumber":"1","postCode":10115},
+              {"id":"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEE0003","name":"S3","brand":"T",
+               "street":"a","place":"B","lat":52.53000,"lng":13.44003,"dist":1,"diesel":1.1,
+               "e5":1.2,"e10":1.15,"isOpen":true,"houseNumber":"1","postCode":10115},
+              {"id":"AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEE0004","name":"S4","brand":"T",
+               "street":"a","place":"B","lat":52.53003,"lng":13.44003,"dist":1,"diesel":1.1,
+               "e5":1.2,"e10":1.15,"isOpen":true,"houseNumber":"1","postCode":10115}
             ]}
             """.utf8
         )

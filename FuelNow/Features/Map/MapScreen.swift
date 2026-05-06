@@ -404,7 +404,10 @@ private enum MapScreenPreviewData {
     static let stations: [Station] = {
         let json = Data(
             """
-            {"stations":[{"id":"474e5046-deaf-4f9b-9a32-9797b778f047","name":"TOTAL BERLIN","brand":"TOTAL","street":"MARGARETE-SOMMER-STR.","place":"BERLIN","lat":52.53083,"lng":13.440946,"dist":1.1,"diesel":1.109,"e5":1.339,"e10":1.319,"isOpen":true,"houseNumber":"2","postCode":10407}]}
+            {"stations":[{"id":"474e5046-deaf-4f9b-9a32-9797b778f047","name":"TOTAL BERLIN",
+            "brand":"TOTAL","street":"MARGARETE-SOMMER-STR.","place":"BERLIN","lat":52.53083,
+            "lng":13.440946,"dist":1.1,"diesel":1.109,"e5":1.339,"e10":1.319,"isOpen":true,
+            "houseNumber":"2","postCode":10407}]}
             """.utf8
         )
         return (try? JSONDecoder().decode(StationListEnvelope.self, from: json).stations) ?? []

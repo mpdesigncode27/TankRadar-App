@@ -30,7 +30,8 @@ struct SettingsView: View {
     @Environment(EntitlementManager.self) private var entitlementManager
 
     @AppStorage(AppSettings.UserDefaultsKey.preferredFuelType) private var preferredFuelRaw = FuelType.e10.rawValue
-    @AppStorage(AppSettings.UserDefaultsKey.appearancePreference) private var appearanceRaw = AppSettings.AppearancePreference.system.rawValue
+    @AppStorage(AppSettings.UserDefaultsKey.appearancePreference)
+    private var appearanceRaw = AppSettings.AppearancePreference.system.rawValue
 
     #if DEBUG
     @AppStorage(EntitlementManager.debugUnlockStorageKey) private var debugForcePlusUnlocked = false
