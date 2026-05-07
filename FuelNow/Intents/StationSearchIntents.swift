@@ -66,7 +66,10 @@ struct FindCheapestStationIntent: AppIntent {
 
     static var description: IntentDescription {
         IntentDescription(
-            "Sucht die günstigste Tankstelle in deiner Nähe für eine Kraftstoffsorte (25-km-Umkreis). Ohne Auswahl nutzt FuelNow deine Standard-Spritart."
+            """
+            Sucht die günstigste Tankstelle in deiner Nähe für eine Kraftstoffsorte (25-km-Umkreis). \
+            Ohne Auswahl nutzt FuelNow deine Standard-Spritart.
+            """
         )
     }
 

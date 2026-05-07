@@ -75,14 +75,9 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "FUELNOW_USE_LIVE_STATIONS"
+            key = "FUELNOW_USE_MOCK_STATIONS"
             value = "1"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-         <EnvironmentVariable
-            key = "TANKERKOENIG_API_KEY"
-            value = "ff952d36-e1ea-405c-9785-44856a9ee7b0"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
       <StoreKitConfigurationFileReference

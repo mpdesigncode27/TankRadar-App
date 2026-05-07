@@ -65,6 +65,31 @@ if [[ "${FUELNOW_DEMO_PLUS:-0}" == "1" ]]; then
   echo "FuelNow: Demo-Plus aktiv (--mock-plus-subscriber)."
 fi
 
-xcrun simctl launch "${UDID}" "${BUNDLE_ID}" "${LAUNCH_ARGS[@]}"
+# TAN-91: Live-Tankerkönig ist Default. Damit der Simulator beim Skript-Start an einen
+# echten Key kommt, wird ~/.fuelnow/tankerkoenig-api-key gelesen und über die
+# `SIMCTL_CHILD_*`-Konvention an `xcrun simctl launch` weitergereicht (kein Klartext-Key
+# im Skript). Ohne Key-Datei startet die App trotzdem — sie zeigt dann den Offline-Splash
+# bei fehlender Verbindung bzw. den bestehenden Error-Alert (missingAPIKey).
+TANKERKOENIG_KEY_FILE="${TANKERKOENIG_KEY_FILE:-${HOME}/.fuelnow/tankerkoenig-api-key}"
+if [[ -f "${TANKERKOENIG_KEY_FILE}" ]]; then
+  TANKERKOENIG_KEY="$(tr -d '[:space:]' < "${TANKERKOENIG_KEY_FILE}")"
+  if [[ -n "${TANKERKOENIG_KEY}" ]]; then
+    export SIMCTL_CHILD_TANKERKOENIG_API_KEY="${TANKERKOENIG_KEY}"
+    echo "FuelNow: Tankerkönig-Key aus ${TANKERKOENIG_KEY_FILE} übernommen."
+  else
+    echo "FuelNow: ${TANKERKOENIG_KEY_FILE} ist leer — App startet ohne Live-Key (Offline-Splash bei fehlender Verbindung, Error-Alert ohne Key)." >&2
+  fi
+else
+  echo "FuelNow: Kein Tankerkönig-Key unter ${TANKERKOENIG_KEY_FILE} — App startet ohne Live-Key." >&2
+  echo "         Tipp: 'mkdir -p ${HOME}/.fuelnow && echo <KEY> > ${TANKERKOENIG_KEY_FILE}' (siehe TAN-72/TAN-91)." >&2
+fi
+
+# Optional: lokale FUELNOW_USE_MOCK_STATIONS=1 (z. B. UI-Tests), wird an die App gereicht.
+if [[ "${FUELNOW_USE_MOCK_STATIONS:-0}" == "1" ]]; then
+  export SIMCTL_CHILD_FUELNOW_USE_MOCK_STATIONS=1
+  echo "FuelNow: QA-Mock erzwungen (FUELNOW_USE_MOCK_STATIONS=1)."
+fi
+
+xcrun simctl launch "${UDID}" "${BUNDLE_ID}" ${LAUNCH_ARGS[@]+"${LAUNCH_ARGS[@]}"}
 
 echo "FuelNow: Installiert und gestartet."
