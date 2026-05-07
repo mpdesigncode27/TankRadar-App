@@ -5,6 +5,7 @@ struct FuelNowApp: App {
     @State private var locationService = LocationService(snapshotStore: UserDefaultsLocationSnapshotStore())
     @State private var stationStore = StationStoreFactory.makeDefault()
     @State private var entitlementManager = EntitlementManager()
+    @State private var networkMonitor = NetworkMonitor()
     @AppStorage(AppSettings.UserDefaultsKey.appearancePreference)
     private var appearanceRaw = AppSettings.AppearancePreference.system.rawValue
 
@@ -19,10 +20,12 @@ struct FuelNowApp: App {
                 .environment(locationService)
                 .environment(stationStore)
                 .environment(entitlementManager)
+                .environment(networkMonitor)
                 .environment(MapDeepLinkStore.shared)
                 .onAppear {
                     FuelNowRuntimeRegistry.stationStore = stationStore
                     FuelNowRuntimeRegistry.locationService = locationService
+                    networkMonitor.start()
                 }
                 .onOpenURL { url in
                     Task { @MainActor in

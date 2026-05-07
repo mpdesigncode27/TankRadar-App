@@ -19,6 +19,7 @@ private enum MapRegionSearchOffer {
 struct MapScreen: View {
     @Environment(LocationService.self) private var locationService
     @Environment(StationStore.self) private var stationStore
+    @Environment(NetworkMonitor.self) private var networkMonitor
     @Environment(MapDeepLinkStore.self) private var deepLinks
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -187,9 +188,17 @@ struct MapScreen: View {
                 .transition(.opacity)
             }
         }
+        .overlay {
+            if networkMonitor.shouldShowOfflineSplash {
+                OfflineSplashView()
+                    .transition(.opacity)
+                    .zIndex(2)
+            }
+        }
         .animation(reduceMotion ? nil : .default, value: isLocationAccessDenied)
         .animation(reduceMotion ? nil : .default, value: showEmptyStationsState)
         .animation(reduceMotion ? nil : .default, value: shouldOfferSearchInVisibleRegion)
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.35), value: networkMonitor.shouldShowOfflineSplash)
         .alert(
             "Tankstellen konnten nicht geladen werden",
             isPresented: Binding(
@@ -222,7 +231,14 @@ struct MapScreen: View {
         .onChange(of: stationStore.loadState) { _, newState in
             switch newState {
             case let .failed(message):
-                presentedFetchErrorMessage = message
+                let outcome = stationStore.lastError.map(NetworkMonitor.FetchOutcome.classify) ?? .otherFailure
+                networkMonitor.recordFetchOutcome(outcome)
+                // Bei Konnektivitäts-Fehlern übernimmt der Offline-Splash die Kommunikation —
+                // der Error-Alert würde sonst doppelt erscheinen.
+                presentedFetchErrorMessage = outcome == .connectivityFailure ? nil : message
+            case .loaded:
+                networkMonitor.recordFetchOutcome(.success)
+                presentedFetchErrorMessage = nil
             default:
                 presentedFetchErrorMessage = nil
             }
@@ -231,6 +247,13 @@ struct MapScreen: View {
             if phase == .active {
                 locationService.refreshAuthorizationStatus()
             }
+        }
+        .onChange(of: networkMonitor.snapshot.reachability) { oldValue, newValue in
+            // Offline → Online: einmaliger Refresh, damit der Splash nicht hängenbleibt.
+            // `forceRefresh` umgeht den Debounce; ohne Standort versuchen wir es nicht.
+            guard oldValue == .unsatisfied, newValue == .satisfied else { return }
+            guard let location = locationService.currentLocation else { return }
+            stationStore.forceRefresh(using: location, radiusKm: AppSettings.SearchRadius.apiMaxKm)
         }
         .onChange(of: locationService.currentLocation) { _, newValue in
             guard let location = newValue else { return }
@@ -402,6 +425,21 @@ private enum MapScreenPreviewHarness {
     static var deepLinkStore: MapDeepLinkStore {
         MapDeepLinkStore(defaults: UserDefaults(suiteName: "tr.preview.MapScreen.deeplink")!)
     }
+
+    @MainActor
+    static func networkMonitor(snapshot: NetworkPathSnapshot = .satisfied) -> NetworkMonitor {
+        NetworkMonitor(provider: PreviewNetworkPathProvider(), initialSnapshot: snapshot)
+    }
+}
+
+private final class PreviewNetworkPathProvider: NetworkPathProviding, @unchecked Sendable {
+    func makeStream() -> AsyncStream<NetworkPathSnapshot> {
+        AsyncStream { continuation in
+            continuation.finish()
+        }
+    }
+
+    func cancel() {}
 }
 
 private enum MapScreenPreviewData {
@@ -425,6 +463,7 @@ private enum MapScreenPreviewData {
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewStationFetcher(stations: MapScreenPreviewData.stations)))
     .environment(MapScreenPreviewHarness.deepLinkStore)
+    .environment(MapScreenPreviewHarness.networkMonitor())
     .preferredColorScheme(.light)
 }
 
@@ -435,6 +474,7 @@ private enum MapScreenPreviewData {
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewStationFetcher(stations: MapScreenPreviewData.stations)))
     .environment(MapScreenPreviewHarness.deepLinkStore)
+    .environment(MapScreenPreviewHarness.networkMonitor())
     .preferredColorScheme(.dark)
 }
 
@@ -445,6 +485,7 @@ private enum MapScreenPreviewData {
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewStationFetcher(stations: MapScreenPreviewData.stations)))
     .environment(MapScreenPreviewHarness.deepLinkStore)
+    .environment(MapScreenPreviewHarness.networkMonitor())
     .environment(\.dynamicTypeSize, .accessibility3)
 }
 
@@ -455,6 +496,7 @@ private enum MapScreenPreviewData {
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewStationFetcher(stations: [])))
     .environment(MapScreenPreviewHarness.deepLinkStore)
+    .environment(MapScreenPreviewHarness.networkMonitor())
     .preferredColorScheme(.light)
 }
 
@@ -465,6 +507,7 @@ private enum MapScreenPreviewData {
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewStationFetcher(stations: [])))
     .environment(MapScreenPreviewHarness.deepLinkStore)
+    .environment(MapScreenPreviewHarness.networkMonitor())
     .preferredColorScheme(.dark)
 }
 
@@ -475,4 +518,15 @@ private enum MapScreenPreviewData {
     .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
     .environment(StationStore(fetcher: PreviewThrowingFetcher()))
     .environment(MapScreenPreviewHarness.deepLinkStore)
+    .environment(MapScreenPreviewHarness.networkMonitor())
+}
+
+#Preview("Offline-Splash") {
+    NavigationStack {
+        MapScreen()
+    }
+    .environment(LocationService(streamProvider: PreviewLocationStreamProvider(), authorizationProvider: { .authorizedWhenInUse }))
+    .environment(StationStore(fetcher: PreviewStationFetcher(stations: MapScreenPreviewData.stations)))
+    .environment(MapScreenPreviewHarness.deepLinkStore)
+    .environment(MapScreenPreviewHarness.networkMonitor(snapshot: .unsatisfied))
 }
